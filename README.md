@@ -1,16 +1,22 @@
-# React + Vite
+# Sistema de Información: Veterinaria Chiloé 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Una aplicación web moderna y responsiva diseñada para gestionar y realizar el seguimiento de los datos de pacientes en clínicas veterinarias. Este proyecto sirve como base educativa para construir interfaces web escalables utilizando el ecosistema moderno de JavaScript, utilizando React.
 
-Currently, two official plugins are available:
+Este proyecto se enmarca dentro de la asignatura de Tecnologías Web y Móviles de 6to Semestre en Ingeniería Civil en Informática, de la Universidad de Los Lagos.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Stack Tecnológico
 
-## React Compiler
+* **Frontend:** React + Vite
+* **Estilos:** CSS (App.css)
+* **Backend (Planificado):** Node.js
+* **Base de Datos (Planificada):** PostgreSQL
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ⚙️ Requisitos Previos
 
-## Expanding the ESLint configuration
+* [Node.js](https://nodejs.org/) (incluye npm) instalado en tu computadora local.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Instalación y Configuración
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/Vikktor93/vetChiloe
