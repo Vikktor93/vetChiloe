@@ -48,10 +48,11 @@ export default function FlipCard({
   shadowColor = '#000000',
   shadowOpacity = 0.45,
   disabled = false,
+  respectReducedMotion = true,
   ariaLabel = 'Flip card',
   className = ''
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotion() && respectReducedMotion;
   const controlled = flipped !== undefined;
   const [inner, setInner] = useState(defaultFlipped);
   const [dragging, setDragging] = useState(false);

@@ -136,6 +136,9 @@ function App() {
               key={paciente.id}
               width={220}
               height={300}
+              axis="y"
+              flipOnClick={true}
+              respectReducedMotion={false}
               front={
                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                   <img
