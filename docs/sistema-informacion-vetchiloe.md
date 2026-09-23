@@ -26,9 +26,11 @@ A futuro, el sistema podría permitir:
 
 El desarrollo se realizará de forma incremental, priorizando primero una experiencia de uso clara y las funciones esenciales para luego ampliar el sistema según las necesidades de la veterinaria.
 
-## 3. Avances actuales
+## 3. Avances
 
 ### 3.1. Tarjetas interactivas de pacientes (FlipCard)
+
+**Fecha de actualización:** 23 de septiembre de 2026
 
 Se implementó el componente `FlipCard` para presentar visualmente a los pacientes registrados. La tarjeta muestra:
 
@@ -39,6 +41,8 @@ Se implementó el componente `FlipCard` para presentar visualmente a los pacient
 Esta funcionalidad permite consultar información relevante sin sobrecargar la vista principal.
 
 ### 3.2. Botón y formulario para agregar pacientes
+
+**Fecha de actualización:** 23 de septiembre de 2026
 
 Se implementó el botón **Agregar paciente**, que permite mostrar u ocultar un formulario de registro. El formulario incluye los siguientes campos:
 
