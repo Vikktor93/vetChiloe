@@ -1,8 +1,6 @@
 import React from 'react';
 
-function Home({ pacientes = [], hospitalizados = [] }) {
-  // Generamos la agenda a partir de los pacientes reales registrados
-  // Si tienes al menos 1 paciente, asignamos horarios a tus mascotas reales
+function Home({ pacientes = [], hospitalizados = [], verHistorialMascota }) {
   const agendaHoy = pacientes.slice(0, 4).map((paciente, index) => {
     const horarios = ["09:00 horas", "10:30 horas", "12:00 horas", "15:00 horas"];
     const motivos = [
@@ -35,11 +33,11 @@ function Home({ pacientes = [], hospitalizados = [] }) {
           <table className="tabla-dashboard">
             <thead>
               <tr>
-                <th>Horario</th>
-                <th>Paciente</th>
-                <th>Especie</th>
-                <th>Motivo de Consulta</th>
-                <th>Acción</th>
+                <th>HORARIO</th>
+                <th>PACIENTE</th>
+                <th>ESPECIE</th>
+                <th>MOTIVO DE CONSULTA</th>
+                <th>ACCIÓN</th>
               </tr>
             </thead>
             <tbody>
@@ -51,7 +49,10 @@ function Home({ pacientes = [], hospitalizados = [] }) {
                     <td><span className="especie-tag">{cita.especie}</span></td>
                     <td>{cita.motivo}</td>
                     <td>
-                      <button className="btn-historial">
+                      <button 
+                        className="btn-historial"
+                        onClick={() => verHistorialMascota && verHistorialMascota(cita.id)}
+                      >
                         Historial Clínico
                       </button>
                     </td>
@@ -59,7 +60,7 @@ function Home({ pacientes = [], hospitalizados = [] }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" style={{ textAlign: 'center', color: '#8c7a82' }}>
+                  <td colSpan="5" style={{ textAlign: 'center', color: '#6e5d65' }}>
                     No hay pacientes agendados para hoy.
                   </td>
                 </tr>
@@ -80,12 +81,12 @@ function Home({ pacientes = [], hospitalizados = [] }) {
           <table className="tabla-dashboard">
             <thead>
               <tr>
-                <th>Paciente</th>
-                <th>Especie</th>
-                <th>Tutor / Contacto</th>
-                <th>Estado</th>
-                <th>Última Revisión</th>
-                <th>Cuidados Especiales</th>
+                <th>PACIENTE</th>
+                <th>ESPECIE</th>
+                <th>TUTOR / CONTACTO</th>
+                <th>ESTADO</th>
+                <th>ÚLTIMA REVISIÓN</th>
+                <th>CUIDADOS ESPECIALES</th>
               </tr>
             </thead>
             <tbody>
@@ -107,7 +108,7 @@ function Home({ pacientes = [], hospitalizados = [] }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" style={{ textAlign: 'center', color: '#8c7a82' }}>
+                  <td colSpan="6" style={{ textAlign: 'center', color: '#6e5d65' }}>
                     No hay pacientes actualmente en hospitalización.
                   </td>
                 </tr>

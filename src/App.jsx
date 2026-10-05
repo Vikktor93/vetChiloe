@@ -9,6 +9,7 @@ import './App.css';
 
 function App() {
   const [pestanaActiva, setPestanaActiva] = useState('home');
+  const [pacienteSeleccionadoHistorial, setPacienteSeleccionadoHistorial] = useState(null);
 
   const [pacientes, setPacientes] = useState([
     { id: 1, nombre: 'Charkicito', especie: 'Perro', numero_atencion: '2026-A1', foto: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&auto=format&fit=crop' },
@@ -58,6 +59,12 @@ function App() {
     setHistoriales([nuevaAtencion, ...historiales]);
   };
 
+  // Función para redirigir directamente al historial de una mascota específica
+  const verHistorialMascota = (pacienteId) => {
+    setPacienteSeleccionadoHistorial(pacienteId);
+    setPestanaActiva('historial');
+  };
+
   return (
     <div className="app-container">
       <Navbar 
@@ -71,6 +78,7 @@ function App() {
             pacientes={pacientes}
             hospitalizados={hospitalizados}
             irAPacientes={() => setPestanaActiva('pacientes')} 
+            verHistorialMascota={verHistorialMascota}
           />
         )}
 
@@ -92,6 +100,8 @@ function App() {
             pacientes={pacientes}
             historiales={historiales}
             agregarHistorial={agregarHistorial}
+            pacienteInicialId={pacienteSeleccionadoHistorial}
+            limpiarPacienteInicial={() => setPacienteSeleccionadoHistorial(null)}
           />
         )}
 

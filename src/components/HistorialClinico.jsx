@@ -1,17 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './HistorialClinico.css';
 
-function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
-  const [pacienteSeleccionadoId, setPacienteSeleccionadoId] = useState(pacientes[0]?.id || '');
+function HistorialClinico({ pacientes, historiales = [], agregarHistorial, pacienteInicialId, limpiarPacienteInicial }) {
+  // Si viene un ID desde la agenda del Home, iniciamos directamente en la vista 'buscar'
+  const [vistaActual, setVistaActual] = useState(pacienteInicialId ? 'buscar' : null);
+  
+  // Estados para Ingresar
+  const [pacienteIngresoId, setPacienteIngresoId] = useState(pacientes[0]?.id || '');
   const [tipoConsulta, setTipoConsulta] = useState('Consulta General');
   const [peso, setPeso] = useState('');
   const [diagnostico, setDiagnostico] = useState('');
   const [tratamiento, setTratamiento] = useState('');
 
-  const pacienteActual = pacientes.find(p => p.id === Number(pacienteSeleccionadoId));
+  // Estados para Búsqueda y Gestión (se precarga la ID del paciente si viene desde Home)
+  const [pacienteBusquedaId, setPacienteBusquedaId] = useState(pacienteInicialId || pacientes[0]?.id || '');
 
-  const historialesPaciente = historiales.filter(
-    h => h.pacienteId === Number(pacienteSeleccionadoId)
+  useEffect(() => {
+    if (pacienteInicialId) {
+      setVistaActual('buscar');
+      setPacienteBusquedaId(pacienteInicialId);
+    }
+  }, [pacienteInicialId]);
+
+  const pacienteIngresoActual = pacientes.find(p => p.id === Number(pacienteIngresoId));
+  const pacienteBusquedaActual = pacientes.find(p => p.id === Number(pacienteBusquedaId));
+
+  const historialesPacienteBusqueda = historiales.filter(
+    h => h.pacienteId === Number(pacienteBusquedaId)
   );
 
   const handleAutoResize = (e, setter) => {
@@ -22,10 +37,15 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
     }
   };
 
+  const handleVolverMenu = () => {
+    setVistaActual(null);
+    if (limpiarPacienteInicial) limpiarPacienteInicial();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!pacienteActual) return;
+    if (!pacienteIngresoActual) return;
 
     if (peso !== '' && Number(peso) < 0) {
       alert('El peso no puede ser un valor negativo.');
@@ -34,8 +54,8 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
 
     const nuevaAtencion = {
       id: Date.now(),
-      pacienteId: pacienteActual.id,
-      pacienteNombre: pacienteActual.nombre,
+      pacienteId: pacienteIngresoActual.id,
+      pacienteNombre: pacienteIngresoActual.nombre,
       tipoConsulta,
       peso: peso ? `${peso} kg` : 'No registrado',
       diagnostico: diagnostico.trim() || 'Sin observaciones.',
@@ -47,57 +67,63 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
     setDiagnostico('');
     setTratamiento('');
     setPeso('');
-    alert(`Historial actualizado para ${pacienteActual.nombre}.`);
+    alert(`Historial clínico guardado correctamente para ${pacienteIngresoActual.nombre}.`);
+  };
+
+  const handleExportarPDF = () => {
+    window.print();
   };
 
   return (
     <div className="historial-contenedor-seccion">
-      <div className="bloque-dashboard">
-        <h2>Búsqueda y Gestión de Historia Clínica</h2>
-        <p className="subtitulo-form">Selecciona una mascota para revisar su historial o agregar un nuevo registro médico.</p>
-
-        <div className="selector-paciente-box">
-          <label htmlFor="selectorMascota">Mascota Consultada:</label>
-          <select 
-            id="selectorMascota"
-            value={pacienteSeleccionadoId}
-            onChange={(e) => setPacienteSeleccionadoId(e.target.value)}
+      
+      {/* VISTA INICIAL: MENÚ DE 2 BOTONES ROSADOS */}
+      {vistaActual === null && (
+        <div className="menu-opciones-historial">
+          <button 
+            className="btn-opcion-historial"
+            onClick={() => setVistaActual('ingresar')}
           >
-            {pacientes.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.nombre} ({p.especie}) — Ficha: {p.numero_atencion}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+            <h3>Ingresar Historial Clínico</h3>
+            <p>Registra una nueva atención médica, control de peso, vacuna o revisión clínica.</p>
+          </button>
 
-      <div className="grid-historial-layout">
-        <div className="bloque-dashboard">
-          <h3>Historial de {pacienteActual?.nombre || 'Paciente'}</h3>
-          
-          {historialesPaciente.length > 0 ? (
-            <div className="lista-atenciones">
-              {historialesPaciente.map((atencion) => (
-                <div key={atencion.id} className="tarjeta-atencion">
-                  <div className="atencion-header">
-                    <strong>{atencion.tipoConsulta}</strong>
-                    <span className="fecha-tag">{atencion.fecha}</span>
-                  </div>
-                  <p><strong>Peso:</strong> {atencion.peso}</p>
-                  <p><strong>Observaciones:</strong> {atencion.diagnostico}</p>
-                  <p><strong>Tratamiento:</strong> {atencion.tratamiento}</p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="texto-vacio">No hay registros de historial aún para este paciente.</p>
-          )}
+          <button 
+            className="btn-opcion-historial"
+            onClick={() => setVistaActual('buscar')}
+          >
+            <h3>Búsqueda y Gestión de Historial Clínico</h3>
+            <p>Consulta las atenciones anteriores de cualquier paciente y exporta su reporte en PDF.</p>
+          </button>
         </div>
+      )}
 
+      {/* MÓDULO 1: INGRESAR HISTORIAL */}
+      {vistaActual === 'ingresar' && (
         <div className="bloque-dashboard">
-          <h3>+ Añadir Nuevo Registro Médico</h3>
+          <div className="cabecera-modulo-historial">
+            <h2>Ingresar Historial Clínico</h2>
+            <button className="btn-volver-historial" onClick={handleVolverMenu}>
+              Volver
+            </button>
+          </div>
+
           <form onSubmit={handleSubmit} className="form-completo">
+            <div className="campo">
+              <label htmlFor="pacienteIngreso">Seleccionar Paciente *</label>
+              <select 
+                id="pacienteIngreso"
+                value={pacienteIngresoId} 
+                onChange={(e) => setPacienteIngresoId(e.target.value)}
+              >
+                {pacientes.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.nombre} ({p.especie}) — Ficha: {p.numero_atencion}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="campo">
               <label>Tipo de Atención</label>
               <select value={tipoConsulta} onChange={(e) => setTipoConsulta(e.target.value)}>
@@ -125,7 +151,7 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
               <label>Anamnesis / Observaciones *</label>
               <textarea 
                 rows="1" 
-                className="textarea-autogrow"
+                className="input-limpio-historial textarea-autogrow"
                 placeholder="Escribe el motivo de la visita o revisión física..." 
                 value={diagnostico} 
                 onChange={(e) => handleAutoResize(e, setDiagnostico)} 
@@ -137,19 +163,85 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
               <label>Tratamiento / Indicaciones</label>
               <textarea 
                 rows="1" 
-                className="textarea-autogrow"
+                className="input-limpio-historial textarea-autogrow"
                 placeholder="Indicaciones médicas, dosis o próxima vacuna..." 
                 value={tratamiento} 
                 onChange={(e) => handleAutoResize(e, setTratamiento)} 
               />
             </div>
 
-            <button type="submit" className="btn-guardar-paciente">
-              Actualizar Historial
-            </button>
+            <div className="acciones-form">
+              <button type="button" className="btn-cancelar" onClick={handleVolverMenu}>
+                Cancelar
+              </button>
+              <button type="submit" className="btn-guardar-paciente">
+                Guardar Registro Clínico
+              </button>
+            </div>
           </form>
         </div>
-      </div>
+      )}
+
+      {/* MÓDULO 2: BÚSQUEDA Y GESTIÓN DE PACIENTE ESPECÍFICO */}
+      {vistaActual === 'buscar' && (
+        <div className="bloque-dashboard area-impresion-pdf">
+          <div className="cabecera-modulo-historial no-imprimir">
+            <h2>Búsqueda y Gestión de Historial Clínico</h2>
+            <button className="btn-volver-historial" onClick={handleVolverMenu}>
+              Volver
+            </button>
+          </div>
+
+          <div className="selector-paciente-box no-imprimir">
+            <label htmlFor="selectorMascota">Buscar Mascota:</label>
+            <select 
+              id="selectorMascota"
+              value={pacienteBusquedaId}
+              onChange={(e) => setPacienteBusquedaId(e.target.value)}
+            >
+              {pacientes.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.nombre} ({p.especie}) — Ficha: {p.numero_atencion}
+                </option>
+              ))}
+            </select>
+
+            {historialesPacienteBusqueda.length > 0 && (
+              <button className="btn-guardar-paciente" onClick={handleExportarPDF}>
+                Exportar a PDF / Imprimir
+              </button>
+            )}
+          </div>
+
+          <div className="documento-historial-clinico">
+            <div className="encabezado-pdf-clinico">
+              <h3>Ficha e Historial Clínico - VetChiloé</h3>
+              <p><strong>Paciente:</strong> {pacienteBusquedaActual?.nombre} ({pacienteBusquedaActual?.especie})</p>
+              <p><strong>N° Atención:</strong> {pacienteBusquedaActual?.numero_atencion}</p>
+              <p><strong>Tutor:</strong> {pacienteBusquedaActual?.nombre_dueno || 'No registrado'}</p>
+            </div>
+
+            {historialesPacienteBusqueda.length > 0 ? (
+              <div className="lista-atenciones">
+                {historialesPacienteBusqueda.map((atencion) => (
+                  <div key={atencion.id} className="tarjeta-atencion">
+                    <div className="atencion-header">
+                      <strong>{atencion.tipoConsulta}</strong>
+                      <span className="fecha-tag">Fecha: {atencion.fecha}</span>
+                    </div>
+                    <p><strong>Peso:</strong> {atencion.peso}</p>
+                    <p><strong>Observaciones:</strong> {atencion.diagnostico}</p>
+                    <p><strong>Tratamiento:</strong> {atencion.tratamiento}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="texto-vacio">No existen registros de historial clínico guardados para este paciente.</p>
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
