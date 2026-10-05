@@ -182,3 +182,37 @@
     border-right-color: var(--border);
   }
 }
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 28px;
+}
+
+.btn-nuevo-paciente {
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 10px;
+  padding: 13px 26px;
+  cursor: pointer;
+  transition:
+    filter 0.2s,
+    transform 0.1s;
+}
+
+.btn-nuevo-paciente:hover {
+  filter: brightness(1.08);
+}
+
+.btn-nuevo-paciente:active {
+  transform: translateY(1px);
+}
+
+.btn-nuevo-paciente:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}

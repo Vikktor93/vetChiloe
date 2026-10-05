@@ -150,7 +150,7 @@ function FormularioPaciente({ onAgregarPacientes }) {
     ) : null;
 
   return (
-    <section className="formulario-paciente">
+    <section className="formulario-paciente" id="formulario-paciente">
       <h2>Registro de Nuevo Paciente</h2>
 
       <form onSubmit={manejarSubmit} autoComplete="off" noValidate>
