@@ -50,6 +50,10 @@ function App() {
     setHospitalizados([nuevoHosp, ...hospitalizados]);
   };
 
+  const darDeAlta = (idHospitalizacion) => {
+    setHospitalizados(hospitalizados.filter(item => item.id !== idHospitalizacion));
+  };
+
   const agregarHistorial = (nuevaAtencion) => {
     setHistoriales([nuevaAtencion, ...historiales]);
   };
@@ -79,6 +83,7 @@ function App() {
             pacientes={pacientes}
             hospitalizados={hospitalizados}
             agregarHospitalizado={agregarHospitalizado}
+            darDeAlta={darDeAlta}
           />
         )}
 

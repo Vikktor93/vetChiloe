@@ -14,12 +14,19 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
     h => h.pacienteId === Number(pacienteSeleccionadoId)
   );
 
+  const handleAutoResize = (e, setter) => {
+    setter(e.target.value);
+    e.target.style.height = '48px';
+    if (e.target.scrollHeight > 48) {
+      e.target.style.height = `${e.target.scrollHeight}px`;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!pacienteActual) return;
 
-    // Validación de peso no negativo
     if (peso !== '' && Number(peso) < 0) {
       alert('El peso no puede ser un valor negativo.');
       return;
@@ -117,10 +124,11 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
             <div className="campo">
               <label>Anamnesis / Observaciones *</label>
               <textarea 
-                rows="3" 
+                rows="1" 
+                className="textarea-autogrow"
                 placeholder="Escribe el motivo de la visita o revisión física..." 
                 value={diagnostico} 
-                onChange={(e) => setDiagnostico(e.target.value)} 
+                onChange={(e) => handleAutoResize(e, setDiagnostico)} 
                 required 
               />
             </div>
@@ -128,10 +136,11 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
             <div className="campo">
               <label>Tratamiento / Indicaciones</label>
               <textarea 
-                rows="2" 
+                rows="1" 
+                className="textarea-autogrow"
                 placeholder="Indicaciones médicas, dosis o próxima vacuna..." 
                 value={tratamiento} 
-                onChange={(e) => setTratamiento(e.target.value)} 
+                onChange={(e) => handleAutoResize(e, setTratamiento)} 
               />
             </div>
 

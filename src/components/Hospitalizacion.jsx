@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Hospitalizacion({ pacientes, hospitalizados = [], agregarHospitalizado }) {
+function Hospitalizacion({ pacientes, hospitalizados = [], agregarHospitalizado, darDeAlta }) {
   const [pacienteSeleccionadoId, setPacienteSeleccionadoId] = useState(pacientes[0]?.id || '');
   const [motivoHospitalizacion, setMotivoHospitalizacion] = useState('');
   const [estadoInicial, setEstadoInicial] = useState('En observación / Estable');
@@ -31,6 +31,12 @@ function Hospitalizacion({ pacientes, hospitalizados = [], agregarHospitalizado 
     setMotivoHospitalizacion('');
     setCuidadosEspeciales('');
     alert(`Paciente ${pacienteBase.nombre} ingresado a hospitalización correctamente.`);
+  };
+
+  const handleDarDeAlta = (id, nombrePaciente) => {
+    if (window.confirm(`¿Confirmas el alta médica para ${nombrePaciente}?`)) {
+      if (darDeAlta) darDeAlta(id);
+    }
   };
 
   return (
@@ -106,7 +112,7 @@ function Hospitalizacion({ pacientes, hospitalizados = [], agregarHospitalizado 
         </form>
       </section>
 
-      {/* SECCIÓN INFERIOR: TABLA MONITOREO */}
+      {/* SECCIÓN INFERIOR: TABLA MONITOREO Y ALTA */}
       <section className="bloque-dashboard">
         <div className="cabecera-bloque">
           <h2>Pacientes Actualmente Hospitalizados</h2>
@@ -123,24 +129,41 @@ function Hospitalizacion({ pacientes, hospitalizados = [], agregarHospitalizado 
                 <th>Estado</th>
                 <th>Última Revisión</th>
                 <th>Cuidados Especiales</th>
+                <th>Acción</th>
               </tr>
             </thead>
             <tbody>
-              {hospitalizados.map((hosp) => (
-                <tr key={hosp.id}>
-                  <td className="nombre-paciente">{hosp.paciente}</td>
-                  <td><span className="especie-tag">{hosp.especie}</span></td>
-                  <td>
-                    <div><strong>{hosp.tutor}</strong></div>
-                    <small className="texto-contacto">{hosp.contacto}</small>
+              {hospitalizados.length > 0 ? (
+                hospitalizados.map((hosp) => (
+                  <tr key={hosp.id}>
+                    <td className="nombre-paciente">{hosp.paciente}</td>
+                    <td><span className="especie-tag">{hosp.especie}</span></td>
+                    <td>
+                      <div><strong>{hosp.tutor}</strong></div>
+                      <small className="texto-contacto">{hosp.contacto}</small>
+                    </td>
+                    <td>
+                      <span className="badge-estado">{hosp.estado}</span>
+                    </td>
+                    <td className="tiempo-texto">{hosp.ultimaRevision}</td>
+                    <td className="cuidados-texto">{hosp.cuidados}</td>
+                    <td>
+                      <button 
+                        className="btn-historial"
+                        onClick={() => handleDarDeAlta(hosp.id, hosp.paciente)}
+                      >
+                        Dar de Alta
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" style={{ textAlign: 'center', color: '#8c7a82' }}>
+                    No hay pacientes actualmente en hospitalización.
                   </td>
-                  <td>
-                    <span className="badge-estado">{hosp.estado}</span>
-                  </td>
-                  <td className="tiempo-texto">{hosp.ultimaRevision}</td>
-                  <td className="cuidados-texto">{hosp.cuidados}</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

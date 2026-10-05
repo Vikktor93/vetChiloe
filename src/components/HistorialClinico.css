@@ -1,4 +1,6 @@
-/* ESTILOS EXCLUSIVOS DE HISTORIAL CLÍNICO */
+/* ====================================
+   ESTILOS HISTORIAL CLÍNICO
+   ==================================== */
 
 .historial-contenedor-seccion {
   display: flex;
@@ -7,23 +9,30 @@
   width: 100%;
 }
 
-/* FORZAR COLOR OSCURO EN LOS TÍTULOS Y CABECERAS */
-.historial-contenedor-seccion h2,
-.historial-contenedor-seccion h3 {
-  color: #d87590 !important;
+.historial-contenedor-seccion h2 {
+  color: var(--text-main, #2d2226) !important;
+  font-size: 1.3rem !important;
   font-weight: 700 !important;
   margin-top: 0 !important;
-  margin-bottom: 0.4rem !important;
+  margin-bottom: 0.3rem !important;
+}
+
+.historial-contenedor-seccion h3 {
+  color: var(--pink-dark, #b84c68) !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  margin-top: 0 !important;
+  margin-bottom: 1rem !important;
 }
 
 .subtitulo-form {
-  color: #4a3e43 !important;
-  font-size: 0.95rem;
+  color: var(--text-muted, #6e5d65) !important;
+  font-size: 0.92rem;
   margin-top: 0.2rem;
   margin-bottom: 1.2rem;
 }
 
-/* Selector de paciente */
+/* Selector de paciente superior */
 .selector-paciente-box {
   display: flex;
   align-items: center;
@@ -33,61 +42,71 @@
 
 .selector-paciente-box label {
   font-weight: 600;
-  color: #4a3e43 !important;
-  font-size: 0.92rem;
+  color: var(--text-main, #2d2226) !important;
+  font-size: 0.9rem;
 }
 
 .selector-paciente-box select {
   flex-grow: 1;
-  padding: 0.75rem 1rem;
-  border: 1.5px solid #f1cbd6 !important;
+  height: 48px !important;
+  padding: 0 1rem !important;
+  border: 1.5px solid var(--pink-border, #ebd3dc) !important;
   border-radius: 10px;
   font-size: 0.92rem;
-  background-color: #faf4f5 !important;
-  color: #4a3e43 !important;
+  background-color: var(--bg-app, #f6f3f4) !important;
+  color: var(--text-main, #2d2226) !important;
   outline: none;
+  transition: all 0.2s ease;
 }
 
 .selector-paciente-box select:focus {
-  border-color: #e891a8 !important;
+  border-color: var(--pink-primary, #d96b88) !important;
   background-color: #ffffff !important;
 }
 
-/* Layout de dos columnas */
 .grid-historial-layout {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 20px;
 }
 
-/* Estilos claros para textareas e inputs */
+/* Homogeneizar altura e inputs */
 .historial-contenedor-seccion textarea,
 .historial-contenedor-seccion input,
 .historial-contenedor-seccion select {
-  background-color: #faf4f5 !important;
-  color: #4a3e43 !important;
-  border: 1.5px solid #f1cbd6 !important;
+  height: 48px !important;
+  background-color: var(--bg-app, #f6f3f4) !important;
+  color: var(--text-main, #2d2226) !important;
+  border: 1.5px solid var(--pink-border, #ebd3dc) !important;
   border-radius: 10px !important;
   padding: 0.75rem 1rem !important;
   font-family: inherit !important;
   font-size: 0.92rem !important;
   outline: none !important;
   box-sizing: border-box !important;
+  transition: all 0.2s ease;
+}
+
+.textarea-autogrow {
+  resize: none !important;
+  overflow-y: hidden;
+  line-height: 1.4;
 }
 
 .historial-contenedor-seccion textarea:focus,
 .historial-contenedor-seccion input:focus,
 .historial-contenedor-seccion select:focus {
-  border-color: #e891a8 !important;
+  border-color: var(--pink-primary, #d96b88) !important;
   background-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(217, 107, 136, 0.12) !important;
 }
 
 .historial-contenedor-seccion textarea::placeholder,
 .historial-contenedor-seccion input::placeholder {
-  color: #a09098 !important;
+  color: #9a8a92 !important;
 }
 
-/* Tarjetas de registros guardados */
+/* Tarjetas de registros anteriores */
 .lista-atenciones {
   display: flex;
   flex-direction: column;
@@ -96,10 +115,10 @@
 }
 
 .tarjeta-atencion {
-  background-color: #faf4f5;
-  border: 1.5px solid #f1cbd6;
+  background-color: var(--bg-app, #f6f3f4);
+  border: 1px solid var(--pink-border, #ebd3dc);
   border-radius: 12px;
-  padding: 1rem;
+  padding: 1.2rem;
   text-align: left;
 }
 
@@ -107,19 +126,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px dashed #f1cbd6;
-  padding-bottom: 6px;
-  margin-bottom: 8px;
-  color: #d87590;
+  border-bottom: 1px dashed var(--pink-border, #ebd3dc);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  color: var(--pink-dark, #b84c68);
+  font-weight: 700;
 }
 
 .fecha-tag {
   font-size: 0.8rem;
-  color: #8c7a82;
+  color: var(--text-muted, #6e5d65);
+  font-weight: 500;
+}
+
+.tarjeta-atencion p {
+  margin: 0.4rem 0;
+  font-size: 0.9rem;
+  color: var(--text-main, #2d2226);
 }
 
 .texto-vacio {
-  color: #8c7a82;
+  color: var(--text-muted, #6e5d65);
   font-style: italic;
   margin-top: 1rem;
 }

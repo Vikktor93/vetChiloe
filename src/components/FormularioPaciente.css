@@ -1,27 +1,30 @@
-/* ESTILOS EXCLUSIVOS DEL FORMULARIO DE REGISTRO */
+/* ====================================
+   ESTILOS FORMULARIO DE REGISTRO
+   ==================================== */
 
 .seccion-formulario-pantalla {
   background-color: var(--card-bg, #ffffff);
-  border: 2px solid var(--pink-border, #f1cbd6);
-  border-radius: 20px;
+  border: 1px solid var(--border-subtle, #e6dcde);
+  border-radius: 16px;
   padding: 2.5rem;
-  max-width: 650px;
+  max-width: 680px;
   margin: 0 auto;
   text-align: left;
-  box-shadow: 0 10px 25px rgba(216, 117, 144, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .cabecera-form h2 {
-  color: var(--pink-hover, #d87590);
+  color: var(--text-main, #2d2226);
   margin-top: 0;
   margin-bottom: 0.3rem;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
+  font-weight: 700;
   text-align: center;
 }
 
 .cabecera-form p {
-  color: var(--text-muted, #8c7a82);
-  font-size: 0.95rem;
+  color: var(--text-muted, #6e5d65);
+  font-size: 0.92rem;
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -45,55 +48,62 @@
 }
 
 .campo label {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-primary, #4a3e43);
+  color: var(--text-main, #2d2226);
 }
 
-.campo input, .campo select {
-  padding: 0.75rem 1rem;
-  border: 1.5px solid var(--pink-border, #f1cbd6);
+.campo input, 
+.campo select {
+  height: 48px;
+  padding: 0 1rem;
+  border: 1.5px solid var(--pink-border, #ebd3dc);
   border-radius: 10px;
   font-size: 0.92rem;
-  background-color: var(--bg-pastel, #faf4f5);
+  background-color: var(--bg-app, #f6f3f4);
+  color: var(--text-main, #2d2226);
   outline: none;
-  color: var(--text-primary, #4a3e43);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-.campo input:focus, .campo select:focus {
-  border-color: var(--pink-main, #e891a8);
+.campo input:focus, 
+.campo select:focus {
+  border-color: var(--pink-primary, #d96b88);
   background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(217, 107, 136, 0.12);
 }
 
-/* AREA DRAG AND DROP PARA FOTOGRAFÍA */
+/* ÁREA DRAG AND DROP FOTOGRAFÍA */
 .dropzone-foto {
-  border: 2px dashed var(--pink-main, #e891a8);
+  border: 2px dashed var(--pink-primary, #d96b88);
   border-radius: 12px;
   padding: 1.2rem;
   text-align: center;
-  background-color: var(--bg-pastel, #faf4f5);
+  background-color: var(--pink-soft, #fbf0f3);
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 110px;
+  min-height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.dropzone-foto:hover, .dropzone-foto.arrastrando {
-  background-color: var(--pink-light, #f7e6eb);
-  border-color: var(--pink-hover, #d87590);
+.dropzone-foto:hover, 
+.dropzone-foto.arrastrando {
+  background-color: #f7e4eb;
+  border-color: var(--pink-dark, #b84c68);
 }
 
 .dropzone-contenido p {
   margin: 0 0 4px 0;
-  font-weight: 600;
-  color: var(--pink-hover, #d87590);
+  font-weight: 700;
+  color: var(--pink-dark, #b84c68);
   font-size: 0.9rem;
 }
 
 .dropzone-contenido small {
-  color: var(--text-muted, #8c7a82);
+  color: var(--text-muted, #6e5d65);
   font-size: 0.8rem;
 }
 
@@ -109,33 +119,35 @@
 }
 
 .preview-foto {
-  max-width: 120px;
-  max-height: 120px;
+  max-width: 110px;
+  max-height: 110px;
   object-fit: cover;
   border-radius: 10px;
-  border: 2px solid var(--pink-border, #f1cbd6);
+  border: 2px solid var(--pink-border, #ebd3dc);
 }
 
 .btn-cambiar-foto {
   background: transparent;
   border: none;
-  color: var(--pink-hover, #d87590);
+  color: var(--pink-dark, #b84c68);
   font-size: 0.8rem;
   font-weight: 600;
   text-decoration: underline;
   cursor: pointer;
 }
 
-/* SUBFORMULARIO Y BOTONES */
+/* SUBFORMULARIO Y ACCIONES */
 .bloque-subform {
-  margin-top: 1.2rem;
-  border-top: 1px dashed var(--pink-border, #f1cbd6);
-  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 1px dashed var(--border-subtle, #e6dcde);
+  padding-top: 1.2rem;
 }
 
 .bloque-subform h4 {
   margin: 0 0 1rem 0;
-  color: var(--pink-hover, #d87590);
+  color: var(--pink-dark, #b84c68);
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .acciones-form {
@@ -147,26 +159,32 @@
 
 .btn-cancelar {
   background-color: transparent;
-  color: var(--text-muted, #8c7a82);
-  border: 1px solid var(--pink-border, #f1cbd6);
+  color: var(--text-muted, #6e5d65);
+  border: 1px solid var(--pink-border, #ebd3dc);
   padding: 0.75rem 1.4rem;
-  border-radius: 10px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancelar:hover {
+  background-color: var(--pink-soft, #fbf0f3);
 }
 
 .btn-guardar-paciente {
-  background-color: var(--pink-main, #e891a8);
-  color: white;
+  background: linear-gradient(135deg, var(--pink-primary, #d96b88), var(--pink-dark, #b84c68));
+  color: #ffffff;
   border: none;
   padding: 0.75rem 1.6rem;
-  border-radius: 10px;
+  border-radius: 8px;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(232, 145, 168, 0.35);
+  box-shadow: 0 3px 10px rgba(184, 76, 104, 0.25);
+  transition: all 0.2s ease;
 }
 
 .btn-guardar-paciente:hover {
-  background-color: var(--pink-hover, #d87590);
+  background: var(--pink-dark, #b84c68);
 }
