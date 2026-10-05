@@ -1,0 +1,238 @@
+.card-front-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.card-image-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.card-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(7, 27, 50, 0.95) 0%,
+    rgba(12, 45, 82, 0.55) 45%,
+    transparent 100%
+  );
+}
+
+.card-front-info {
+  position: relative;
+  z-index: 2;
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.paciente-nombre {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.paciente-numero {
+  margin: 0 0 0.5rem;
+  font-size: 0.88rem;
+  color: #bad3ed;
+}
+
+.paciente-numero strong {
+  color: #88b3de;
+}
+
+.btn-ver-ficha {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  background: linear-gradient(135deg, #195394 0%, #114173 100%);
+  color: #ffffff;
+  border: 1px solid #4a8dce;
+  padding: 0.65rem 1.4rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(17, 65, 115, 0.4);
+  transition: all 0.2s ease;
+  width: 85%;
+}
+
+.btn-ver-ficha:hover {
+  background: linear-gradient(135deg, #256bb8 0%, #195394 100%);
+  transform: translateY(-2px);
+}
+
+/* Dorso de la tarjeta */
+.card-back-content {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 1.3rem;
+  background-color: #0c2d52;
+  border: 1px solid #195394;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #e3edf7;
+}
+
+.back-header {
+  border-bottom: 1px solid rgba(136, 179, 222, 0.25);
+  padding-bottom: 0.4rem;
+  text-align: center;
+}
+
+.badge-ficha {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  background: rgba(74, 141, 206, 0.25);
+  color: #bad3ed;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.back-header h3 {
+  margin: 0.3rem 0 0;
+  font-size: 1.2rem;
+  color: #e3edf7;
+}
+
+.ficha-detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.detalle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed rgba(136, 179, 222, 0.2);
+  padding-bottom: 0.25rem;
+}
+
+.detalle-item strong, .detalle-observacion strong {
+  color: #bad3ed;
+}
+
+.input-inline {
+  background: #071b32;
+  border: 1px solid #4a8dce;
+  color: #ffffff;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  width: 120px;
+  text-align: right;
+}
+
+.textarea-inline {
+  width: 100%;
+  background: #071b32;
+  border: 1px solid #4a8dce;
+  color: #ffffff;
+  padding: 0.35rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  box-sizing: border-box;
+}
+
+.detalle-observacion p {
+  margin: 0.2rem 0 0;
+  background: #071b32;
+  padding: 0.45rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #bad3ed;
+  line-height: 1.35;
+  max-height: 55px;
+  overflow-y: auto;
+}
+
+.back-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.btn-edit-inline, .btn-save-inline {
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-edit-inline {
+  background: #195394;
+  color: #ffffff;
+}
+
+.btn-edit-inline:hover {
+  background: #256bb8;
+}
+
+.btn-save-inline {
+  background: #059669;
+  color: #ffffff;
+}
+
+.btn-eliminar-inline {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  padding: 0.45rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-eliminar-inline:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.btn-volver {
+  background: transparent;
+  color: #bad3ed;
+  border: 1px solid rgba(136, 179, 222, 0.3);
+  padding: 0.4rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.btn-volver:hover {
+  background: rgba(136, 179, 222, 0.1);
+  color: #ffffff;
+}

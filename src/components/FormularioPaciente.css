@@ -1,0 +1,297 @@
+.formulario-tab-container {
+  max-width: 740px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.form-card {
+  background: #ffffff;
+  border: 2px solid #bad3ed;
+  border-radius: 20px;
+  padding: 2.2rem;
+  box-shadow: 0 12px 35px -5px rgba(17, 65, 115, 0.15);
+  text-align: left;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 1.8rem;
+  border-bottom: 1px solid #e3edf7;
+  padding-bottom: 1.2rem;
+}
+
+.badge-celeste {
+  display: inline-block;
+  background: #e3edf7;
+  color: #114173;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+}
+
+.form-header h2 {
+  margin: 0.2rem 0;
+  color: #071b32;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.form-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+.seccion-subtitulo {
+  margin: 0 0 0.8rem;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #114173;
+  border-left: 3px solid #195394;
+  padding-left: 0.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 9px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #071b32;
+  background: #f8fafc;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #195394;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(74, 141, 206, 0.25);
+}
+
+.edad-inputs-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.edad-campo {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.edad-campo input {
+  width: 100%;
+  padding: 0.65rem 0.5rem;
+  text-align: center;
+}
+
+.edad-campo span {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* === ZONA DE CARGA DE IMAGEN MODERNA === */
+.input-file-hidden {
+  display: none;
+}
+
+.upload-dropzone {
+  width: 100%;
+  border: 2px dashed #bad3ed;
+  border-radius: 12px;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.upload-dropzone:hover {
+  border-color: #195394;
+  background: #f0f7ff;
+}
+
+.btn-custom-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.upload-icon {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+.upload-text-principal {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #114173;
+}
+
+.upload-subtext {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-top: 0.2rem;
+}
+
+/* Vista previa una vez seleccionada la foto */
+.preview-container {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0.8rem 1.2rem;
+  background: #ffffff;
+}
+
+.img-preview {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid #bad3ed;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.preview-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.preview-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #071b32;
+  word-break: break-all;
+}
+
+.preview-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.btn-cambiar-foto {
+  background: #e3edf7;
+  color: #114173;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-cambiar-foto:hover {
+  background: #bad3ed;
+}
+
+.btn-quitar-foto {
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-quitar-foto:hover {
+  background: #fca5a5;
+  color: #991b1b;
+}
+
+/* Botones inferiores del formulario */
+.form-botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.8rem;
+}
+
+.btn-cancelar-form {
+  padding: 0.75rem 1.4rem;
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancelar-form:hover {
+  background: #e2e8f0;
+  color: #071b32;
+}
+
+.btn-guardar-paciente {
+  padding: 0.75rem 1.8rem;
+  background: linear-gradient(135deg, #195394 0%, #114173 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(17, 65, 115, 0.3);
+  transition: all 0.2s;
+}
+
+.btn-guardar-paciente:hover {
+  background: linear-gradient(135deg, #256bb8 0%, #195394 100%);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-group.full-width {
+    grid-column: span 1;
+  }
+  .form-botones {
+    flex-direction: column-reverse;
+  }
+}

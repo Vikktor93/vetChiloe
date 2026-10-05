@@ -1,126 +1,236 @@
-import { useState } from 'react'
-import FlipCard from './components/FlipCard' // Asegúrate de que FlipCard.jsx esté dentro de src/components/
-import './App.css'
+import { useState, useEffect } from 'react';
+import * as XLSX from 'xlsx';
+import { PacienteCard } from './components/PacienteCard';
+import { FormularioPaciente } from './components/FormularioPaciente';
+import './App.css';
 
-// Esta función muestra el estado del componente para almacenar
-// la lista de pacientes de la veterinaria
+const PACIENTES_INICIALES = [
+  {
+    id: 1,
+    nombre: 'Charkicito',
+    numero_atencion: '2026-A1',
+    especie: 'Canino',
+    raza: 'Beagle',
+    edad: '3 años',
+    edadAnios: 3,
+    edadMeses: 0,
+    peso: '12 kg',
+    nombreDueno: 'Carlos Soto',
+    rutDueno: '18.345.678-9',
+    foto: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop',
+    motivo: 'Control anual y vacunas al día.'
+  },
+  {
+    id: 2,
+    nombre: 'Mercedes',
+    numero_atencion: '2026-A2',
+    especie: 'Felino',
+    raza: 'Europeo común',
+    edad: '2 años',
+    edadAnios: 2,
+    edadMeses: 0,
+    peso: '4.2 kg',
+    nombreDueno: 'Camila Vera',
+    rutDueno: '20.123.456-K',
+    foto: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&auto=format&fit=crop',
+    motivo: 'Limpieza dental y desparasitación preventiva.'
+  },
+  {
+    id: 3,
+    nombre: 'Hannita',
+    numero_atencion: '2026-A3',
+    especie: 'Canino',
+    raza: 'Golden Retriever',
+    edad: '5 años',
+    edadAnios: 5,
+    edadMeses: 0,
+    peso: '28 kg',
+    nombreDueno: 'Matías Cárdenas',
+    rutDueno: '17.987.654-3',
+    foto: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=500&auto=format&fit=crop',
+    motivo: 'Revisión preventiva de cadera y estado nutricional.'
+  }
+];
+
 function App() {
-  // Simulación de datos que en el futuro llegarán desde una BD
-  const [pacientes, setPacientes] = useState([
-    {
-      id: 1,
-      nombre: 'Charkicito',
-      numero_atencion: '2026-A1',
-      especie: 'Perro (Mestizo)',
-      edad: '3 años',
-      foto: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop',
-      motivo: 'Control anual y vacunas al día.'
-    },
-    {
-      id: 2,
-      nombre: 'Mercedes',
-      numero_atencion: '2026-A2',
-      especie: 'Gato (Europeo)',
-      edad: '2 años',
-      foto: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&auto=format&fit=crop',
-      motivo: 'Limpieza dental y desparasitación.'
-    },
-    {
-      id: 3,
-      nombre: 'Hannita',
-      numero_atencion: '2026-A3',
-      especie: 'Perro (Golden)',
-      edad: '5 años',
-      foto: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=500&auto=format&fit=crop',
-      motivo: 'Revisión general preventiva.'
+  const [pacientes, setPacientes] = useState(() => {
+    const guardados = localStorage.getItem('vetchiloe_pacientes');
+    if (guardados) {
+      try {
+        return JSON.parse(guardados);
+      } catch (e) {
+        return PACIENTES_INICIALES;
+      }
     }
-  ]);
+    return PACIENTES_INICIALES;
+  });
+
+  // Estado para el modal de confirmación
+  const [pacienteAEliminar, setPacienteAEliminar] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem('vetchiloe_pacientes', JSON.stringify(pacientes));
+  }, [pacientes]);
+
+  const [vistaActual, setVistaActual] = useState('catalogo');
+
+  const handleAgregarPaciente = (nuevo) => {
+    const correlativo = `2026-A${pacientes.length + 1}`;
+    const pacienteConCorrelativo = {
+      ...nuevo,
+      numero_atencion: correlativo
+    };
+
+    setPacientes((prev) => [pacienteConCorrelativo, ...prev]);
+    setVistaActual('catalogo');
+  };
+
+  const handleActualizarPaciente = (actualizado) => {
+    setPacientes((prev) =>
+      prev.map((p) => (p.id === actualizado.id ? actualizado : p))
+    );
+  };
+
+  const solicitarEliminarPaciente = (paciente) => {
+    setPacienteAEliminar(paciente);
+  };
+
+  const confirmarEliminacion = () => {
+    if (pacienteAEliminar) {
+      setPacientes((prev) => prev.filter((p) => p.id !== pacienteAEliminar.id));
+      setPacienteAEliminar(null);
+    }
+  };
+
+  const handleExportarExcel = () => {
+    if (pacientes.length === 0) {
+      alert('No hay fichas de pacientes registradas para exportar.');
+      return;
+    }
+
+    const datosParaExcel = pacientes.map((p, index) => ({
+      'N°': index + 1,
+      'N° Atención': p.numero_atencion,
+      'Nombre Mascota': p.nombre,
+      'Especie': p.especie,
+      'Raza': p.raza || 'Mestizo',
+      'Edad': p.edad,
+      'Peso': p.peso || 'No registrado',
+      'Tutor / Dueño': p.nombreDueno || 'No informado',
+      'RUT Tutor': p.rutDueno || 'No informado',
+      'Diagnóstico / Motivo': p.motivo || 'Sin observaciones'
+    }));
+
+    const hoja = XLSX.utils.json_to_sheet(datosParaExcel);
+    hoja['!cols'] = [
+      { wch: 5 }, { wch: 14 }, { wch: 18 }, { wch: 12 }, { wch: 22 },
+      { wch: 18 }, { wch: 12 }, { wch: 20 }, { wch: 15 }, { wch: 35 }
+    ];
+
+    const libro = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libro, hoja, 'Pacientes_VetChiloe');
+
+    const fecha = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(libro, `Fichas_Clinicas_VetChiloe_${fecha}.xlsx`);
+  };
 
   return (
     <div className="contenedor-principal">
-      <header className="cabecera">
-        <h1>Sistema de Información - VetChiloé</h1>
-        <p>Plataforma de control y seguimiento de pacientes</p>
+      <header className="cabecera-minimal">
+        <div className="cabecera-inner">
+          <span className="badge-vet">VetChiloé • Sistema Clínico</span>
+          <h1>Sistema de Información Veterinaria</h1>
+          <p>Plataforma de control, seguimiento y actualización de fichas médicas.</p>
+
+          <div className="cabecera-nav">
+            <button
+              type="button"
+              className={`btn-nav ${vistaActual === 'registro' ? 'activo' : ''}`}
+              onClick={() => setVistaActual('registro')}
+            >
+              + Registrar Pacientes
+            </button>
+
+            <button
+              type="button"
+              className={`btn-nav ${vistaActual === 'catalogo' ? 'activo' : ''}`}
+              onClick={() => setVistaActual('catalogo')}
+            >
+              Fichas de Pacientes ({pacientes.length})
+            </button>
+
+            <button
+              type="button"
+              className="btn-nav btn-excel"
+              onClick={handleExportarExcel}
+              title="Descargar registro de pacientes en formato Excel (.xlsx)"
+            >
+              📊 Exportar Excel
+            </button>
+          </div>
+        </div>
       </header>
 
-      <main>
-        <h2>Lista de Pacientes Registrados</h2>
-
-        {/* Aquí se renderiza la lista de pacientes interactiva con FlipCard */}
-        <div className="cuadricula-tarjetas" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '60px' }}>
-          {pacientes.map(paciente => (
-            <FlipCard
-              key={paciente.id}
-              front={
-                <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
-                  <img
-                    src={paciente.foto}
-                    alt={paciente.nombre}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                  <div style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    width: '100%',
-                    background: 'linear-gradient(transparent, rgba(0,0,0,0.85))',
-                    color: '#fff',
-                    padding: '16px 12px',
-                    boxSizing: 'border-box',
-                    textAlign: 'center'
-                  }}>
-                    <h3 style={{ margin: 0, fontSize: '1.4rem' }}>{paciente.nombre}</h3>
-                    <p style={{ margin: '4px 0 0 0', fontSize: '0.9rem', color: '#cbd5e1' }}>
-                      N° de Atención: <strong>{paciente.numero_atencion}</strong>
-                    </p>
-                  </div>
-                </div>
-              }
-              back={
-                <div style={{
-                  padding: '24px 20px',
-                  height: '100%',
-                  boxSizing: 'border-box',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  textAlign: 'left'
-                }}>
-                  <h3 style={{ color: '#38bdf8', marginTop: 0, marginBottom: '14px', borderBottom: '1px solid #3f3f46', paddingBottom: '6px' }}>
-                    Ficha de Paciente
-                  </h3>
-                  <p style={{ margin: '6px 0' }}><strong>Nombre:</strong> {paciente.nombre}</p>
-                  <p style={{ margin: '6px 0' }}><strong>N° Atención:</strong> {paciente.numero_atencion}</p>
-                  <p style={{ margin: '6px 0' }}><strong>Especie:</strong> {paciente.especie}</p>
-                  <p style={{ margin: '6px 0' }}><strong>Edad:</strong> {paciente.edad}</p>
-                  <p style={{ margin: '10px 0 0 0', fontSize: '0.9rem', color: '#a1a1aa' }}>
-                    <strong>Observación:</strong> {paciente.motivo}
-                  </p>
-                </div>
-              }
-              axis="y"
-              flipOnClick
-              draggable
-              dragDistance={0}
-              tilt
-              tiltMax={12}
-              glare
-              glareOpacity={0.22}
-              hoverScale={1.03}
-              perspective={1100}
-              stiffness={170}
-              damping={20}
-              width={280}
-              height={380}
-              radius={20}
-              background="#1e293b"
-              color="#f8fafc"
-              shadow
-              shadowColor="#000000"
-              shadowOpacity={0.35}
-            />
-          ))}
+      {/* Modal Personalizado de Confirmación */}
+      {pacienteAEliminar && (
+        <div className="modal-backdrop" onClick={() => setPacienteAEliminar(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-icon-badge">🗑️</div>
+            <h3>Dar de Alta / Eliminar Ficha</h3>
+            <p>
+              ¿Estás seguro de que deseas retirar la ficha médica de{' '}
+              <strong>{pacienteAEliminar.nombre}</strong> ({pacienteAEliminar.numero_atencion})? Esta acción actualizará los registros clínicos.
+            </p>
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="btn-modal-cancelar"
+                onClick={() => setPacienteAEliminar(null)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn-modal-confirmar"
+                onClick={confirmarEliminacion}
+              >
+                Confirmar y Dar de Alta
+              </button>
+            </div>
+          </div>
         </div>
-      </main>
+      )}
+
+      {/* Vista de Registro */}
+      {vistaActual === 'registro' && (
+        <main className="vista-contenedor">
+          <FormularioPaciente 
+            onAgregarPaciente={handleAgregarPaciente}
+            onCancelar={() => setVistaActual('catalogo')}
+          />
+        </main>
+      )}
+
+      {/* Vista de Catálogo */}
+      {vistaActual === 'catalogo' && (
+        <main className="seccion-catalogo">
+          <div className="titulo-seccion">
+            <h2>Lista de Pacientes Registrados</h2>
+            <p>Presiona <strong>"Ver Ficha Clínica"</strong> para consultar, actualizar o dar de alta al paciente.</p>
+          </div>
+
+          <div className="cuadricula-tarjetas">
+            {pacientes.map((paciente) => (
+              <PacienteCard 
+                key={paciente.id} 
+                paciente={paciente}
+                onActualizarPaciente={handleActualizarPaciente}
+                onSolicitarEliminar={solicitarEliminarPaciente}
+              />
+            ))}
+          </div>
+        </main>
+      )}
     </div>
   );
 }
