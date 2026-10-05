@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import FichaClinica from './components/FichaClinica';
+import FormularioPaciente from './components/FormularioPaciente';
 
 function App() {
   const [pacientes, setPacientes] = useState([
+
   {
     id: 1,
     nombre: 'Poi',
@@ -43,8 +45,24 @@ function App() {
       { fecha: '21-09-2026', motivo: 'Curación', detalle: 'Desinfectacion.' }
     ]
   }
-]);
 
+  
+]);
+  const agregarPaciente = (datosPaciente) => {
+    // fecha de hoy
+    const hoy = new Date().toLocaleDateString('es-CL');
+
+    const nuevoPaciente = {
+      ...datosPaciente,
+      id: Date.now(),
+      numero_atencion: `2026-D${pacientes.length + 1}`,
+      historial: [
+        { fecha: hoy, motivo: 'Ingreso', detalle: 'Registrado en la clínica.' }
+      ]
+    };
+
+    setPacientes([...pacientes, nuevoPaciente]);
+};
   return (
     <div className="contenedor-principal">
       <header className="cabecera">
@@ -54,6 +72,7 @@ function App() {
 
       <main>
         <h2>Lista de Pacientes Registrados</h2>
+        <FormularioPaciente onAgregar={agregarPaciente} />
         <div className="cuadricula-tarjetas">
           
           {/* en esta parte utilizamos el componente y le pasamos los datos mediante la prop "paciente" */}
