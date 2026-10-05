@@ -49,7 +49,7 @@ export default function FlipCard({
   shadowOpacity = 0.45,
   disabled = false,
   respectReducedMotion = true,
-  ariaLabel = 'Flip card',
+  ariaLabel = 'Tarjeta giratoria',
   className = ''
 }) {
   const reduce = useReducedMotion() && respectReducedMotion;

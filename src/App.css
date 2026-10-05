@@ -24,7 +24,8 @@
 }
 
 .boton-agregar,
-.boton-guardar {
+.boton-guardar,
+.boton-volver {
   border: 0;
   border-radius: 6px;
   padding: 10px 18px;
@@ -42,8 +43,16 @@
   margin-top: 5px;
 }
 
+.boton-volver {
+  margin-top: 5px;
+  border: 1px solid var(--border);
+  color: var(--text-h);
+  background: var(--bg);
+}
+
 .boton-agregar:hover,
-.boton-guardar:hover {
+.boton-guardar:hover,
+.boton-volver:hover {
   filter: brightness(0.92);
 }
 
@@ -51,8 +60,10 @@
   max-width: 760px;
   margin: 0 auto 32px;
   padding: 24px;
-  border: 1px solid var(--border);
+  border: 2px solid var(--accent-border);
   border-radius: 8px;
+  background: var(--social-bg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   text-align: left;
 }
 
@@ -62,6 +73,19 @@ main > h2 {
 
 .formulario-paciente h2 {
   margin-bottom: 20px;
+}
+
+.paso-formulario {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.acciones-formulario {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .campos-formulario {
@@ -78,7 +102,37 @@ main > h2 {
   font-size: 16px;
 }
 
-.campos-formulario input {
+.selector-edad {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin: 0;
+  padding: 10px 14px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.selector-edad legend {
+  padding: 0 6px;
+  color: var(--text-h);
+  font-size: 16px;
+}
+
+.selector-edad label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selector-edad input[type='radio'] {
+  width: auto;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.campos-formulario input,
+.campos-formulario select {
   width: 100%;
   box-sizing: border-box;
   padding: 9px 10px;
@@ -90,6 +144,10 @@ main > h2 {
 }
 
 @media (max-width: 600px) {
+  .formulario-paciente {
+    padding: 18px;
+  }
+
   .campos-formulario {
     grid-template-columns: 1fr;
   }
