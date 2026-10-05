@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './FormularioPaciente.css';
 
 function FormularioPaciente({ agregarPaciente, volverALista }) {
   const [nombre, setNombre] = useState('');
@@ -8,13 +9,54 @@ function FormularioPaciente({ agregarPaciente, volverALista }) {
   const [numeroAtencion, setNumeroAtencion] = useState('');
   const [nombreDueno, setNombreDueno] = useState('');
   const [telefono, setTelefono] = useState('');
-  const [foto, setFoto] = useState('');
+  
+  // Estado para la foto cargada y el estado del arrastre
+  const [foto, setFoto] = useState(null);
+  const [arrastrando, setArrastrando] = useState(false);
+
+  // Procesar archivo seleccionado o arrastrado
+  const procesarArchivo = (file) => {
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setFoto(reader.result); // Convierte a Base64 para vista previa inmediata
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Por favor selecciona un archivo de imagen válido (PNG, JPG, JPEG).');
+    }
+  };
+
+  // Manejadores de Drag and Drop
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setArrastrando(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setArrastrando(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setArrastrando(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      procesarArchivo(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      procesarArchivo(e.target.files[0]);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!nombre.trim() || !numeroAtencion.trim() || !foto.trim()) {
-      alert('Por favor completa todos los campos obligatorios (*), incluyendo la foto de la mascota.');
+    if (!nombre.trim() || !numeroAtencion.trim() || !foto) {
+      alert('Por favor completa todos los campos obligatorios (*), incluyendo la fotografía de la mascota.');
       return;
     }
 
@@ -27,7 +69,7 @@ function FormularioPaciente({ agregarPaciente, volverALista }) {
       numero_atencion: numeroAtencion.trim(),
       nombre_dueno: nombreDueno.trim() || 'No registrado',
       telefono: telefono.trim() || 'Sin contacto',
-      foto: foto.trim()
+      foto: foto
     };
 
     agregarPaciente(nuevo);
@@ -87,7 +129,7 @@ function FormularioPaciente({ agregarPaciente, volverALista }) {
             <input 
               type="text" 
               id="raza"
-              placeholder="Ej: Poodle, Siamés, Mestizo" 
+              placeholder="Ej: Caniche, Siamés, Mestizo" 
               value={raza} 
               onChange={(e) => setRaza(e.target.value)} 
             />
@@ -109,16 +151,36 @@ function FormularioPaciente({ agregarPaciente, volverALista }) {
             </select>
           </div>
 
+          {/* Carga de Fotografía Drag and Drop */}
           <div className="campo">
-            <label htmlFor="foto">URL Fotografía * (Obligatorio)</label>
-            <input 
-              type="url" 
-              id="foto"
-              placeholder="https://ejemplo.com/foto.jpg" 
-              value={foto} 
-              onChange={(e) => setFoto(e.target.value)} 
-              required
-            />
+            <label>Fotografía del paciente * (Obligatorio)</label>
+            <div 
+              className={`dropzone-foto ${arrastrando ? 'arrastrando' : ''}`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => document.getElementById('fotoInput').click()}
+            >
+              <input 
+                type="file" 
+                id="fotoInput" 
+                accept="image/*"
+                className="input-file-oculto"
+                onChange={handleFileChange}
+              />
+
+              {foto ? (
+                <div className="preview-contenedor">
+                  <img src={foto} alt="Vista previa" className="preview-foto" />
+                  <span className="btn-cambiar-foto">Hacer clic para cambiar foto</span>
+                </div>
+              ) : (
+                <div className="dropzone-contenido">
+                  <p>Arrastra una foto aquí</p>
+                  <small>o haz clic para buscar en tu equipo</small>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

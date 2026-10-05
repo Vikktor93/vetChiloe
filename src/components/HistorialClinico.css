@@ -1,0 +1,125 @@
+/* ESTILOS EXCLUSIVOS DE HISTORIAL CLÍNICO */
+
+.historial-contenedor-seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* FORZAR COLOR OSCURO EN LOS TÍTULOS Y CABECERAS */
+.historial-contenedor-seccion h2,
+.historial-contenedor-seccion h3 {
+  color: #d87590 !important;
+  font-weight: 700 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.4rem !important;
+}
+
+.subtitulo-form {
+  color: #4a3e43 !important;
+  font-size: 0.95rem;
+  margin-top: 0.2rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Selector de paciente */
+.selector-paciente-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.selector-paciente-box label {
+  font-weight: 600;
+  color: #4a3e43 !important;
+  font-size: 0.92rem;
+}
+
+.selector-paciente-box select {
+  flex-grow: 1;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #f1cbd6 !important;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  background-color: #faf4f5 !important;
+  color: #4a3e43 !important;
+  outline: none;
+}
+
+.selector-paciente-box select:focus {
+  border-color: #e891a8 !important;
+  background-color: #ffffff !important;
+}
+
+/* Layout de dos columnas */
+.grid-historial-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Estilos claros para textareas e inputs */
+.historial-contenedor-seccion textarea,
+.historial-contenedor-seccion input,
+.historial-contenedor-seccion select {
+  background-color: #faf4f5 !important;
+  color: #4a3e43 !important;
+  border: 1.5px solid #f1cbd6 !important;
+  border-radius: 10px !important;
+  padding: 0.75rem 1rem !important;
+  font-family: inherit !important;
+  font-size: 0.92rem !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+}
+
+.historial-contenedor-seccion textarea:focus,
+.historial-contenedor-seccion input:focus,
+.historial-contenedor-seccion select:focus {
+  border-color: #e891a8 !important;
+  background-color: #ffffff !important;
+}
+
+.historial-contenedor-seccion textarea::placeholder,
+.historial-contenedor-seccion input::placeholder {
+  color: #a09098 !important;
+}
+
+/* Tarjetas de registros guardados */
+.lista-atenciones {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.tarjeta-atencion {
+  background-color: #faf4f5;
+  border: 1.5px solid #f1cbd6;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: left;
+}
+
+.atencion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #f1cbd6;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  color: #d87590;
+}
+
+.fecha-tag {
+  font-size: 0.8rem;
+  color: #8c7a82;
+}
+
+.texto-vacio {
+  color: #8c7a82;
+  font-style: italic;
+  margin-top: 1rem;
+}

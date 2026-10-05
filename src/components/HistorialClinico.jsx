@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './HistorialClinico.css';
 
 function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
   const [pacienteSeleccionadoId, setPacienteSeleccionadoId] = useState(pacientes[0]?.id || '');
@@ -17,6 +18,12 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
     e.preventDefault();
 
     if (!pacienteActual) return;
+
+    // Validación de peso no negativo
+    if (peso !== '' && Number(peso) < 0) {
+      alert('El peso no puede ser un valor negativo.');
+      return;
+    }
 
     const nuevaAtencion = {
       id: Date.now(),
@@ -39,7 +46,7 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
   return (
     <div className="historial-contenedor-seccion">
       <div className="bloque-dashboard">
-        <h2>Búsqueda y Gestión de Historial Clínico</h2>
+        <h2>Búsqueda y Gestión de Historia Clínica</h2>
         <p className="subtitulo-form">Selecciona una mascota para revisar su historial o agregar un nuevo registro médico.</p>
 
         <div className="selector-paciente-box">
@@ -96,10 +103,11 @@ function HistorialClinico({ pacientes, historiales = [], agregarHistorial }) {
             </div>
 
             <div className="campo">
-              <label>Peso Actual (kg)</label>
+              <label>Peso real (kg)</label>
               <input 
                 type="number" 
                 step="0.1" 
+                min="0"
                 placeholder="Ej: 12.5" 
                 value={peso} 
                 onChange={(e) => setPeso(e.target.value)} 

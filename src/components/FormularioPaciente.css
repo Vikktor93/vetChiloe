@@ -1,0 +1,172 @@
+/* ESTILOS EXCLUSIVOS DEL FORMULARIO DE REGISTRO */
+
+.seccion-formulario-pantalla {
+  background-color: var(--card-bg, #ffffff);
+  border: 2px solid var(--pink-border, #f1cbd6);
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 650px;
+  margin: 0 auto;
+  text-align: left;
+  box-shadow: 0 10px 25px rgba(216, 117, 144, 0.08);
+}
+
+.cabecera-form h2 {
+  color: var(--pink-hover, #d87590);
+  margin-top: 0;
+  margin-bottom: 0.3rem;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.cabecera-form p {
+  color: var(--text-muted, #8c7a82);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form-completo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.grid-2-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary, #4a3e43);
+}
+
+.campo input, .campo select {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--pink-border, #f1cbd6);
+  border-radius: 10px;
+  font-size: 0.92rem;
+  background-color: var(--bg-pastel, #faf4f5);
+  outline: none;
+  color: var(--text-primary, #4a3e43);
+}
+
+.campo input:focus, .campo select:focus {
+  border-color: var(--pink-main, #e891a8);
+  background-color: #ffffff;
+}
+
+/* AREA DRAG AND DROP PARA FOTOGRAFÍA */
+.dropzone-foto {
+  border: 2px dashed var(--pink-main, #e891a8);
+  border-radius: 12px;
+  padding: 1.2rem;
+  text-align: center;
+  background-color: var(--bg-pastel, #faf4f5);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropzone-foto:hover, .dropzone-foto.arrastrando {
+  background-color: var(--pink-light, #f7e6eb);
+  border-color: var(--pink-hover, #d87590);
+}
+
+.dropzone-contenido p {
+  margin: 0 0 4px 0;
+  font-weight: 600;
+  color: var(--pink-hover, #d87590);
+  font-size: 0.9rem;
+}
+
+.dropzone-contenido small {
+  color: var(--text-muted, #8c7a82);
+  font-size: 0.8rem;
+}
+
+.input-file-oculto {
+  display: none;
+}
+
+.preview-contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-foto {
+  max-width: 120px;
+  max-height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid var(--pink-border, #f1cbd6);
+}
+
+.btn-cambiar-foto {
+  background: transparent;
+  border: none;
+  color: var(--pink-hover, #d87590);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* SUBFORMULARIO Y BOTONES */
+.bloque-subform {
+  margin-top: 1.2rem;
+  border-top: 1px dashed var(--pink-border, #f1cbd6);
+  padding-top: 1rem;
+}
+
+.bloque-subform h4 {
+  margin: 0 0 1rem 0;
+  color: var(--pink-hover, #d87590);
+}
+
+.acciones-form {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 1.2rem;
+}
+
+.btn-cancelar {
+  background-color: transparent;
+  color: var(--text-muted, #8c7a82);
+  border: 1px solid var(--pink-border, #f1cbd6);
+  padding: 0.75rem 1.4rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-guardar-paciente {
+  background-color: var(--pink-main, #e891a8);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.6rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(232, 145, 168, 0.35);
+}
+
+.btn-guardar-paciente:hover {
+  background-color: var(--pink-hover, #d87590);
+}

@@ -64,6 +64,7 @@ function App() {
       <main className="main-content">
         {pestanaActiva === 'home' && (
           <Home 
+            pacientes={pacientes}
             hospitalizados={hospitalizados}
             irAPacientes={() => setPestanaActiva('pacientes')} 
           />
