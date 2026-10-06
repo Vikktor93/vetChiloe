@@ -44,10 +44,11 @@ function App() {
       { fecha: '23-08-2026', motivo: 'Ingreso', detalle: 'Rescatado en Pinguineras de Puñihuil.' },
       { fecha: '21-09-2026', motivo: 'Curación', detalle: 'Desinfectacion.' }
     ]
-  }
-
-  
+  }  
 ]);
+ // controla si el formulario se ve o no
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+
   const agregarPaciente = (datosPaciente) => {
     // fecha de hoy
     const hoy = new Date().toLocaleDateString('es-CL');
@@ -62,6 +63,9 @@ function App() {
     };
 
     setPacientes([...pacientes, nuevoPaciente]);
+    // oculta el formulario despues de registrar
+    setMostrarFormulario(false);
+
 };
   return (
     <div className="contenedor-principal">
@@ -72,7 +76,17 @@ function App() {
 
       <main>
         <h2>Lista de Pacientes Registrados</h2>
-        <FormularioPaciente onAgregar={agregarPaciente} />
+          {/* cambia entre mostrar y ocultar el formulario */}
+          <button
+            className="boton-agregar"
+            onClick={() => setMostrarFormulario(!mostrarFormulario)}
+          >
+            {mostrarFormulario ? 'Cancelar' : 'Agregar paciente'}
+          </button>
+
+          {/* el formulario solo se dibuja si mostrarFormulario es true */}
+          {mostrarFormulario && <FormularioPaciente onAgregar={agregarPaciente} />}
+
         <div className="cuadricula-tarjetas">
           
           {/* en esta parte utilizamos el componente y le pasamos los datos mediante la prop "paciente" */}

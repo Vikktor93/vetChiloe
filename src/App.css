@@ -182,3 +182,12 @@
     border-right-color: var(--border);
   }
 }
+.boton-agregar {
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2a6f97;
+  color: white;
+  cursor: pointer;
+}
