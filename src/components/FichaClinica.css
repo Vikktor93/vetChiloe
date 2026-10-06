@@ -4,18 +4,24 @@
   height: 420px;
   box-sizing: border-box;
   padding: 16px;
-  border-radius: 12px;
+  border-radius: 16px;
+  border-top: 5px solid var(--celeste);
   background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 18px rgba(58, 143, 183, 0.18);
   display: flex;
   flex-direction: column;
+}
+
+.ficha-reverso {
+  border-top-color: var(--rosa);
+  overflow-y: auto;
 }
 
 .tarjeta-foto {
   width: 100%;
   height: 160px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 div.tarjeta-foto {
@@ -23,18 +29,33 @@ div.tarjeta-foto {
   align-items: center;
   justify-content: center;
   font-size: 64px;
-  background: #d7e6ea;
+  background: var(--celeste-claro);
+}
+
+.btn-detalle,
+.ficha-reverso button {
+  margin-top: auto;
+  padding: 10px;
+  border: none;
+  border-radius: 999px;
+  background: var(--rosa-claro);
+  color: var(--rosa-fuerte);
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-detalle:hover,
+.ficha-reverso button:hover {
+  background: var(--rosa);
+  color: white;
 }
 
 .ficha-reverso {
-  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rosa) transparent;
 }
 
-.btn-detalle {
-  margin-top: auto;
-  padding: 10px;
-  cursor: pointer;
-}
 .cuadricula-tarjetas {
   display: flex;
   flex-wrap: wrap;

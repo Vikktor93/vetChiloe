@@ -1,37 +1,87 @@
 .formulario-paciente {
-  max-width: 560px;
+  max-width: 700px;
   margin: 0 auto 32px;
-  padding: 24px;
+  padding: 32px;
   box-sizing: border-box;
-  border-radius: 12px;
+  border-radius: 18px;
+  border-top: 6px solid var(--rosa);
   background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(229, 107, 154, 0.18);
+  text-align: left;
   display: flex;
   flex-direction: column;
+  gap: 16px;
+}
+
+.encabezado-formulario {
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rosa-claro);
+}
+
+.etiqueta-superior {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--celeste-claro);
+  color: var(--celeste-fuerte);
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.encabezado-formulario h2 {
+  margin: 8px 0 4px;
+}
+
+.encabezado-formulario p {
+  color: var(--texto-suave);
+  font-size: 14px;
+}
+
+.formulario-paciente .titulo-seccion {
+  margin: 8px 0 0;
+  padding-left: 10px;
+  border-left: 4px solid var(--rosa);
+  color: var(--celeste-fuerte);
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 14px;
 }
 
-.formulario-paciente h2 {
-  margin: 0 0 4px;
-  color: #1a1a2e;
+.campo-ancho {
+  grid-column: 1 / -1;
 }
 
-.formulario-paciente label {
+.formulario-paciente label,
+.nombre-campo {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  font-size: 14px;
   font-weight: bold;
-  color: #333;
+  color: var(--texto);
+}
+
+.nombre-campo {
+  margin-bottom: 6px;
 }
 
 .formulario-paciente input,
 .formulario-paciente textarea {
   padding: 10px;
-  border: 1px solid #000000;
+  border: 1.5px solid var(--celeste);
   border-radius: 8px;
+  background: #fafdff;
+  color: var(--texto);
   font: inherit;
   font-weight: normal;
-  color: white;
 }
 
 .formulario-paciente textarea {
@@ -41,20 +91,85 @@
 
 .formulario-paciente input:focus,
 .formulario-paciente textarea:focus {
-  outline: 2px solid #1f4e5f;
-  border-color: transparent;
+  outline: none;
+  border-color: var(--rosa-fuerte);
+  background: white;
 }
 
-.formulario-paciente button {
+.formulario-paciente .foto-oculta {
+  display: none;
+}
+
+.formulario-paciente .subir-foto {
+  align-items: center;
+  padding: 22px;
+  border: 2px dashed var(--rosa);
+  border-radius: 10px;
+  background: var(--rosa-claro);
+  color: var(--rosa-fuerte);
+  cursor: pointer;
+}
+
+.formulario-paciente .subir-foto:hover {
+  border-color: var(--rosa-fuerte);
+}
+
+.subir-foto small {
+  color: var(--texto-suave);
+  font-weight: normal;
+}
+
+.vista-previa {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background: #1f4e5f;
-  color: white;
+  border: 1.5px solid var(--celeste);
+  border-radius: 10px;
+}
+
+.vista-previa img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.vista-previa span {
+  flex: 1;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.boton-quitar {
+  padding: 6px 12px;
+  border: 1px solid var(--rosa);
+  border-radius: 6px;
+  background: var(--rosa-claro);
+  color: var(--rosa-fuerte);
   font-weight: bold;
   cursor: pointer;
 }
 
-.formulario-paciente button:hover {
-  background: #163a47;
+.boton-registrar {
+  margin-top: 8px;
+  padding: 12px;
+  border: none;
+  border-radius: 999px;
+  background: var(--rosa-fuerte);
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.boton-registrar:hover {
+  opacity: 0.9;
+}
+
+/* en pantallas chicas los campos pasan a una columna */
+@media (max-width: 700px) {
+  .campos {
+    grid-template-columns: 1fr;
+  }
 }
