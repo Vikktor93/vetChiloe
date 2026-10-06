@@ -1,20 +1,41 @@
-.ficha-reverso {
+.tarjeta {
   width: 260px;
   height: 420px;
   box-sizing: border-box;
   padding: 16px;
   border-radius: 16px;
-  border-top: 5px solid var(--rosa);
+  border-top: 5px solid var(--celeste);
   background: white;
   box-shadow: 0 6px 18px rgba(58, 143, 183, 0.18);
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--rosa) transparent;
 }
 
-.ficha-reverso button {
+.tarjeta-foto {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+div.tarjeta-foto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  background: var(--celeste-claro);
+}
+
+.tarjeta h3 {
+  margin: 12px 0 6px;
+  color: var(--celeste-fuerte);
+}
+
+.tarjeta p {
+  font-size: 15px;
+}
+
+.btn-detalle {
   margin-top: auto;
   padding: 10px;
   border: none;
@@ -26,14 +47,7 @@
   cursor: pointer;
 }
 
-.ficha-reverso button:hover {
+.btn-detalle:hover {
   background: var(--rosa);
   color: white;
-}
-
-.cuadricula-tarjetas {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 24px;
 }

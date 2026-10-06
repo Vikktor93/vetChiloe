@@ -1,5 +1,4 @@
-// Un componente en React es una función que retorna JSX
-// `props` (propiedades) es un objeto que contiene los datos del componentes
+import './TarjetaPaciente.css';
 
 function TarjetaPaciente(props) {
   const { paciente, onVerFicha } = props;  // aquí extraemos la información del paciente desde las props
@@ -15,6 +14,7 @@ function TarjetaPaciente(props) {
     <p><strong>Número Paciente:</strong> {paciente.numero_atencion}</p>
     <p><strong>Especie:</strong> {paciente.especie} ({paciente.raza})</p>
     <p><strong>Edad:</strong> {paciente.edad} años</p>
+    {paciente.peso && <p><strong>Peso:</strong> {paciente.peso} kg</p>}
 
     <button className="btn-detalle" onClick={onVerFicha}>Ver Ficha Clínica</button>
   </div>
