@@ -72,6 +72,8 @@ function FormularioPaciente({ onAgregar }) {
         <input
           type="number"
           value={edad}
+          min="0"
+          max="40"
           onChange={(e) => setEdad(e.target.value)}
           required
         />

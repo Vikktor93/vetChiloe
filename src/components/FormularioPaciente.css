@@ -13,6 +13,7 @@
 
 .formulario-paciente h2 {
   margin: 0 0 4px;
+  color: #1a1a2e;
 }
 
 .formulario-paciente label {
@@ -20,6 +21,7 @@
   flex-direction: column;
   gap: 6px;
   font-weight: bold;
+  color: #333;
 }
 
 .formulario-paciente input,
@@ -29,6 +31,7 @@
   border-radius: 8px;
   font: inherit;
   font-weight: normal;
+  color: white;
 }
 
 .formulario-paciente textarea {

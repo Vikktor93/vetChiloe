@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './App.css';
 import FichaClinica from './components/FichaClinica';
 import FormularioPaciente from './components/FormularioPaciente';
 
