@@ -1,0 +1,110 @@
+.contenedor-ficha-centrado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.instruccion {
+  color: #666;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+/* --- CLASES ESTRUCTURALES DEL FLIP CARD (REACT BITS) --- */
+.react-bits-flip-container {
+  width: 340px;
+  height: 480px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.react-bits-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.react-bits-flip-front,
+.react-bits-flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; /* Soporte para Safari */
+}
+
+.react-bits-flip-back {
+  transform: rotateY(180deg);
+}
+
+
+/* --- ESTILOS VISUALES DE LA VETERINARIA --- */
+.tarjeta-cara {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.frontal {
+  background-color: #ffffff;
+  border: 2px solid #4CAF50;
+}
+
+.foto-paciente {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 4px solid #e8f5e9;
+}
+
+.etiqueta-especie {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.trasera {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.datos-lista {
+  width: 100%;
+  text-align: left;
+  margin-top: 20px;
+}
+
+.datos-lista p {
+  margin: 10px 0;
+  font-size: 1.1em;
+}
+
+.datos-lista hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 20px 0;
+}
+
+.texto-diagnostico {
+  font-style: italic;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  line-height: 1.5;
+}
