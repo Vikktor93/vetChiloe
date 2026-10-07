@@ -90,3 +90,37 @@
   background: var(--rosa-fuerte);
   color: white;
 }
+.ventana-formulario {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 18px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rosa) transparent;
+}
+
+/* dentro de la ventana el formulario no necesita margen */
+.ventana-formulario .formulario-paciente {
+  margin: 0;
+}
+
+.boton-cerrar {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: var(--rosa-claro);
+  color: var(--rosa-fuerte);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.boton-cerrar:hover {
+  background: var(--rosa);
+  color: white;
+}

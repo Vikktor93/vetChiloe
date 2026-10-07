@@ -1,0 +1,43 @@
+.detalle {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 28px;
+  border-radius: 18px;
+  border-top: 6px solid var(--celeste);
+  background: white;
+  text-align: left;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rosa) transparent;
+}
+
+.detalle h3 {
+  margin: 0;
+  color: var(--celeste-fuerte);
+}
+
+.detalle-numero {
+  color: var(--texto-suave);
+  font-size: 14px;
+}
+
+.detalle h4 {
+  margin: 16px 0 4px;
+  padding-left: 8px;
+  border-left: 4px solid var(--rosa);
+  color: var(--celeste-fuerte);
+  font-size: 15px;
+}
+
+.detalle p,
+.detalle li {
+  font-size: 15px;
+}
+
+.detalle ul {
+  margin: 0;
+  padding-left: 18px;
+}

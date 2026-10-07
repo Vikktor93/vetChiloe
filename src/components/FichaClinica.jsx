@@ -5,7 +5,7 @@ const ReactCardFlip = ReactCardFlipModule.default ?? ReactCardFlipModule;
 import TarjetaPaciente from './TarjetaPaciente';
 
 function FichaClinica(props) {
-  const { paciente, onEliminar } = props;
+  const { paciente, onEliminar, onVerDetalle } = props;
   const [volteada, setVolteada] = useState(false);
 
   const girar = () => {
@@ -17,12 +17,11 @@ function FichaClinica(props) {
       <TarjetaPaciente paciente={paciente} onVerFicha={girar} />
 
       <div className="ficha-reverso">
-        <h3>Ficha clínica de {paciente.nombre}</h3>
-        <p><strong>N° atención:</strong> {paciente.numero_atencion}</p>
-        <p><strong>Especie:</strong> {paciente.especie} ({paciente.raza})</p>
+        <h3>Ficha de {paciente.nombre}</h3>
 
-        <h4>Diagnóstico</h4>
-        <p>{paciente.diagnostico}</p>
+        <p><strong>N° atención:</strong> {paciente.numero_atencion}</p>
+        <p><strong>Especie:</strong> {paciente.especie}</p>
+        <p><strong>Raza:</strong> {paciente.raza}</p>
 
         <h4>Dueño</h4>
         {/* algunos pacientes pueden no tener dueño registrado */}
@@ -30,21 +29,14 @@ function FichaClinica(props) {
           <>
             <p>{paciente.dueno.nombre}</p>
             <p>{paciente.dueno.telefono}</p>
-            <p>{paciente.dueno.correo}</p>
           </>
         ) : (
           <p>Sin dueño registrado</p>
         )}
 
-        <h4>Historial</h4>
-        <ul>
-          {paciente.historial.map((atencion, indice) => (
-            <li key={indice}>
-              <strong>{atencion.fecha}</strong> - {atencion.motivo}: {atencion.detalle}
-            </li>
-          ))}
-        </ul>
-
+        <button className="boton-ver-detalle" onClick={() => onVerDetalle(paciente)}>
+          Detalle
+        </button>
         <button onClick={girar}>Volver</button>
         <button className="boton-eliminar" onClick={() => onEliminar(paciente)}>
           Eliminar paciente

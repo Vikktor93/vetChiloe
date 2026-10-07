@@ -1,6 +1,6 @@
 .ficha-reverso {
   width: 260px;
-  height: 420px;
+  height: 480px;
   box-sizing: border-box;
   padding: 16px;
   border-radius: 16px;
@@ -9,13 +9,30 @@
   box-shadow: 0 6px 18px rgba(58, 143, 183, 0.18);
   display: flex;
   flex-direction: column;
+  text-align: left;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--rosa) transparent;
 }
 
+.ficha-reverso h3 {
+  margin: 0 0 10px;
+  color: var(--celeste-fuerte);
+}
+
+.ficha-reverso h4 {
+  margin: 14px 0 4px;
+  padding-left: 8px;
+  border-left: 4px solid var(--rosa);
+  color: var(--celeste-fuerte);
+}
+
+.ficha-reverso p {
+  font-size: 15px;
+}
+
 .ficha-reverso button {
-  margin-top: auto;
+  margin-top: 8px;
   padding: 10px;
   border: none;
   border-radius: 999px;
@@ -31,14 +48,21 @@
   color: white;
 }
 
+/* el primer boton empuja a los tres hacia abajo */
+.ficha-reverso .boton-ver-detalle {
+  margin-top: auto;
+  background: var(--rosa-fuerte);
+  color: white;
+}
+
+.ficha-reverso .boton-eliminar {
+  background: white;
+  border: 1.5px solid var(--rosa-fuerte);
+}
+
 .cuadricula-tarjetas {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 24px;
-}
-.ficha-reverso .boton-eliminar {
-  margin-top: 8px;
-  background: white;
-  border: 1.5px solid var(--rosa-fuerte);
 }

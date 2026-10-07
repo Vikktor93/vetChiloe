@@ -12,6 +12,7 @@ function FormularioPaciente({ onAgregar }) {
   const [diagnostico, setDiagnostico] = useState('');
   const [foto, setFoto] = useState('');
   const [nombreFoto, setNombreFoto] = useState('');
+  const [antecedentes, setAntecedentes] = useState('');
 
   // datos del dueño
   const [nombreDueno, setNombreDueno] = useState('');
@@ -57,6 +58,7 @@ function FormularioPaciente({ onAgregar }) {
       // si no se subio foto se usa la de por defecto
       foto: foto || '/pacientes/default.jpg',
       diagnostico: diagnostico,
+      antecedentes: antecedentes,
       dueno: {
         nombre: nombreDueno,
         telefono: telefono,
@@ -114,7 +116,9 @@ function FormularioPaciente({ onAgregar }) {
             onChange={(e) => setRaza(e.target.value)}
             disabled={especie === ''}
           >
-            <option value="">Sin especificar</option>
+            <option value="">
+              {especie === '' ? 'Primero elige una especie' : 'Sin especificar'}
+            </option>
             {/* solo muestra las razas de la especie elegida */}
             {especie !== '' && razasPorEspecie[especie].map((nombreRaza) => (
               <option key={nombreRaza} value={nombreRaza}>
@@ -185,6 +189,14 @@ function FormularioPaciente({ onAgregar }) {
             value={diagnostico}
             onChange={(e) => setDiagnostico(e.target.value)}
             required
+          />
+        </label>
+        <label className="campo-ancho">
+          Enfermedades o antecedentes (opcional)
+          <textarea
+            placeholder="Ej: alergias, cirugías, enfermedades anteriores"
+            value={antecedentes}
+            onChange={(e) => setAntecedentes(e.target.value)}
           />
         </label>
       </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import FichaClinica from './components/FichaClinica';
 import FormularioPaciente from './components/FormularioPaciente';
+import DetallePaciente from './components/DetallePaciente';
 
 function App() {
   // carga los pacientes guardados en el navegador, si no hay parte vacio
@@ -14,6 +15,8 @@ function App() {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   // guarda el paciente que se quiere eliminar, null si no hay ninguno
   const [pacientePorEliminar, setPacientePorEliminar] = useState(null);
+  // guarda el paciente del que se esta viendo el detalle
+  const [pacienteDetalle, setPacienteDetalle] = useState(null);
 
   // cada vez que cambia la lista se vuelve a guardar
   useEffect(() => {
@@ -57,16 +60,27 @@ function App() {
 
       <main>
         <h2>Lista de Pacientes Registrados</h2>
-        {/* cambia entre mostrar y ocultar el formulario */}
         <button
           className="boton-agregar"
-          onClick={() => setMostrarFormulario(!mostrarFormulario)}
+          onClick={() => setMostrarFormulario(true)}
         >
-          {mostrarFormulario ? 'Cancelar' : 'Agregar paciente'}
+          Agregar paciente
         </button>
 
-        {/* el formulario solo se dibuja si mostrarFormulario es true */}
-        {mostrarFormulario && <FormularioPaciente onAgregar={agregarPaciente} />}
+        {/* el formulario se abre como ventana encima de la pagina */}
+        {mostrarFormulario && (
+          <div className="fondo-ventana">
+            <div className="ventana-formulario">
+              <button
+                className="boton-cerrar"
+                onClick={() => setMostrarFormulario(false)}
+              >
+                ✕
+              </button>
+              <FormularioPaciente onAgregar={agregarPaciente} />
+            </div>
+          </div>
+        )}
 
         {/* mensaje para cuando todavia no hay nadie registrado */}
         {pacientes.length === 0 && (
@@ -80,10 +94,19 @@ function App() {
               key={pacienteIterado.id}
               paciente={pacienteIterado}
               onEliminar={setPacientePorEliminar}
+              onVerDetalle={setPacienteDetalle}
             />
           ))}
         </div>
       </main>
+
+      {/* ventana con el detalle completo del paciente */}
+      {pacienteDetalle && (
+        <DetallePaciente
+          paciente={pacienteDetalle}
+          onCerrar={() => setPacienteDetalle(null)}
+        />
+      )}
 
       {/* ventana de confirmacion, solo aparece si hay un paciente por eliminar */}
       {pacientePorEliminar && (
