@@ -25,25 +25,37 @@ El propósito principal de este repositorio es pedagógico. Busca enseñar a los
 * **Carnet Clínico Digital:** Sistema de tarjetas interactivas en 3D (Flip-Card) que permite visualizar la fotografía y datos del paciente en el anverso, y su historial clínico, así como su diagnóstico en el reverso.
 * **Renderizado Condicional:** Navegación fluida entre la tabla general y los expedientes individuales sin recargar la página (Single Page Application).
 
-## 📁 Estructura del Proyecto
 
-El proyecto sigue una arquitectura modular basada en componentes:
+## 📁 Estructura del Proyecto
+El proyecto sigue una arquitectura modular basada en componentes
 
 ```text
 vetChiloe/
+├── docs/                       # Documentación adicional del proyecto
+├── public/                     # Archivos estáticos públicos
 ├── src/
-│   ├── components/
-│   │   ├── FichaClinica.jsx        # Contenedor de la vista de detalle
+│   ├── assets/                 # Imágenes, iconos y recursos multimedia
+│   ├── components/             # Componentes modulares de React
 │   │   ├── FichaClinica.css
-│   │   ├── FlipCard.jsx            # Componente reutilizable de animación 3D
-│   │   ├── FormularioPaciente.jsx  # Formulario controlado para nuevos ingresos
+│   │   ├── FichaClinica.jsx        # Vista de detalle (Carnet clínico)
+│   │   ├── FlipCard.jsx            # Lógica de animación 3D (Framer Motion)
 │   │   ├── FormularioPaciente.css
+│   │   ├── FormularioPaciente.jsx  # Modal controlado para nuevos ingresos
+│   │   ├── TablaPacientes.css
 │   │   ├── TablaPacientes.jsx      # Tabla responsiva del dashboard principal
-│   │   └── TablaPacientes.css
-│   ├── App.jsx                     # Componente raíz y gestor del estado global
-│   ├── App.css                     # Estilos globales y layout principal
-│   └── main.jsx                    # Punto de entrada de la aplicación
-└── package.json
+│   │   └── TarjetaPaciente.jsx     # Componente de lista (Fase UI anterior)
+│   ├── App.css                 # Estilos estructurales y globales
+│   ├── App.jsx                 # Componente raíz y gestor del estado global
+│   ├── index.css               # Reset y variables CSS globales
+│   └── main.jsx                # Punto de entrada y montaje de React
+├── .gitignore                  # Reglas de exclusión para GitHub
+├── eslint.config.js            # Configuración de reglas de código limpio
+├── index.html                  # Plantilla HTML principal
+├── LICENSE                     # Licencia del código fuente (MIT)
+├── package-lock.json           # Árbol de versiones exactas de dependencias
+├── package.json                # Dependencias y scripts del proyecto (npm)
+├── README.md                   # Documentación principal del repositorio
+└── vite.config.js              # Configuración del empaquetador de Vite
 ```
 
 ## 👥 Flujo de Trabajo Colaborativo (Para Estudiantes)
