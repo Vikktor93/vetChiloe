@@ -103,10 +103,9 @@ function App() {
       <button 
         className="btn-flotante" 
         onClick={() => setMostrarFormulario(true)}
-        title="Registrar Nuevo Paciente"
       >
-        +
-      </button>
+        <span className="icono-mas">+</span> Agregar Nuevo Paciente
+      </button> 
     </div>
   );
 }

@@ -183,7 +183,7 @@
   }
 }
 
-/* --- ESTILOS DEL BOTÓN FLOTANTE --- */
+/* --- Estilo del botón flotante de ingreso de paciente --- */
 .btn-flotante {
   position: fixed;
   bottom: 40px;
@@ -191,23 +191,30 @@
   background-color: #2e7d32;
   color: white;
   border: none;
-  border-radius: 50%;
-  width: 65px;
-  height: 65px;
-  font-size: 32px;
+  border-radius: 30px; 
+  width: auto;
+  height: auto;
+  padding: 12px 24px;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s, background-color 0.2s;
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
   z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 10px; 
 }
 
 .btn-flotante:hover {
   background-color: #1b5e20;
-  transform: scale(1.05);
+  transform: translateY(-3px); 
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.icono-mas {
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
 /* --- ESTILOS DE LA VENTANA MODAL --- */
