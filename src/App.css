@@ -182,3 +182,70 @@
     border-right-color: var(--border);
   }
 }
+
+/* --- ESTILOS DEL BOTÓN FLOTANTE --- */
+.btn-flotante {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 65px;
+  height: 65px;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, background-color 0.2s;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-flotante:hover {
+  background-color: #1b5e20;
+  transform: scale(1.05);
+}
+
+/* --- ESTILOS DE LA VENTANA MODAL --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+  backdrop-filter: blur(3px); /* Difumina ligeramente el fondo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-contenido {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  /* El padding y color ya los provee tu contenedor-formulario, 
+     así que aquí solo se maneja la estructura base */
+}
+
+.btn-cerrar-modal {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #555;
+  cursor: pointer;
+  z-index: 2010; /* Debe estar por encima del formulario */
+  transition: color 0.2s;
+}
+
+.btn-cerrar-modal:hover {
+  color: #d32f2f;
+}

@@ -2,48 +2,51 @@ import { useState } from 'react';
 import TarjetaPaciente from './components/TarjetaPaciente'; 
 import FichaClinica from './components/FichaClinica'; 
 import FormularioPaciente from './components/FormularioPaciente'; 
-import './App.css';
+import './App.css'; 
 
 function App() {
-  // BD hardcodeado con la información médica y fotografías
   const [pacientes, setPacientes] = useState([
     { 
       id: 1, 
       nombre: 'Charkicito', 
       numero_atencion: '2026-A1',
-      especie: 'Felino',
-      edad: '8 años',
+      especie: 'Canino',
+      edad: '3 años',
       diagnostico: 'Control sano y vacunas al día.',
-      foto: 'https://images.unsplash.com/photo-1790172202932-95d8991d25a3?q=80&w=697&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+      foto: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=300&q=80'
     },
     { 
       id: 2, 
       nombre: 'Mercedes', 
       numero_atencion: '2026-B2',
       especie: 'Felino',
-      edad: '8 años',
+      edad: '5 años',
       diagnostico: 'Tratamiento por otitis leve.',
-      foto: 'https://images.unsplash.com/photo-1790171730151-7e0b88bdf614?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+      foto: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=300&q=80'
     },
     { 
       id: 3, 
       nombre: 'Hannita', 
       numero_atencion: '2026-C3',
-      especie: 'Felino',
-      edad: '3 años',
+      especie: 'Canino',
+      edad: '1 año',
       diagnostico: 'Observación por alergia alimentaria.',
-      foto: 'https://images.unsplash.com/photo-1790172629627-12f29ca54657?q=80&w=671&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+      foto: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=300&q=80'
     }
   ]);
 
   const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
+  
+  // Nuevo Estado: Controla la visibilidad del formulario modal
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
-  // Función Clave: Recibe los datos desde el componente hijo y actualiza la lista
   const agregarNuevoPaciente = (nuevoPaciente) => {
-    // Se usa el operador de propagación (...) para mantener la inmutabilidad
     setPacientes([...pacientes, nuevoPaciente]);
+    // Una vez que se guarda el paciente, se cierra el modal automáticamente
+    setMostrarFormulario(false);
   };
 
+  // Vista de Ficha Clínica
   if (pacienteSeleccionado !== null) {
     return (
       <div className="contenedor-principal">
@@ -60,6 +63,7 @@ function App() {
     );
   }
 
+  // Vista Principal (Lista de Pacientes)
   return (
     <div className="contenedor-principal">
       <header className="cabecera">
@@ -68,9 +72,6 @@ function App() {
       </header>
 
       <main>
-        {/*Se inserta el formulario y se le pasa la función como propiedad (prop) */}
-        <FormularioPaciente onAgregarPaciente={agregarNuevoPaciente} />
-
         <h2>Lista de Pacientes Registrados</h2>
         <div className="cuadricula-tarjetas">
           {pacientes.map((pacienteIterado) => (
@@ -82,6 +83,30 @@ function App() {
           ))}
         </div>
       </main>
+
+      {/* Renderizado condicional del modal */}
+      {mostrarFormulario && (
+        <div className="modal-overlay">
+          <div className="modal-contenido">
+            <button 
+              className="btn-cerrar-modal" 
+              onClick={() => setMostrarFormulario(false)}
+            >
+              ✖
+            </button>
+            <FormularioPaciente onAgregarPaciente={agregarNuevoPaciente} />
+          </div>
+        </div>
+      )}
+
+      {/* Botón flotante: Cambia el estado para mostrar el formulario */}
+      <button 
+        className="btn-flotante" 
+        onClick={() => setMostrarFormulario(true)}
+        title="Registrar Nuevo Paciente"
+      >
+        +
+      </button>
     </div>
   );
 }
