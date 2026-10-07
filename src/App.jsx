@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import TarjetaPaciente from './components/TarjetaPaciente'; 
+import TablaPacientes from './components/TablaPacientes';
 import FichaClinica from './components/FichaClinica'; 
 import FormularioPaciente from './components/FormularioPaciente'; 
 import './App.css'; 
@@ -10,8 +10,8 @@ function App() {
       id: 1, 
       nombre: 'Charkicito', 
       numero_atencion: '2026-A1',
-      especie: 'Canino',
-      edad: '3 años',
+      especie: 'Felino',
+      edad: '8 años',
       diagnostico: 'Control sano y vacunas al día.',
       foto: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=300&q=80'
     },
@@ -20,7 +20,7 @@ function App() {
       nombre: 'Mercedes', 
       numero_atencion: '2026-B2',
       especie: 'Felino',
-      edad: '5 años',
+      edad: '8 años',
       diagnostico: 'Tratamiento por otitis leve.',
       foto: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=300&q=80'
     },
@@ -28,30 +28,36 @@ function App() {
       id: 3, 
       nombre: 'Hannita', 
       numero_atencion: '2026-C3',
-      especie: 'Canino',
-      edad: '1 año',
+      especie: 'Felino',
+      edad: '3 años',
       diagnostico: 'Observación por alergia alimentaria.',
+      foto: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=300&q=80'
+    },
+        { 
+      id: 4, 
+      nombre: 'Pelusa', 
+      numero_atencion: '2026-D4',
+      especie: 'Canino',
+      edad: '12 años',
+      diagnostico: 'Tratamiento por artritis.',
       foto: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=300&q=80'
     }
   ]);
 
   const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
-  
-  // Nuevo Estado: Controla la visibilidad del formulario modal
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
   const agregarNuevoPaciente = (nuevoPaciente) => {
     setPacientes([...pacientes, nuevoPaciente]);
-    // Una vez que se guarda el paciente, se cierra el modal automáticamente
     setMostrarFormulario(false);
   };
 
-  // Vista de Ficha Clínica
+  // Vista de Ficha Clínica (Carnet)
   if (pacienteSeleccionado !== null) {
     return (
       <div className="contenedor-principal">
         <header className="cabecera">
-          <h1>Ficha Clínica: {pacienteSeleccionado.nombre}</h1>
+          <h1>Carnet Clínico: {pacienteSeleccionado.nombre}</h1>
           <button onClick={() => setPacienteSeleccionado(null)} className="btn-volver">
             ← Volver a la lista
           </button>
@@ -63,7 +69,7 @@ function App() {
     );
   }
 
-  // Vista Principal (Lista de Pacientes)
+  // Vista Principal (Tabla de Pacientes)
   return (
     <div className="contenedor-principal">
       <header className="cabecera">
@@ -72,19 +78,17 @@ function App() {
       </header>
 
       <main>
-        <h2>Lista de Pacientes Registrados</h2>
-        <div className="cuadricula-tarjetas">
-          {pacientes.map((pacienteIterado) => (
-            <TarjetaPaciente 
-              key={pacienteIterado.id} 
-              paciente={pacienteIterado} 
-              onVerFicha={() => setPacienteSeleccionado(pacienteIterado)}
-            />
-          ))}
-        </div>
+        <h2>Pacientes Registrados</h2>
+        
+        {/* Aquí se renderiza la tabla y le pasamos los props */}
+        <TablaPacientes 
+          pacientes={pacientes} 
+          onVerFicha={setPacienteSeleccionado} 
+        />
+        
       </main>
 
-      {/* Renderizado condicional del modal */}
+      {/* Renderizado condicional del formulario modal */}
       {mostrarFormulario && (
         <div className="modal-overlay">
           <div className="modal-contenido">
@@ -99,13 +103,13 @@ function App() {
         </div>
       )}
 
-      {/* Botón flotante: Cambia el estado para mostrar el formulario */}
+      {/* Botón flotante extendido */}
       <button 
         className="btn-flotante" 
         onClick={() => setMostrarFormulario(true)}
       >
         <span className="icono-mas">+</span> Agregar Nuevo Paciente
-      </button> 
+      </button>
     </div>
   );
 }

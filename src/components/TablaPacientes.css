@@ -1,0 +1,102 @@
+.contenedor-tabla-responsiva {
+  width: 100%;
+  overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-top: 1.5rem;
+}
+
+.tabla-vet {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 800px; /* Asegura que las columnas no se aplasten demasiado */
+}
+
+.tabla-vet th,
+.tabla-vet td {
+  padding: 16px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.tabla-vet th {
+  background-color: #f8f9fa;
+  color: #333333;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tabla-vet tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.tabla-vet tbody tr:hover {
+  background-color: #f1f8f1; /* Verde muy suave al pasar el mouse */
+}
+
+.celda-destacada {
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.celda-diagnostico {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Añade "..." si el texto es muy largo */
+  color: #555555;
+}
+
+/* Badges para las especies */
+.badge-especie {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.badge-especie.canino {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.badge-especie.felino {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.badge-especie.exótico {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+/* Botón de acción */
+.btn-carnet {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-carnet:hover {
+  background-color: #388e3c;
+  transform: scale(1.05);
+}
+
+.tabla-vacia {
+  background-color: white;
+  padding: 3rem;
+  text-align: center;
+  border-radius: 12px;
+  color: #666;
+  font-style: italic;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
