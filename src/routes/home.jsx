@@ -1,7 +1,10 @@
-export default function Home () {
-    return (
-        <div className=" flex flex-col bg-[#1E1E1E] max-h-screen">            
-        </div>
-    );
-}
+"use client"
+import Clock from "../components/UI/Clock"
 
+export default function Home() {
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-center">
+      <Clock />
+    </div>
+  );
+}

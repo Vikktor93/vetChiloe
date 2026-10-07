@@ -1,16 +1,39 @@
 // routes/Landing.jsx
-import GradientBorderButton from '../components/GradientButton';
-
+import GradientBorderButton from "../components/UI/GradientButton";
+import DotGrid from "../components/UI/DotGrid";
 function Landing() {
   return (
-    <main className='font-poppins flex flex-col w-full max-h-screen min-h-screen justify-center items-center landing-page'>
-      <div className='flex flex-col mb-7 justify-around'>
-        <h1 className='text-6xl font-bold text-[#ffff]'>VetChiloe</h1>
-        <h2 className='text-5xl font-bold text-[#ffff]'>Sistema De informacion</h2>
+    <main className="font-poppins relative w-full min-h-screen max-h-screen overflow-hidden landing-page">
+      {/* Grilla de puntos */}
+      <div className="absolute inset-0 z-0">
+        <DotGrid
+          dotSize={5}
+          gap={15}
+          baseColor="#2F293A"
+          activeColor="#5227FF"
+          proximity={120}
+          shockRadius={250}
+          shockStrength={5}
+          resistance={750}
+          returnDuration={1.5}
+        />
       </div>
-      <GradientBorderButton link={"home"} buttonText='Ingresar' />
+
+      {/* Texto Principal */}
+      <div className="relative z-10 flex flex-col w-full min-h-screen justify-center items-center pointer-events-none">
+        <div className="flex flex-col mb-7 justify-around text-center">
+          <h1 className="text-6xl font-bold text-white">VetChiloe</h1>
+          <h2 className="text-5xl font-bold text-white">
+            Sistema De información
+          </h2>
+        </div>
+
+        {/* El botón sí necesita recibir clics */}
+        <div className="pointer-events-auto">
+          <GradientBorderButton link="home" buttonText="Ingresar" />
+        </div>
+      </div>
     </main>
   );
 }
-
-export default Landing;   
+export default Landing;

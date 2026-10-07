@@ -1,3 +1,4 @@
+"use client"
 import { useAnimationFrame } from "motion/react";
 import { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -7,7 +8,9 @@ export default function GradientBorderButton({
   animationDuration = 3,
   borderWidth = 2,
   glowColor = "#FFFFFF",
-  link = null
+  link = null,
+  type = "redirect", // "redirect" | "action"
+  onPress = () => {}
 }) {
   const angle = useRef(0);
   const [deg, setDeg] = useState(0);
@@ -19,6 +22,12 @@ export default function GradientBorderButton({
   });
 
   const gradient = `conic-gradient(from ${deg}deg, #1E1E1E, #4A4A4A, #8A8A8A, #CFCFCF, #FFFFFF, #CFCFCF, #8A8A8A, #4A4A4A, #1E1E1E)`;
+
+  const isRedirect = type === "redirect";
+  const Tag = isRedirect ? NavLink : "button";
+  const tagProps = isRedirect
+    ? { to: `/${link}` }
+    : { type: "button", onClick: onPress };
 
   return (
     <div className="flex items-center justify-center size-full">
@@ -40,8 +49,11 @@ export default function GradientBorderButton({
             padding: `${borderWidth}px`,
           }}
         >
-          {/* Inner button */}
-          <button className="relative rounded-[12px] px-8 py-4 bg-[#0f0f0f] text-white cursor-pointer overflow-hidden group">
+          {/* Inner button (clickeable en toda su área) */}
+          <Tag
+            {...tagProps}
+            className="relative inline-block rounded-[12px] px-8 py-4 bg-[#0f0f0f] text-white cursor-pointer overflow-hidden group"
+          >
             {/* Subtle inner glow on hover */}
             <span
               className="absolute inset-0 rounded-[12px] opacity-0 group-hover:opacity-20 transition-opacity duration-300"
@@ -49,8 +61,8 @@ export default function GradientBorderButton({
                 background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)`,
               }}
             />
-            <NavLink to={`/${link}`} className="relative z-10 tracking-wide">{buttonText}</NavLink>
-          </button>
+            <span className="relative z-10 tracking-wide">{buttonText}</span>
+          </Tag>
         </div>
       </div>
     </div>

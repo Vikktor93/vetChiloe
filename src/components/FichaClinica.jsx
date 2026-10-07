@@ -14,6 +14,7 @@ function FichaClinica({ paciente }) {
   const isAnimatingRef = useRef(false);
 
   const animate = (event) => {
+    if (isFlipped) return;
     isAnimatingRef.current = true;
 
     const rect = event.currentTarget.getBoundingClientRect();
@@ -56,6 +57,13 @@ function FichaClinica({ paciente }) {
     }, 100);
   };
 
+  const flipToBack = () => {
+    isAnimatingRef.current = false;
+    setRotations({ x: 0, y: 0, z: 2 });
+    setGlare({ x: 50, y: 50, opacity: 0 });
+    setIsFlipped(true);
+  };
+
   return (
     <div className="m-16">
       <ReactCardFlip flipDirection="horizontal" isFlipped={isFlipped}>
@@ -63,7 +71,7 @@ function FichaClinica({ paciente }) {
         <motion.div
           onMouseMove={animate}
           onMouseLeave={stopAnimating}
-          onClick={() => setIsFlipped(true)}
+          onClick={flipToBack}
           animate={{
             rotateY: rotations.x,
             rotateX: rotations.y,
@@ -81,6 +89,7 @@ function FichaClinica({ paciente }) {
             transformStyle: "preserve-3d",
             transformOrigin: "center",
             perspective: "600px",
+            backfaceVisibility: "hidden",
             cursor: "pointer",
           }}
           className="relative flex flex-col justify-end p-6 border"
@@ -108,14 +117,12 @@ function FichaClinica({ paciente }) {
             }}
           />
 
-          <div className="relative z-10 text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
-            <h3 className="font-bold text-sm rounded">{paciente.nombre}</h3>
-            <p className="text-[15px] font-bold p-1 rounded">
+          <div className="relative z-10 w-full rounded-md bg-black/60 backdrop-blur-[2px] p-3 text-white">
+            <h3 className="font-bold text-sm">{paciente.nombre}</h3>
+            <p className="text-[15px] font-bold py-1">
               N°: {paciente.numero_atencion}
             </p>
-            <span className="text-[15px] font-bold rounded text-center">
-              Ver Ficha
-            </span>
+            <span className="text-[15px] font-bold">Ver Ficha</span>
           </div>
         </motion.div>
 
@@ -123,10 +130,10 @@ function FichaClinica({ paciente }) {
         <div
           onClick={() => setIsFlipped(false)}
           style={{ width: "288px", height: "384px" }}
-          className="p-6 bg-white cursor-pointer flex flex-col justify-end gap-2 border rounded-lg shadow"
+          className="p-6 bg-white cursor-pointer flex flex-col justify-center items-center gap-2 border rounded-lg shadow"
         >
-          <h3 className="mb-2 font-bold">{paciente.nombre}</h3>
-          <div className="w-full text-xs space-y-1">
+          <h3 className="text-white mb-2 font-bold">{paciente.nombre}</h3>
+          <div className="text-white bg-black/60 rounded-2xl  w-full h-full items-center flex flex-col justify-center text-xs space-y-1">
             <p><strong>Especie:</strong> {paciente.especie}</p>
             <p><strong>Raza:</strong> {paciente.raza}</p>
             <p><strong>Edad:</strong> {paciente.edad}</p>
