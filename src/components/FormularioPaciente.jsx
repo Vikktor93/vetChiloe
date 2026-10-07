@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './FormularioPaciente.css';
-import razasPorEspecie from '../datos/Razas';
+import razasPorEspecie from '../data/Razas';
 
 function FormularioPaciente({ onAgregar }) {
   // datos del paciente
