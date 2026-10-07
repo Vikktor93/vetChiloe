@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './FormularioPaciente.css';
+import razasPorEspecie from '../datos/Razas';
 
 function FormularioPaciente({ onAgregar }) {
   // datos del paciente
@@ -88,23 +89,39 @@ function FormularioPaciente({ onAgregar }) {
 
         <label>
           Especie
-          <input
-            type="text"
-            placeholder="Ej: Pingüino"
+          <select
             value={especie}
-            onChange={(e) => setEspecie(e.target.value)}
+            onChange={(e) => {
+              setEspecie(e.target.value);
+              // al cambiar la especie se borra la raza anterior
+              setRaza('');
+            }}
             required
-          />
+          >
+            <option value="">Selecciona una especie</option>
+            {Object.keys(razasPorEspecie).map((nombreEspecie) => (
+              <option key={nombreEspecie} value={nombreEspecie}>
+                {nombreEspecie}
+              </option>
+            ))}
+          </select>
         </label>
 
         <label>
           Raza
-          <input
-            type="text"
-            placeholder="Ej: Humboldt"
+          <select
             value={raza}
             onChange={(e) => setRaza(e.target.value)}
-          />
+            disabled={especie === ''}
+          >
+            <option value="">Sin especificar</option>
+            {/* solo muestra las razas de la especie elegida */}
+            {especie !== '' && razasPorEspecie[especie].map((nombreRaza) => (
+              <option key={nombreRaza} value={nombreRaza}>
+                {nombreRaza}
+              </option>
+            ))}
+          </select>
         </label>
 
         <label>

@@ -74,7 +74,8 @@
 }
 
 .formulario-paciente input,
-.formulario-paciente textarea {
+.formulario-paciente textarea,
+.formulario-paciente select {
   padding: 10px;
   border: 1.5px solid var(--celeste);
   border-radius: 8px;
@@ -90,7 +91,8 @@
 }
 
 .formulario-paciente input:focus,
-.formulario-paciente textarea:focus {
+.formulario-paciente textarea:focus,
+.formulario-paciente select:focus {
   outline: none;
   border-color: var(--rosa-fuerte);
   background: white;
