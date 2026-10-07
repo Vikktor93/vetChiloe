@@ -1,4 +1,11 @@
 @import "tailwindcss";
+@theme {
+  --font-poppins: "Poppins", system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+.landing-page{
+  background: var(--bg);
+}
 
 :root {
   --text: #6b6375;
@@ -13,15 +20,16 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: var(--font-poppins);
+  --heading: var(--font-poppins);
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 145%;
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
-  background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -36,7 +44,7 @@
   :root {
     --text: #9ca3af;
     --text-h: #f3f4f6;
-    --bg: #16171d;
+    --bg: linear-gradient(to top, #353535 0%,  #FFFDFD 100%);;
     --border: #2e303a;
     --code-bg: #1f2028;
     --accent: #c084fc;
@@ -57,11 +65,9 @@ body {
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
+  width: auto;
   margin: 0 auto;
   text-align: center;
-  border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -71,14 +77,11 @@ body {
 h1,
 h2 {
   font-family: var(--heading);
-  font-weight: 500;
   color: var(--text-h);
 }
 
 h1 {
-  font-size: 56px;
   letter-spacing: -1.68px;
-  margin: 32px 0;
   @media (max-width: 1024px) {
     font-size: 36px;
     margin: 20px 0;
@@ -99,7 +102,7 @@ p {
 
 code,
 .counter {
-  font-family: var(--mono);
+  font-family: var(--sans);
   display: inline-flex;
   border-radius: 4px;
   color: var(--text-h);

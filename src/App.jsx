@@ -1,34 +1,23 @@
-import { useState } from 'react';
-import FichaClinica from './components/FichaClinica';
-import FormularioPaciente from './components/FormularioPaciente';
-
+// App.jsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Landing from './routes/landing'; 
+import Home from './routes/home';
+import Layout from './layout/layout';
+import Pacientes from './routes/pacientes';
 function App() {
-  const [pacientes, setPacientes] = useState(null);
-
   return (
-    <div >
-      <header >
-        <h1>Sistema de Información - Veterinaria Chiloé</h1>
-        <p>Plataforma de control y seguimiento de pacientes</p>
-      </header>
-
-      <main>
-        <h2>Lista de Pacientes Registrados</h2>
-        <div className="mt-52 w-full gap-4 justify-center items-center flex flex-row">
-          {pacientes === null ? (
-            <FormularioPaciente onSubmit={(paciente) => setPacientes([paciente])} />
-          ) : (
-            pacientes.map((paciente, index) => (
-              <FichaClinica
-                key={`${paciente.nombre}-${index}`}
-                paciente={{ ...paciente, numero_atencion: index + 1 }}
-              />
-            ))
-          )}
-        </div>
-      </main>
-    </div>
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/home" element={<Layout />} >
+          <Route index element={<Home />} />
+        </Route>
+        <Route path="/pacientes" element={<Layout />} >
+          <Route index element={<Pacientes />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App;
+export default App;   
