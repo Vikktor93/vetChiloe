@@ -1,54 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import FichaClinica from './components/FichaClinica';
 import FormularioPaciente from './components/FormularioPaciente';
 
 function App() {
-  const [pacientes, setPacientes] = useState([
+  // carga los pacientes guardados en el navegador, si no hay parte vacio
+  const [pacientes, setPacientes] = useState(() => {
+    const guardados = localStorage.getItem('pacientes');
+    return guardados ? JSON.parse(guardados) : [];
+  });
 
-  {
-    id: 1,
-    nombre: 'Poi',
-    numero_atencion: '2026-A1',
-    especie: 'Pingüino',
-    raza: 'Humboldt',
-    edad: 4,
-    foto: '/pacientes/Humboldt.jpg',   // Poi,
-    diagnostico: 'Herida en aleta derecha.',
-    historial: [
-      { fecha: '20-09-2026', motivo: 'Ingreso', detalle: 'Rescatado en playa de Ancud.' },
-      { fecha: '21-09-2026', motivo: 'Curación', detalle: 'Limpieza y vendaje de aleta.' }
-    ]
-  },
-  { id: 2,
-    nombre: 'Abeguin',
-    numero_atencion: '2026-B2',
-    especie: 'Pingüino',
-    raza: 'Adelia',
-    edad: 2,
-    foto: '/pacientes/Adelia.jpg',     // Abeguin,
-    diagnostico: 'Herida en aleta izquierda.',
-    historial: [
-      { fecha: '18-09-2026', motivo: 'Ingreso', detalle: 'Rescatado en Pinguineras de Puñihuil.' },
-      { fecha: '21-09-2026', motivo: 'Curación', detalle: 'Limpieza.' }
-    ]
-  },
-  { id: 3,
-    nombre: 'Raneguin',
-    numero_atencion: '2026-C3',
-    especie: 'Pingüino',
-    raza: 'Barbijo',
-    edad: 6,
-    foto: '/pacientes/Barbijo.jpg',    // Raneguin,
-    diagnostico: 'Herido en ojo derecho.',
-    historial: [
-      { fecha: '23-08-2026', motivo: 'Ingreso', detalle: 'Rescatado en Pinguineras de Puñihuil.' },
-      { fecha: '21-09-2026', motivo: 'Curación', detalle: 'Desinfectacion.' }
-    ]
-  }  
-]);
- // controla si el formulario se ve o no
+  // controla si el formulario se ve o no
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  // guarda el paciente que se quiere eliminar, null si no hay ninguno
+  const [pacientePorEliminar, setPacientePorEliminar] = useState(null);
+
+  // cada vez que cambia la lista se vuelve a guardar
+  useEffect(() => {
+    try {
+      localStorage.setItem('pacientes', JSON.stringify(pacientes));
+    } catch (error) {
+      alert('No queda espacio para guardar. Elimina pacientes o usa fotos mas livianas.');
+    }
+  }, [pacientes]);
 
   const agregarPaciente = (datosPaciente) => {
     // fecha de hoy
@@ -66,8 +40,14 @@ function App() {
     setPacientes([...pacientes, nuevoPaciente]);
     // oculta el formulario despues de registrar
     setMostrarFormulario(false);
+  };
 
-};
+  const confirmarEliminar = () => {
+    // deja en la lista a todos menos al paciente elegido
+    setPacientes(pacientes.filter((paciente) => paciente.id !== pacientePorEliminar.id));
+    setPacientePorEliminar(null);
+  };
+
   return (
     <div className="contenedor-principal">
       <header className="cabecera">
@@ -77,29 +57,54 @@ function App() {
 
       <main>
         <h2>Lista de Pacientes Registrados</h2>
-          {/* cambia entre mostrar y ocultar el formulario */}
-          <button
-            className="boton-agregar"
-            onClick={() => setMostrarFormulario(!mostrarFormulario)}
-          >
-            {mostrarFormulario ? 'Cancelar' : 'Agregar paciente'}
-          </button>
+        {/* cambia entre mostrar y ocultar el formulario */}
+        <button
+          className="boton-agregar"
+          onClick={() => setMostrarFormulario(!mostrarFormulario)}
+        >
+          {mostrarFormulario ? 'Cancelar' : 'Agregar paciente'}
+        </button>
 
-          {/* el formulario solo se dibuja si mostrarFormulario es true */}
-          {mostrarFormulario && <FormularioPaciente onAgregar={agregarPaciente} />}
+        {/* el formulario solo se dibuja si mostrarFormulario es true */}
+        {mostrarFormulario && <FormularioPaciente onAgregar={agregarPaciente} />}
+
+        {/* mensaje para cuando todavia no hay nadie registrado */}
+        {pacientes.length === 0 && (
+          <p className="sin-pacientes">Aún no hay pacientes registrados.</p>
+        )}
 
         <div className="cuadricula-tarjetas">
-          
           {/* en esta parte utilizamos el componente y le pasamos los datos mediante la prop "paciente" */}
           {pacientes.map((pacienteIterado) => (
-            <FichaClinica 
-              key={pacienteIterado.id} 
-              paciente={pacienteIterado} 
+            <FichaClinica
+              key={pacienteIterado.id}
+              paciente={pacienteIterado}
+              onEliminar={setPacientePorEliminar}
             />
           ))}
-          
         </div>
       </main>
+
+      {/* ventana de confirmacion, solo aparece si hay un paciente por eliminar */}
+      {pacientePorEliminar && (
+        <div className="fondo-ventana">
+          <div className="ventana">
+            <h3>Eliminar paciente</h3>
+            <p>
+              ¿Seguro que quieres eliminar a <strong>{pacientePorEliminar.nombre}</strong>?
+              Esta acción no se puede deshacer.
+            </p>
+            <div className="ventana-botones">
+              <button className="boton-cancelar" onClick={() => setPacientePorEliminar(null)}>
+                Cancelar
+              </button>
+              <button className="boton-confirmar" onClick={confirmarEliminar}>
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

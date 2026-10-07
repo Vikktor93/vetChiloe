@@ -5,7 +5,7 @@ const ReactCardFlip = ReactCardFlipModule.default ?? ReactCardFlipModule;
 import TarjetaPaciente from './TarjetaPaciente';
 
 function FichaClinica(props) {
-  const { paciente } = props;
+  const { paciente, onEliminar } = props;
   const [volteada, setVolteada] = useState(false);
 
   const girar = () => {
@@ -46,6 +46,9 @@ function FichaClinica(props) {
         </ul>
 
         <button onClick={girar}>Volver</button>
+        <button className="boton-eliminar" onClick={() => onEliminar(paciente)}>
+          Eliminar paciente
+        </button>
       </div>
     </ReactCardFlip>
   );

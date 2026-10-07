@@ -18,14 +18,25 @@ function FormularioPaciente({ onAgregar }) {
   const [correo, setCorreo] = useState('');
 
   // crea una direccion temporal para poder mostrar la foto elegida
+  // convierte la foto a texto para poder guardarla en el navegador
   const manejarFoto = (e) => {
     const archivo = e.target.files[0];
-    if (archivo) {
-      setFoto(URL.createObjectURL(archivo));
-      setNombreFoto(archivo.name);
-    }
     // permite volver a elegir la misma foto despues de quitarla
     e.target.value = '';
+
+    if (archivo) {
+      if (archivo.size > 1024 * 1024) {
+        alert('La foto debe pesar menos de 1 MB.');
+        return;
+      }
+
+      const lector = new FileReader();
+      lector.onload = () => {
+        setFoto(lector.result);
+        setNombreFoto(archivo.name);
+      };
+      lector.readAsDataURL(archivo);
+    }
   };
 
   const quitarFoto = () => {
@@ -178,9 +189,13 @@ function FormularioPaciente({ onAgregar }) {
           Teléfono
           <input
             type="tel"
-            placeholder="Ej: 9 1234 5678"
+            placeholder="Ej: 912345678"
+            maxLength="9"
+            pattern="9[0-9]{8}"
+            title="Debe tener 9 digitos y empezar con 9"
             value={telefono}
-            onChange={(e) => setTelefono(e.target.value)}
+            // borra todo lo que no sea numero mientras se escribe
+            onChange={(e) => setTelefono(e.target.value.replace(/\D/g, ''))}
             required
           />
         </label>
@@ -190,6 +205,8 @@ function FormularioPaciente({ onAgregar }) {
           <input
             type="email"
             placeholder="Ej: camila@correo.cl"
+            pattern="[^@\s]+@[^@\s]+\.[a-z]{2,}"
+            title="Escribe un correo completo, por ejemplo nombre@correo.cl"
             value={correo}
             onChange={(e) => setCorreo(e.target.value)}
           />

@@ -37,3 +37,8 @@
   justify-content: center;
   gap: 24px;
 }
+.ficha-reverso .boton-eliminar {
+  margin-top: 8px;
+  background: white;
+  border: 1.5px solid var(--rosa-fuerte);
+}
