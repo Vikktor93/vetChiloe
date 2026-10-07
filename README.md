@@ -10,14 +10,14 @@ El propósito principal de este repositorio es pedagógico. Busca enseñar a los
 ## 🚀 Stack Tecnológico
 
 **Frontend (Fase Actual):**
-* **Librería Core:** React + Vite
+* **Librería Core:** [React](https://es.react.dev/) + [Vite](https://vite.dev/)
 * **Estilos:** CSS3 Nativo (Arquitectura de Co-ubicación)
-* **Animaciones:** Framer Motion (para interacciones 3D nativas)
+* **Animaciones:** [Framer Motion](https://motion.dev/) (para interacciones 3D nativas)
 
 **Backend & Datos (Planificado):**
-* **Entorno de Ejecución:** Node.js
-* **Framework:** Express.js
-* **Base de Datos:** PostgreSQL
+* **Entorno de Ejecución:** [Node.js](https://nodejs.org/en)
+* **Framework:** [Express.js](https://expressjs.com/)
+* **Base de Datos:** [PostgreSQL](https://www.postgresql.org/)
 
 ## ✨ Funcionalidades Principales (UI/UX)
 * **Dashboard Interactivo:** Vista principal con una tabla de datos estructurada y responsiva para el escaneo rápido de pacientes registrados.
@@ -79,14 +79,14 @@ npm run dev
 ```
 
 ## 🗺️ Roadmap del Proyecto
-- [x] Fase 1: Configuración inicial (Vite) y componentización estática.
-- [x] Fase 2: Integración de bibliotecas (Framer Motion) e interacciones 3D.
+- [x] Fase 1: Configuración inicial ([Vite](https://vite.dev/)) y componentización estática.
+- [x] Fase 2: Integración de bibliotecas ( [Framer Motion](https://motion.dev/)) e interacciones 3D.
 - [x] Fase 3: Levantamiento de estado, formularios controlados y renderizado de tablas.
 - [ ] Fase 4: Mejoras de UX (Búsqueda en tiempo real, validaciones, Empty States, Skeleton Loaders).
-- [ ] Fase 5: Desarrollo de API RESTful con Node.js y Express.
-- [ ] Fase 6: Modelado y conexión a base de datos relacional (PostgreSQL).
+- [ ] Fase 5: Desarrollo de API RESTful con [Node.js](https://nodejs.org/en) y [Express.js](https://expressjs.com/).
+- [ ] Fase 6: Modelado y conexión a base de datos relacional ([PostgreSQL](https://www.postgresql.org/)).
 
 ## 📄 Licencia
-Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
 
 Nota: Al ser una licencia MIT, los estudiantes son libres de utilizar, modificar y distribuir este código como base para sus futuros proyectos personales o portafolios profesionales.
