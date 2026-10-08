@@ -1,12 +1,13 @@
 import FlipCard from './FlipCard'; // este es el componente de animación
+import FotoMascota from './FotoMascota';
 import './FichaClinica.css'; 
 
 function FichaClinica({ paciente }) {
   // lo que se verá en la parte frontal
   const vistaFrontal = (
     <div className="tarjeta-cara frontal">
-      <img 
-        src={paciente.foto} 
+      <FotoMascota
+        src={paciente.foto}
         alt={`Foto de ${paciente.nombre}`} 
         className="foto-paciente" 
       />
@@ -22,9 +23,15 @@ function FichaClinica({ paciente }) {
       <div className="datos-lista">
         <p><strong>N° Atención:</strong> {paciente.numero_atencion}</p>
         <p><strong>Edad:</strong> {paciente.edad}</p>
+        <p><strong>Peso:</strong> {paciente.peso ? `${paciente.peso} kg` : 'Sin registro'}</p>
         <hr />
         <p><strong>Diagnóstico:</strong></p>
         <p className="texto-diagnostico">{paciente.diagnostico}</p>
+        <hr />
+        <h3>Datos del dueño</h3>
+        <p><strong>Nombre:</strong> {paciente.dueno?.nombre || 'Sin registro'}</p>
+        <p><strong>RUT:</strong> {paciente.dueno?.rut || 'Sin registro'}</p>
+        <p><strong>Teléfono:</strong> {paciente.dueno?.telefono || 'Sin registro'}</p>
       </div>
     </div>
   );
