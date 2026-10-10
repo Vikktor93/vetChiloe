@@ -59,28 +59,29 @@ function App() {
       </header>
 
       <main>
-        <h2>Lista de Pacientes Registrados</h2>
-        <button
-          className="boton-agregar"
-          onClick={() => setMostrarFormulario(true)}
-        >
-          Agregar paciente
-        </button>
+       <h2>Lista de Pacientes Registrados</h2>
+      <button
+        className="boton-flotante"
+        onClick={() => setMostrarFormulario(true)}
+        title="Agregar paciente"
+      >
+        +
+      </button>
 
-        {/* el formulario se abre como ventana encima de la pagina */}
-        {mostrarFormulario && (
-          <div className="fondo-ventana">
-            <div className="ventana-formulario">
-              <button
-                className="boton-cerrar"
-                onClick={() => setMostrarFormulario(false)}
-              >
-                ✕
-              </button>
-              <FormularioPaciente onAgregar={agregarPaciente} />
-            </div>
+      {/* el formulario se abre como ventana encima de la pagina */}
+      {mostrarFormulario && (
+        <div className="fondo-ventana">
+          <div className="ventana-formulario">
+            <button
+              className="boton-cerrar"
+              onClick={() => setMostrarFormulario(false)}
+            >
+              ✕
+            </button>
+            <FormularioPaciente onAgregar={agregarPaciente} />
           </div>
-        )}
+        </div>
+      )}
 
         {/* mensaje para cuando todavia no hay nadie registrado */}
         {pacientes.length === 0 && (
