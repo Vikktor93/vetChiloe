@@ -8,7 +8,7 @@ import TablaPacientes from './components/TablaPacientes';
 function App() {
   // carga los pacientes guardados en el navegador, si no hay parte vacio
   const [pacientes, setPacientes] = useState(() => {
-  const guardados = localStorage.getItem('pacientes');
+    const guardados = localStorage.getItem('pacientes');
     return guardados ? JSON.parse(guardados) : [];
   });
 
@@ -56,6 +56,25 @@ function App() {
     setPacienteCarnet(null);
   };
 
+  const darDeAlta = (pacienteAlta) => {
+    const hoy = new Date().toLocaleDateString('es-CL');
+
+    // recorre la lista y solo cambia al paciente elegido
+    setPacientes(pacientes.map((paciente) =>
+      paciente.id === pacienteAlta.id
+        ? {
+            ...paciente,
+            alta: true,
+            historial: [
+              ...paciente.historial,
+              { fecha: hoy, motivo: 'Alta', detalle: 'Paciente dado de alta.' }
+            ]
+          }
+        : paciente
+    ));
+    setPacienteCarnet(null);
+  };
+
   return (
     <div className="contenedor-principal">
       <header className="cabecera">
@@ -64,55 +83,62 @@ function App() {
       </header>
 
       <main>
-       <h2>Lista de Pacientes Registrados</h2>
-      <button
-        className="boton-flotante"
-        onClick={() => setMostrarFormulario(true)}
-        title="Agregar paciente"
-      >
-        +
-      </button>
+        <h2>Lista de Pacientes Registrados</h2>
+        <button
+          className="boton-flotante"
+          onClick={() => setMostrarFormulario(true)}
+          title="Agregar paciente"
+        >
+          +
+        </button>
 
-      {/* el formulario se abre como ventana encima de la pagina */}
-      {mostrarFormulario && (
-        <div className="fondo-ventana">
-          <div className="ventana-formulario">
-            <button
-              className="boton-cerrar"
-              onClick={() => setMostrarFormulario(false)}
-            >
-              ✕
-            </button>
-            <FormularioPaciente onAgregar={agregarPaciente} />
+        {/* el formulario se abre como ventana encima de la pagina */}
+        {mostrarFormulario && (
+          <div className="fondo-ventana">
+            <div className="ventana-formulario">
+              <button
+                className="boton-cerrar"
+                onClick={() => setMostrarFormulario(false)}
+              >
+                ✕
+              </button>
+              <FormularioPaciente onAgregar={agregarPaciente} />
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
         {/* mensaje para cuando todavia no hay nadie registrado */}
         {pacientes.length === 0 && (
           <p className="sin-pacientes">Aún no hay pacientes registrados.</p>
         )}
 
-          {pacientes.length > 0 && (
-            <TablaPacientes pacientes={pacientes} onVerFicha={setPacienteCarnet} />
-           )}
-
-      </main>
-        {/* ventana con el carnet giratorio del paciente */}
-        {pacienteCarnet && (
-          <div className="fondo-ventana">
-            <div className="ventana-carnet">
-              <button className="boton-cerrar" onClick={() => setPacienteCarnet(null)}>
-                ✕
-              </button>
-              <FichaClinica
-                paciente={pacienteCarnet}
-                onEliminar={setPacientePorEliminar}
-                onVerDetalle={setPacienteDetalle}
-              />
-            </div>
-          </div>
+        {/* la tabla solo aparece si hay pacientes */}
+        {pacientes.length > 0 && (
+          <TablaPacientes
+            pacientes={pacientes}
+            onVerFicha={setPacienteCarnet}
+            onVerDetalle={setPacienteDetalle}
+            onEliminar={setPacientePorEliminar}
+          />
         )}
+      </main>
+
+      {/* ventana con el carnet giratorio del paciente */}
+      {pacienteCarnet && (
+        <div className="fondo-ventana">
+          <div className="ventana-carnet">
+            <button className="boton-cerrar" onClick={() => setPacienteCarnet(null)}>
+              ✕
+            </button>
+            <FichaClinica
+              paciente={pacienteCarnet}
+              onEliminar={setPacientePorEliminar}
+              onDarDeAlta={darDeAlta}
+            />
+          </div>
+        </div>
+      )}
+
       {/* ventana con el detalle completo del paciente */}
       {pacienteDetalle && (
         <DetallePaciente

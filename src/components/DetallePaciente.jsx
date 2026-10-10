@@ -3,6 +3,8 @@ import './DetallePaciente.css';
 function DetallePaciente({ paciente, onCerrar }) {
   // busca en el historial todas las veces que el paciente ha ingresado
   const ingresos = paciente.historial.filter((registro) => registro.motivo === 'Ingreso');
+  // busca el registro del alta para sacar la fecha
+  const registroAlta = paciente.historial.find((registro) => registro.motivo === 'Alta');
 
   return (
     <div className="fondo-ventana">
@@ -11,6 +13,15 @@ function DetallePaciente({ paciente, onCerrar }) {
 
         <h3>Detalle de {paciente.nombre}</h3>
         <p className="detalle-numero">N° atención {paciente.numero_atencion}</p>
+
+        {/* muestra si el paciente sigue en tratamiento o ya fue dado de alta */}
+        {paciente.alta ? (
+          <p className="estado estado-alta">
+            Dado de alta{registroAlta && ` el ${registroAlta.fecha}`}
+          </p>
+        ) : (
+          <p className="estado estado-tratamiento">En tratamiento</p>
+        )}
 
         <h4>Datos del paciente</h4>
         <p><strong>Especie:</strong> {paciente.especie}</p>

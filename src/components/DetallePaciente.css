@@ -41,3 +41,20 @@
   margin: 0;
   padding-left: 18px;
 }
+.estado {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.estado-alta {
+  background: #d9f2e1;
+  color: #1f7a45;
+}
+
+.estado-tratamiento {
+  background: var(--rosa-claro);
+  color: var(--rosa-fuerte);
+}

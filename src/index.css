@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
 :root {
   --rosa: #f8a5c2;
   --rosa-fuerte: #e56b9a;
@@ -8,7 +10,14 @@
   --texto: #3d3a4b;
   --texto-suave: #7a7589;
 
-  font: 18px/145% system-ui, 'Segoe UI', Roboto, sans-serif;
+  --fuente: 'Nunito', system-ui, sans-serif;
+
+  --texto-chico: 13px;
+  --texto-normal: 18px;
+  --texto-grande: 24px;
+  --texto-titulo: 44px;
+
+  font: var(--texto-normal)/145% var(--fuente);
   color: var(--texto);
 }
 
@@ -29,18 +38,18 @@ body {
 
 h1,
 h2 {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--texto);
 }
 
 h1 {
-  font-size: 44px;
+  font-size: var(--texto-titulo);
   line-height: 115%;
   margin: 0 0 8px;
 }
 
 h2 {
-  font-size: 24px;
+  font-size: var(--texto-grande);
   margin: 0 0 16px;
 }
 

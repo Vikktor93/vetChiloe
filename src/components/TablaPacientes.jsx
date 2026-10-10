@@ -9,7 +9,7 @@ function claseEspecie(especie) {
   return 'badge badge-otro';
 }
 
-function TablaPacientes({ pacientes, onVerFicha }) {
+function TablaPacientes({ pacientes, onVerFicha, onVerDetalle, onEliminar }) {
   return (
     <div className="contenedor-tabla">
       <table className="tabla-pacientes">
@@ -27,7 +27,13 @@ function TablaPacientes({ pacientes, onVerFicha }) {
           {/* una fila por cada paciente */}
           {pacientes.map((paciente) => (
             <tr key={paciente.id}>
-              <td>{paciente.nombre}</td>
+              <td>
+                {/* foto pequeña al lado del nombre */}
+                <div className="celda-nombre">
+                  <img className="foto-mini" src={paciente.foto} alt={paciente.nombre} />
+                  {paciente.nombre}
+                </div>
+              </td>
               <td>{paciente.numero_atencion}</td>
               <td>
                 <span className={claseEspecie(paciente.especie)}>
@@ -37,9 +43,21 @@ function TablaPacientes({ pacientes, onVerFicha }) {
               <td>{paciente.edad}</td>
               <td>{paciente.diagnostico}</td>
               <td>
-                <button className="boton-carnet" onClick={() => onVerFicha(paciente)}>
-                  Ver Carnet
-                </button>
+                <div className="acciones">
+                  <button className="boton-carnet" onClick={() => onVerFicha(paciente)}>
+                    Ver Carnet
+                  </button>
+                  <button className="boton-detalle" onClick={() => onVerDetalle(paciente)}>
+                    Ver Detalle
+                  </button>
+                  <button
+                    className="boton-eliminar-mini"
+                    onClick={() => onEliminar(paciente)}
+                    title="Eliminar paciente"
+                  >
+                    🗑️
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

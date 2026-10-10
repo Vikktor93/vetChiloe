@@ -5,7 +5,7 @@ const ReactCardFlip = ReactCardFlipModule.default ?? ReactCardFlipModule;
 import TarjetaPaciente from './TarjetaPaciente';
 
 function FichaClinica(props) {
-  const { paciente, onEliminar, onVerDetalle } = props;
+  const { paciente, onEliminar, onDarDeAlta } = props;
   const [volteada, setVolteada] = useState(false);
 
   const girar = () => {
@@ -34,8 +34,13 @@ function FichaClinica(props) {
           <p>Sin dueño registrado</p>
         )}
 
-        <button className="boton-ver-detalle" onClick={() => onVerDetalle(paciente)}>
-          Detalle
+        {/* si ya fue dado de alta el boton queda desactivado */}
+        <button
+          className="boton-ver-detalle"
+          onClick={() => onDarDeAlta(paciente)}
+          disabled={paciente.alta}
+        >
+          {paciente.alta ? 'Dado de alta' : 'Dar de alta'}
         </button>
         <button onClick={girar}>Volver</button>
         <button className="boton-eliminar" onClick={() => onEliminar(paciente)}>
