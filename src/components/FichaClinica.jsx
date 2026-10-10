@@ -5,7 +5,7 @@ const ReactCardFlip = ReactCardFlipModule.default ?? ReactCardFlipModule;
 import TarjetaPaciente from './TarjetaPaciente';
 
 function FichaClinica(props) {
-  const { paciente, onEliminar, onDarDeAlta } = props;
+  const { paciente, onDarDeAlta } = props;
   const [volteada, setVolteada] = useState(false);
 
   const girar = () => {
@@ -16,7 +16,7 @@ function FichaClinica(props) {
     <ReactCardFlip isFlipped={volteada} flipDirection="horizontal">
       <TarjetaPaciente paciente={paciente} onVerFicha={girar} />
 
-      <div className="ficha-reverso">
+      <div className="ficha-reverso con-scroll">
         <h3>Ficha de {paciente.nombre}</h3>
 
         <p><strong>N° atención:</strong> {paciente.numero_atencion}</p>
@@ -36,16 +36,13 @@ function FichaClinica(props) {
 
         {/* si ya fue dado de alta el boton queda desactivado */}
         <button
-          className="boton-ver-detalle"
+          className="boton-alta"
           onClick={() => onDarDeAlta(paciente)}
           disabled={paciente.alta}
         >
           {paciente.alta ? 'Dado de alta' : 'Dar de alta'}
         </button>
         <button onClick={girar}>Volver</button>
-        <button className="boton-eliminar" onClick={() => onEliminar(paciente)}>
-          Eliminar paciente
-        </button>
       </div>
     </ReactCardFlip>
   );

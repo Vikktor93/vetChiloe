@@ -71,7 +71,7 @@ function FormularioPaciente({ onAgregar }) {
   return (
     <form className="formulario-paciente" onSubmit={manejarEnvio}>
       <div className="encabezado-formulario">
-        <span className="etiqueta-superior">Nuevo ingreso</span>
+        <span className="etiqueta etiqueta-superior">Nuevo ingreso</span>
         <h2>Registrar paciente</h2>
         <p>Completa los datos de la mascota y de su dueño.</p>
       </div>

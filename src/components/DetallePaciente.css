@@ -3,15 +3,12 @@
   width: 100%;
   max-width: 520px;
   max-height: 90vh;
-  overflow-y: auto;
   box-sizing: border-box;
   padding: 28px;
-  border-radius: 18px;
+  border-radius: var(--radio);
   border-top: 6px solid var(--celeste);
   background: white;
   text-align: left;
-  scrollbar-width: thin;
-  scrollbar-color: var(--rosa) transparent;
 }
 
 .detalle h3 {
@@ -21,7 +18,6 @@
 
 .detalle-numero {
   color: var(--texto-suave);
-  font-size: 14px;
 }
 
 .detalle h4 {
@@ -29,29 +25,23 @@
   padding-left: 8px;
   border-left: 4px solid var(--rosa);
   color: var(--celeste-fuerte);
-  font-size: 15px;
+  font-size: var(--texto-pequeno);
 }
 
 .detalle p,
 .detalle li {
-  font-size: 15px;
+  font-size: var(--texto-pequeno);
 }
 
 .detalle ul {
   margin: 0;
   padding-left: 18px;
 }
-.estado {
-  display: inline-block;
-  padding: 4px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: bold;
-}
 
+/* colores de la etiqueta segun el estado del paciente */
 .estado-alta {
-  background: #d9f2e1;
-  color: #1f7a45;
+  background: var(--verde-claro);
+  color: var(--verde);
 }
 
 .estado-tratamiento {

@@ -7,15 +7,21 @@
   --celeste: #8ecae6;
   --celeste-fuerte: #3a8fb7;
   --celeste-claro: #e3f4fb;
+  --verde: #1f7a45;
+  --verde-claro: #d9f2e1;
   --texto: #3d3a4b;
   --texto-suave: #7a7589;
 
   --fuente: 'Nunito', system-ui, sans-serif;
 
   --texto-chico: 13px;
+  --texto-pequeno: 15px;
   --texto-normal: 18px;
   --texto-grande: 24px;
   --texto-titulo: 44px;
+
+  --radio: 18px;
+  --radio-pastilla: 999px;
 
   font: var(--texto-normal)/145% var(--fuente);
   color: var(--texto);
@@ -55,4 +61,26 @@ h2 {
 
 p {
   margin: 0;
+}
+
+/* todos los botones usan la letra de la pagina y la manito */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* barra de scroll delgada y rosa para las ventanas */
+.con-scroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rosa) transparent;
+}
+
+/* forma comun de las etiquetas de colores */
+.etiqueta {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: var(--radio-pastilla);
+  font-size: var(--texto-chico);
+  font-weight: bold;
 }

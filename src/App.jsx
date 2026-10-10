@@ -52,8 +52,6 @@ function App() {
     // deja en la lista a todos menos al paciente elegido
     setPacientes(pacientes.filter((paciente) => paciente.id !== pacientePorEliminar.id));
     setPacientePorEliminar(null);
-    // cierra el carnet del paciente eliminado
-    setPacienteCarnet(null);
   };
 
   const darDeAlta = (pacienteAlta) => {
@@ -95,7 +93,7 @@ function App() {
         {/* el formulario se abre como ventana encima de la pagina */}
         {mostrarFormulario && (
           <div className="fondo-ventana">
-            <div className="ventana-formulario">
+            <div className="ventana-formulario con-scroll">
               <button
                 className="boton-cerrar"
                 onClick={() => setMostrarFormulario(false)}
@@ -132,7 +130,6 @@ function App() {
             </button>
             <FichaClinica
               paciente={pacienteCarnet}
-              onEliminar={setPacientePorEliminar}
               onDarDeAlta={darDeAlta}
             />
           </div>

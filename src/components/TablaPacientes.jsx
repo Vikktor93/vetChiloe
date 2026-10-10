@@ -1,12 +1,12 @@
 import './TablaPacientes.css';
 
-// devuelve la clase del badge segun la especie
+// devuelve la clase de la etiqueta segun la especie
 function claseEspecie(especie) {
   const texto = especie.toLowerCase();
-  if (texto.includes('felino') || texto.includes('gato')) return 'badge badge-felino';
-  if (texto.includes('canino') || texto.includes('perro')) return 'badge badge-canino';
-  if (texto.includes('ave') || texto.includes('ping')) return 'badge badge-ave';
-  return 'badge badge-otro';
+  if (texto.includes('felino') || texto.includes('gato')) return 'etiqueta badge-felino';
+  if (texto.includes('canino') || texto.includes('perro')) return 'etiqueta badge-canino';
+  if (texto.includes('ave') || texto.includes('ping')) return 'etiqueta badge-ave';
+  return 'etiqueta badge-otro';
 }
 
 function TablaPacientes({ pacientes, onVerFicha, onVerDetalle, onEliminar }) {

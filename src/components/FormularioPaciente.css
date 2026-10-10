@@ -3,7 +3,7 @@
   margin: 0 auto 32px;
   padding: 32px;
   box-sizing: border-box;
-  border-radius: 18px;
+  border-radius: var(--radio);
   border-top: 6px solid var(--rosa);
   background: white;
   box-shadow: 0 8px 24px rgba(229, 107, 154, 0.18);
@@ -20,13 +20,8 @@
 }
 
 .etiqueta-superior {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 999px;
   background: var(--celeste-claro);
   color: var(--celeste-fuerte);
-  font-size: 12px;
-  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -37,7 +32,7 @@
 
 .encabezado-formulario p {
   color: var(--texto-suave);
-  font-size: 14px;
+  font-size: var(--texto-pequeno);
 }
 
 .formulario-paciente .titulo-seccion {
@@ -45,7 +40,7 @@
   padding-left: 10px;
   border-left: 4px solid var(--rosa);
   color: var(--celeste-fuerte);
-  font-size: 15px;
+  font-size: var(--texto-pequeno);
   text-transform: uppercase;
 }
 
@@ -64,7 +59,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 14px;
+  font-size: var(--texto-pequeno);
   font-weight: bold;
   color: var(--texto);
 }
@@ -139,7 +134,7 @@
 
 .vista-previa span {
   flex: 1;
-  font-size: 14px;
+  font-size: var(--texto-pequeno);
   word-break: break-all;
 }
 
@@ -150,19 +145,17 @@
   background: var(--rosa-claro);
   color: var(--rosa-fuerte);
   font-weight: bold;
-  cursor: pointer;
 }
 
 .boton-registrar {
   margin-top: 8px;
   padding: 12px;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--radio-pastilla);
   background: var(--rosa-fuerte);
   color: white;
-  font-size: 15px;
+  font-size: var(--texto-pequeno);
   font-weight: bold;
-  cursor: pointer;
 }
 
 .boton-registrar:hover {

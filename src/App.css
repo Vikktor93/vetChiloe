@@ -1,7 +1,7 @@
 .cabecera {
   margin: 24px 0 32px;
   padding: 32px 24px;
-  border-radius: 20px;
+  border-radius: var(--radio);
   background: white;
   border-bottom: 5px solid var(--rosa);
   box-shadow: 0 6px 18px rgba(229, 107, 154, 0.15);
@@ -15,6 +15,11 @@
   color: var(--texto-suave);
 }
 
+.sin-pacientes {
+  color: var(--texto-suave);
+}
+
+/* boton redondo fijo en la esquina para agregar pacientes */
 .boton-flotante {
   position: fixed;
   bottom: 24px;
@@ -27,7 +32,6 @@
   color: white;
   font-size: 28px;
   font-weight: bold;
-  cursor: pointer;
   box-shadow: 0 4px 12px rgba(58, 143, 183, 0.3);
   z-index: 50;
 }
@@ -35,9 +39,8 @@
 .boton-flotante:hover {
   opacity: 0.9;
 }
-.sin-pacientes {
-  color: var(--texto-suave);
-}
+
+/* fondo oscuro que usan todas las ventanas */
 .fondo-ventana {
   position: fixed;
   inset: 0;
@@ -47,67 +50,6 @@
   justify-content: center;
   padding: 16px;
   z-index: 100;
-}
-
-.ventana {
-  max-width: 400px;
-  padding: 28px;
-  border-radius: 18px;
-  border-top: 6px solid var(--rosa);
-  background: white;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.ventana h3 {
-  margin: 0 0 8px;
-  color: var(--celeste-fuerte);
-}
-
-.ventana p {
-  color: var(--texto-suave);
-  font-size: 15px;
-}
-
-.ventana-botones {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.ventana-botones button {
-  flex: 1;
-  padding: 10px;
-  border-radius: 999px;
-  font: inherit;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.boton-cancelar {
-  border: 1.5px solid var(--celeste);
-  background: white;
-  color: var(--celeste-fuerte);
-}
-
-.boton-confirmar {
-  border: none;
-  background: var(--rosa-fuerte);
-  color: white;
-}
-.ventana-formulario {
-  position: relative;
-  width: 100%;
-  max-width: 700px;
-  max-height: 90vh;
-  overflow-y: auto;
-  border-radius: 18px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--rosa) transparent;
-}
-
-/* dentro de la ventana el formulario no necesita margen */
-.ventana-formulario .formulario-paciente {
-  margin: 0;
 }
 
 .boton-cerrar {
@@ -121,7 +63,6 @@
   background: var(--rosa-claro);
   color: var(--rosa-fuerte);
   font-weight: bold;
-  cursor: pointer;
 }
 
 .boton-cerrar:hover {
@@ -129,6 +70,67 @@
   color: white;
 }
 
+/* ventana de confirmacion para eliminar */
+.ventana {
+  max-width: 400px;
+  padding: 28px;
+  border-radius: var(--radio);
+  border-top: 6px solid var(--rosa);
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.ventana h3 {
+  margin: 0 0 8px;
+  color: var(--celeste-fuerte);
+}
+
+.ventana p {
+  color: var(--texto-suave);
+  font-size: var(--texto-pequeno);
+}
+
+.ventana-botones {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.ventana-botones button {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radio-pastilla);
+  font: inherit;
+  font-weight: bold;
+}
+
+.boton-cancelar {
+  border: 1.5px solid var(--celeste);
+  background: white;
+  color: var(--celeste-fuerte);
+}
+
+.boton-confirmar {
+  border: none;
+  background: var(--rosa-fuerte);
+  color: white;
+}
+
+/* ventana del formulario de registro */
+.ventana-formulario {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  border-radius: var(--radio);
+}
+
+/* dentro de la ventana el formulario no necesita margen */
+.ventana-formulario .formulario-paciente {
+  margin: 0;
+}
+
+/* ventana del carnet */
 .ventana-carnet {
   position: relative;
 }

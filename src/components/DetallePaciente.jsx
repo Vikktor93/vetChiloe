@@ -8,7 +8,7 @@ function DetallePaciente({ paciente, onCerrar }) {
 
   return (
     <div className="fondo-ventana">
-      <div className="detalle">
+      <div className="detalle con-scroll">
         <button className="boton-cerrar" onClick={onCerrar}>✕</button>
 
         <h3>Detalle de {paciente.nombre}</h3>
@@ -16,11 +16,11 @@ function DetallePaciente({ paciente, onCerrar }) {
 
         {/* muestra si el paciente sigue en tratamiento o ya fue dado de alta */}
         {paciente.alta ? (
-          <p className="estado estado-alta">
+          <p className="etiqueta estado-alta">
             Dado de alta{registroAlta && ` el ${registroAlta.fecha}`}
           </p>
         ) : (
-          <p className="estado estado-tratamiento">En tratamiento</p>
+          <p className="etiqueta estado-tratamiento">En tratamiento</p>
         )}
 
         <h4>Datos del paciente</h4>
