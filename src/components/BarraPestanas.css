@@ -1,0 +1,28 @@
+.barra-pestanas {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.pestana {
+  padding: 10px 22px;
+  border: 1.5px solid var(--celeste);
+  border-radius: var(--radio-pastilla);
+  background: white;
+  color: var(--celeste-fuerte);
+  font-size: var(--texto-pequeno);
+  font-weight: bold;
+}
+
+.pestana:hover {
+  background: var(--celeste-claro);
+}
+
+.pestana-activa,
+.pestana-activa:hover {
+  border-color: var(--rosa-fuerte);
+  background: var(--rosa-fuerte);
+  color: white;
+}

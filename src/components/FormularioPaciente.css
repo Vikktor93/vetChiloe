@@ -168,3 +168,43 @@
     grid-template-columns: 1fr;
   }
 }
+/* buscador para mascotas que ya tienen ficha */
+.buscar-ficha {
+  padding: 14px;
+  border-radius: 10px;
+  background: var(--celeste-claro);
+}
+
+.fila-buscar {
+  display: flex;
+  gap: 8px;
+}
+
+.fila-buscar input {
+  flex: 1;
+}
+
+.boton-buscar {
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  background: var(--celeste-fuerte);
+  color: white;
+  font-weight: bold;
+}
+
+.aviso-busqueda {
+  margin-top: 8px;
+  color: var(--rosa-fuerte);
+  font-size: var(--texto-pequeno);
+}
+
+.boton-secundario {
+  padding: 12px;
+  border: 1.5px solid var(--celeste);
+  border-radius: var(--radio-pastilla);
+  background: white;
+  color: var(--celeste-fuerte);
+  font-size: var(--texto-pequeno);
+  font-weight: bold;
+}

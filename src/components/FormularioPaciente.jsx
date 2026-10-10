@@ -2,7 +2,13 @@ import { useState } from 'react';
 import './FormularioPaciente.css';
 import razasPorEspecie from '../data/Razas';
 
-function FormularioPaciente({ onAgregar }) {
+function FormularioPaciente({ pacientes, onAgregar, onReingresar }) {
+  // datos para buscar una mascota que ya tiene ficha
+  const [idBuscado, setIdBuscado] = useState('');
+  const [pacienteEncontrado, setPacienteEncontrado] = useState(null);
+  const [noEncontrado, setNoEncontrado] = useState(false);
+  const [motivoReingreso, setMotivoReingreso] = useState('');
+
   // datos del paciente
   const [nombre, setNombre] = useState('');
   const [especie, setEspecie] = useState('');
@@ -19,7 +25,35 @@ function FormularioPaciente({ onAgregar }) {
   const [telefono, setTelefono] = useState('');
   const [correo, setCorreo] = useState('');
 
-  // crea una direccion temporal para poder mostrar la foto elegida
+  // busca en la lista una mascota con ese numero de atencion
+  const buscarFicha = () => {
+    const texto = idBuscado.trim().toLowerCase();
+    if (texto === '') return;
+
+    const encontrado = pacientes.find(
+      (paciente) => paciente.numero_atencion.toLowerCase() === texto
+    );
+
+    if (encontrado) {
+      setPacienteEncontrado(encontrado);
+      setNoEncontrado(false);
+    } else {
+      setNoEncontrado(true);
+    }
+  };
+
+  // vuelve al registro normal
+  const limpiarBusqueda = () => {
+    setPacienteEncontrado(null);
+    setIdBuscado('');
+    setMotivoReingreso('');
+  };
+
+  const manejarReingreso = (e) => {
+    e.preventDefault();
+    onReingresar(pacienteEncontrado.id, motivoReingreso);
+  };
+
   // convierte la foto a texto para poder guardarla en el navegador
   const manejarFoto = (e) => {
     const archivo = e.target.files[0];
@@ -68,12 +102,78 @@ function FormularioPaciente({ onAgregar }) {
     });
   };
 
+  // si la mascota ya tiene ficha solo se pide el motivo del nuevo ingreso
+  if (pacienteEncontrado) {
+    return (
+      <form className="formulario-paciente" onSubmit={manejarReingreso}>
+        <div className="encabezado-formulario">
+          <span className="etiqueta etiqueta-superior">Reingreso</span>
+          <h2>Nuevo ingreso de {pacienteEncontrado.nombre}</h2>
+          <p>Esta mascota ya tiene ficha, solo falta el motivo de la visita.</p>
+        </div>
+
+        <div className="vista-previa">
+          <img src={pacienteEncontrado.foto} alt={pacienteEncontrado.nombre} />
+          <span>
+            <strong>{pacienteEncontrado.nombre}</strong> ({pacienteEncontrado.especie})
+            <br />
+            N° atención {pacienteEncontrado.numero_atencion}
+          </span>
+        </div>
+
+        <label>
+          Motivo del ingreso
+          <textarea
+            placeholder="Motivo de la consulta o estado del paciente"
+            value={motivoReingreso}
+            onChange={(e) => setMotivoReingreso(e.target.value)}
+            required
+          />
+        </label>
+
+        <button type="submit" className="boton-registrar">
+          Registrar nuevo ingreso
+        </button>
+        <button type="button" className="boton-secundario" onClick={limpiarBusqueda}>
+          No es esta mascota
+        </button>
+      </form>
+    );
+  }
+
   return (
     <form className="formulario-paciente" onSubmit={manejarEnvio}>
       <div className="encabezado-formulario">
         <span className="etiqueta etiqueta-superior">Nuevo ingreso</span>
         <h2>Registrar paciente</h2>
         <p>Completa los datos de la mascota y de su dueño.</p>
+      </div>
+
+      <div className="buscar-ficha">
+        <span className="nombre-campo">¿La mascota ya tiene ficha?</span>
+        <div className="fila-buscar">
+          <input
+            type="text"
+            placeholder="Escribe su N° de atención, ej: 2026-D1"
+            value={idBuscado}
+            onChange={(e) => setIdBuscado(e.target.value)}
+            // con enter busca en vez de enviar el formulario
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                buscarFicha();
+              }
+            }}
+          />
+          <button type="button" className="boton-buscar" onClick={buscarFicha}>
+            Buscar
+          </button>
+        </div>
+        {noEncontrado && (
+          <p className="aviso-busqueda">
+            No hay ninguna ficha con ese número. Puedes registrarla abajo.
+          </p>
+        )}
       </div>
 
       <h3 className="titulo-seccion">Datos del paciente</h3>

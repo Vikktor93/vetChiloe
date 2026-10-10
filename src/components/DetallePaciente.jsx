@@ -4,7 +4,7 @@ function DetallePaciente({ paciente, onCerrar }) {
   // busca en el historial todas las veces que el paciente ha ingresado
   const ingresos = paciente.historial.filter((registro) => registro.motivo === 'Ingreso');
   // busca el registro del alta para sacar la fecha
-  const registroAlta = paciente.historial.find((registro) => registro.motivo === 'Alta');
+  const registroAlta = paciente.historial.findLast((registro) => registro.motivo === 'Alta');
 
   return (
     <div className="fondo-ventana">

@@ -4,6 +4,7 @@ import FichaClinica from './components/FichaClinica';
 import FormularioPaciente from './components/FormularioPaciente';
 import DetallePaciente from './components/DetallePaciente';
 import TablaPacientes from './components/TablaPacientes';
+import BarraPestanas from './components/BarraPestanas';
 
 function App() {
   // carga los pacientes guardados en el navegador, si no hay parte vacio
@@ -12,6 +13,18 @@ function App() {
     return guardados ? JSON.parse(guardados) : [];
   });
 
+  // numero que le toca a la proxima mascota, nunca se repite
+  const [siguienteNumero, setSiguienteNumero] = useState(() => {
+    const guardado = localStorage.getItem('siguienteNumero');
+    if (guardado) return Number(guardado);
+
+    // la primera vez parte desde el numero mas alto que ya exista
+    const usados = pacientes.map((paciente) => Number(paciente.numero_atencion.split('-D')[1]));
+    return Math.max(0, ...usados) + 1;
+  });
+
+  // guarda cual pestaña se esta viendo
+  const [pestanaActiva, setPestanaActiva] = useState('inicio');
   // controla si el formulario se ve o no
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   // guarda el paciente que se quiere eliminar, null si no hay ninguno
@@ -30,6 +43,14 @@ function App() {
     }
   }, [pacientes]);
 
+  // guarda el contador para que siga igual al recargar la pagina
+  useEffect(() => {
+    localStorage.setItem('siguienteNumero', siguienteNumero);
+  }, [siguienteNumero]);
+
+  // separa a los que ya fueron dados de alta
+  const pacientesDeAlta = pacientes.filter((paciente) => paciente.alta);
+
   const agregarPaciente = (datosPaciente) => {
     // fecha de hoy
     const hoy = new Date().toLocaleDateString('es-CL');
@@ -37,15 +58,40 @@ function App() {
     const nuevoPaciente = {
       ...datosPaciente,
       id: Date.now(),
-      numero_atencion: `2026-D${pacientes.length + 1}`,
+      numero_atencion: `2026-D${siguienteNumero}`,
       historial: [
         { fecha: hoy, motivo: 'Ingreso', detalle: 'Registrado en la clínica.' }
       ]
     };
 
     setPacientes([...pacientes, nuevoPaciente]);
+    // el numero avanza para la proxima mascota
+    setSiguienteNumero(siguienteNumero + 1);
     // oculta el formulario despues de registrar
     setMostrarFormulario(false);
+    // muestra la lista para ver al paciente nuevo
+    setPestanaActiva('pacientes');
+  };
+
+  // registra un nuevo ingreso de una mascota que ya tiene ficha
+  const reingresarPaciente = (idPaciente, motivo) => {
+    const hoy = new Date().toLocaleDateString('es-CL');
+
+    setPacientes(pacientes.map((paciente) =>
+      paciente.id === idPaciente
+        ? {
+            ...paciente,
+            alta: false,
+            diagnostico: motivo,
+            historial: [
+              ...paciente.historial,
+              { fecha: hoy, motivo: 'Ingreso', detalle: motivo }
+            ]
+          }
+        : paciente
+    ));
+    setMostrarFormulario(false);
+    setPestanaActiva('pacientes');
   };
 
   const confirmarEliminar = () => {
@@ -80,8 +126,52 @@ function App() {
         <p>Plataforma de control y seguimiento de pacientes</p>
       </header>
 
+      <BarraPestanas pestanaActiva={pestanaActiva} onCambiar={setPestanaActiva} />
+
       <main>
-        <h2>Lista de Pacientes Registrados</h2>
+        {/* pestaña de inicio, por ahora con un texto provisorio */}
+        {pestanaActiva === 'inicio' && (
+          <>
+            <h2>Inicio</h2>
+            <p className="sin-pacientes">Aquí va a ir el resumen de la clínica.</p>
+          </>
+        )}
+
+        {/* pestaña con todos los pacientes */}
+        {pestanaActiva === 'pacientes' && (
+          <>
+            <h2>Lista de Pacientes Registrados</h2>
+            {pacientes.length === 0 ? (
+              <p className="sin-pacientes">Aún no hay pacientes registrados.</p>
+            ) : (
+              <TablaPacientes
+                pacientes={pacientes}
+                onVerFicha={setPacienteCarnet}
+                onVerDetalle={setPacienteDetalle}
+                onEliminar={setPacientePorEliminar}
+              />
+            )}
+          </>
+        )}
+
+        {/* pestaña solo con los dados de alta */}
+        {pestanaActiva === 'altas' && (
+          <>
+            <h2>Pacientes Dados de Alta</h2>
+            {pacientesDeAlta.length === 0 ? (
+              <p className="sin-pacientes">Aún no hay pacientes dados de alta.</p>
+            ) : (
+              <TablaPacientes
+                pacientes={pacientesDeAlta}
+                onVerFicha={setPacienteCarnet}
+                onVerDetalle={setPacienteDetalle}
+                onEliminar={setPacientePorEliminar}
+              />
+            )}
+          </>
+        )}
+
+        {/* el boton flotante se ve en todas las pestañas */}
         <button
           className="boton-flotante"
           onClick={() => setMostrarFormulario(true)}
@@ -100,24 +190,13 @@ function App() {
               >
                 ✕
               </button>
-              <FormularioPaciente onAgregar={agregarPaciente} />
+              <FormularioPaciente
+                pacientes={pacientes}
+                onAgregar={agregarPaciente}
+                onReingresar={reingresarPaciente}
+              />
             </div>
           </div>
-        )}
-
-        {/* mensaje para cuando todavia no hay nadie registrado */}
-        {pacientes.length === 0 && (
-          <p className="sin-pacientes">Aún no hay pacientes registrados.</p>
-        )}
-
-        {/* la tabla solo aparece si hay pacientes */}
-        {pacientes.length > 0 && (
-          <TablaPacientes
-            pacientes={pacientes}
-            onVerFicha={setPacienteCarnet}
-            onVerDetalle={setPacienteDetalle}
-            onEliminar={setPacientePorEliminar}
-          />
         )}
       </main>
 
