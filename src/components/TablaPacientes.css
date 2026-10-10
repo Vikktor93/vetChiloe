@@ -1,0 +1,74 @@
+/* si la tabla no cabe, se desliza hacia el lado dentro de este contenedor */
+.contenedor-tabla {
+  overflow-x: auto;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 6px 18px rgba(229, 107, 154, 0.15);
+}
+
+.tabla-pacientes {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.tabla-pacientes th {
+  padding: 14px 16px;
+  background: var(--rosa-claro);
+  color: var(--rosa-fuerte);
+  font-size: 13px;
+}
+
+.tabla-pacientes td {
+  padding: 14px 16px;
+  border-top: 1px solid var(--rosa-claro);
+  color: var(--texto-suave);
+}
+
+.tabla-pacientes tbody tr:hover {
+  background: #fafafa;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.badge-felino {
+  background: #ffe2c2;
+  color: #b65a00;
+}
+
+.badge-canino {
+  background: #d3e8fb;
+  color: #1c5f9e;
+}
+
+.badge-ave {
+  background: #d9f2e1;
+  color: #1f7a45;
+}
+
+.badge-otro {
+  background: #ececec;
+  color: #555;
+}
+
+.boton-carnet {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  background: var(--celeste-fuerte);
+  color: white;
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.boton-carnet:hover {
+  opacity: 0.9;
+}

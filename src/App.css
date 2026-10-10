@@ -128,3 +128,12 @@
   background: var(--rosa);
   color: white;
 }
+
+.ventana-carnet {
+  position: relative;
+}
+
+.ventana-carnet .boton-cerrar {
+  top: -12px;
+  right: -12px;
+}

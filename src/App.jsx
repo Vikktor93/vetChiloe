@@ -3,11 +3,12 @@ import './App.css';
 import FichaClinica from './components/FichaClinica';
 import FormularioPaciente from './components/FormularioPaciente';
 import DetallePaciente from './components/DetallePaciente';
+import TablaPacientes from './components/TablaPacientes';
 
 function App() {
   // carga los pacientes guardados en el navegador, si no hay parte vacio
   const [pacientes, setPacientes] = useState(() => {
-    const guardados = localStorage.getItem('pacientes');
+  const guardados = localStorage.getItem('pacientes');
     return guardados ? JSON.parse(guardados) : [];
   });
 
@@ -17,6 +18,8 @@ function App() {
   const [pacientePorEliminar, setPacientePorEliminar] = useState(null);
   // guarda el paciente del que se esta viendo el detalle
   const [pacienteDetalle, setPacienteDetalle] = useState(null);
+  // guarda el paciente del que se esta viendo el carnet
+  const [pacienteCarnet, setPacienteCarnet] = useState(null);
 
   // cada vez que cambia la lista se vuelve a guardar
   useEffect(() => {
@@ -49,6 +52,8 @@ function App() {
     // deja en la lista a todos menos al paciente elegido
     setPacientes(pacientes.filter((paciente) => paciente.id !== pacientePorEliminar.id));
     setPacientePorEliminar(null);
+    // cierra el carnet del paciente eliminado
+    setPacienteCarnet(null);
   };
 
   return (
@@ -88,19 +93,26 @@ function App() {
           <p className="sin-pacientes">Aún no hay pacientes registrados.</p>
         )}
 
-        <div className="cuadricula-tarjetas">
-          {/* en esta parte utilizamos el componente y le pasamos los datos mediante la prop "paciente" */}
-          {pacientes.map((pacienteIterado) => (
-            <FichaClinica
-              key={pacienteIterado.id}
-              paciente={pacienteIterado}
-              onEliminar={setPacientePorEliminar}
-              onVerDetalle={setPacienteDetalle}
-            />
-          ))}
-        </div>
-      </main>
+          {pacientes.length > 0 && (
+            <TablaPacientes pacientes={pacientes} onVerFicha={setPacienteCarnet} />
+           )}
 
+      </main>
+        {/* ventana con el carnet giratorio del paciente */}
+        {pacienteCarnet && (
+          <div className="fondo-ventana">
+            <div className="ventana-carnet">
+              <button className="boton-cerrar" onClick={() => setPacienteCarnet(null)}>
+                ✕
+              </button>
+              <FichaClinica
+                paciente={pacienteCarnet}
+                onEliminar={setPacientePorEliminar}
+                onVerDetalle={setPacienteDetalle}
+              />
+            </div>
+          </div>
+        )}
       {/* ventana con el detalle completo del paciente */}
       {pacienteDetalle && (
         <DetallePaciente
