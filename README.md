@@ -131,7 +131,15 @@ npm install
 npm run dev
 ```
 
-La interfaz usa el proxy de Vite para comunicarse con `http://localhost:3000`. La API expone `GET /api/pacientes` para listar pacientes y `POST /api/pacientes` para registrar uno. Los datos se conservan solo mientras el servidor está activo.
+La interfaz usa el proxy de Vite para comunicarse con `http://localhost:3000`. La API expone `GET /api/pacientes` para listar pacientes y `POST /api/pacientes` para registrar uno. Al registrar, el servicio valida que la especie sea Felino o Canino y genera el número de atención. Los datos se conservan solo mientras el servidor está activo. El servidor acepta fotos de hasta 5 MB enviadas como JSON.
+
+Para publicar una rama en el repositorio del curso cuando `upstream` apunta al repositorio del docente:
+```bash
+git switch -c estudiante/nombre-apellido
+git push -u upstream estudiante/nombre-apellido
+```
+
+La entrega se comprueba mediante commits descriptivos por capa, el diagrama en este README y la demostración del listado desde la API y el registro de un paciente desde el formulario.
 
 ## 🗺️ Roadmap del Proyecto
 - [x] Fase 1: Configuración inicial ([Vite](https://vite.dev/)) y componentización estática.
