@@ -14,10 +14,11 @@ El propósito principal de este repositorio es pedagógico. Busca enseñar a los
 * **Estilos:** CSS3 Nativo (Arquitectura de Co-ubicación)
 * **Animaciones:** [Framer Motion](https://motion.dev/) (para interacciones 3D nativas)
 
-**Backend & Datos (Planificado):**
+**Backend & Datos:**
 * **Entorno de Ejecución:** [Node.js](https://nodejs.org/en)
 * **Framework:** [Express.js](https://expressjs.com/)
-* **Base de Datos:** [PostgreSQL](https://www.postgresql.org/)
+* **API:** REST; intercambia datos en formato JSON.
+* **Almacenamiento actual:** En memoria; PostgreSQL queda para una etapa posterior.
 
 ## ✨ Funcionalidades Principales (UI/UX)
 * **Dashboard Interactivo:** Vista principal con una tabla de datos estructurada y responsiva para el escaneo rápido de pacientes registrados.
@@ -44,10 +45,21 @@ vetChiloe/
 │   │   ├── TablaPacientes.css
 │   │   ├── TablaPacientes.jsx      # Tabla responsiva del dashboard principal
 │   │   └── TarjetaPaciente.jsx     # Componente de lista (Fase UI anterior)
+│   ├── services/
+│   │   └── pacienteService.js      # Cliente HTTP de la API
 │   ├── App.css                 # Estilos estructurales y globales
 │   ├── App.jsx                 # Componente raíz y gestor del estado global
 │   ├── index.css               # Reset y variables CSS globales
 │   └── main.jsx                # Punto de entrada y montaje de React
+├── server/
+│   ├── src/
+│   │   ├── controllers/         # Controladores HTTP
+│   │   ├── repositories/        # Datos en memoria
+│   │   ├── routes/              # Rutas de la API
+│   │   └── services/            # Reglas de negocio
+│   ├── package.json             # Dependencias y comandos del backend
+│   ├── package-lock.json        # Versiones fijadas del backend
+│   └── server.js                # Configuración y arranque de Express
 ├── .gitignore                  # Reglas de exclusión para GitHub
 ├── eslint.config.js            # Configuración de reglas de código limpio
 ├── index.html                  # Plantilla HTML principal
@@ -56,6 +68,28 @@ vetChiloe/
 ├── package.json                # Dependencias y scripts del proyecto (npm)
 ├── README.md                   # Documentación principal del repositorio
 └── vite.config.js              # Configuración del empaquetador de Vite
+```
+
+### Diagrama de capas
+
+La API intercambia datos JSON y utiliza almacenamiento en memoria; no requiere una base de datos SQL en esta etapa.
+
+```mermaid
+flowchart LR
+  subgraph Frontend
+    UI[Componentes React]
+    Client[Servicio de pacientes]
+    UI -->|props y acciones| Client
+  end
+
+  Client -->|HTTP JSON| Routes[Rutas Express]
+
+  subgraph Backend
+    Routes --> Controllers[Controladores]
+    Controllers --> Services[Servicios y reglas de negocio]
+    Services --> Repositories[Repositorios]
+    Repositories --> Memory[(Datos en memoria)]
+  end
 ```
 
 ## 👥 Flujo de Trabajo Colaborativo (Para Estudiantes)
@@ -90,12 +124,21 @@ npm install
 npm run dev
 ```
 
+5. En otra terminal, inicia la API:
+```bash
+cd server
+npm install
+npm run dev
+```
+
+La interfaz usa el proxy de Vite para comunicarse con `http://localhost:3000`. La API expone `GET /api/pacientes` para listar pacientes y `POST /api/pacientes` para registrar uno. Los datos se conservan solo mientras el servidor está activo.
+
 ## 🗺️ Roadmap del Proyecto
 - [x] Fase 1: Configuración inicial ([Vite](https://vite.dev/)) y componentización estática.
 - [x] Fase 2: Integración de bibliotecas ( [Framer Motion](https://motion.dev/)) e interacciones 3D.
 - [x] Fase 3: Levantamiento de estado, formularios controlados y renderizado de tablas.
 - [ ] Fase 4: Mejoras de UX (Búsqueda en tiempo real, validaciones, Empty States, Skeleton Loaders).
-- [ ] Fase 5: Desarrollo de API RESTful con [Node.js](https://nodejs.org/en) y [Express.js](https://expressjs.com/).
+- [x] Fase 5: Desarrollo de API RESTful en capas con [Node.js](https://nodejs.org/en) y [Express.js](https://expressjs.com/), con datos en memoria.
 - [ ] Fase 6: Modelado y conexión a base de datos relacional ([PostgreSQL](https://www.postgresql.org/)).
 
 ## 📄 Licencia

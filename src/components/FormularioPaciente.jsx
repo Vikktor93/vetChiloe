@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SelectorFoto from './SelectorFoto';
 import './FormularioPaciente.css';
 
-function FormularioPaciente({ onAgregarPaciente }) {
+function FormularioPaciente({ onAgregarPaciente, errorRegistro }) {
   const [paso, setPaso] = useState(1);
   const [mascota, setMascota] = useState({
     nombre: '',
@@ -31,12 +31,10 @@ function FormularioPaciente({ onAgregarPaciente }) {
     setPaso(2);
   };
 
-  const guardarPaciente = (event) => {
+  const guardarPaciente = async (event) => {
     event.preventDefault();
-    onAgregarPaciente({
-      id: Date.now(),
+    await onAgregarPaciente({
       nombre: mascota.nombre.trim(),
-      numero_atencion: `${new Date().getFullYear()}-N${Math.floor(Math.random() * 100)}`,
       especie: mascota.especie,
       edad: mascota.edad.trim(),
       peso: mascota.peso,
@@ -155,6 +153,7 @@ function FormularioPaciente({ onAgregarPaciente }) {
             Completa los datos de contacto para terminar el registro de {mascota.nombre.trim()}.
           </p>
           <form onSubmit={guardarPaciente} className="formulario-vet">
+            {errorRegistro && <p className="formulario-error" role="alert">{errorRegistro}</p>}
             <div className="grupo-input">
               <label htmlFor="dueno-nombre">Nombre completo del dueño</label>
               <input

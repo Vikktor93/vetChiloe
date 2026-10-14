@@ -3,46 +3,8 @@ import TablaPacientes from './components/TablaPacientes';
 import FichaClinica from './components/FichaClinica';
 import FormularioPaciente from './components/FormularioPaciente';
 import EditorPaciente from './components/EditorPaciente';
+import { obtenerPacientes, registrarPaciente } from './services/pacienteService';
 import './App.css';
-
-const pacientesIniciales = [
-  {
-    id: 1,
-    nombre: 'Charkicito',
-    numero_atencion: '2026-A1',
-    especie: 'Felino',
-    edad: '8 años',
-    diagnostico: 'Control sano y vacunas al día.',
-    foto: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=300&q=80'
-  },
-  {
-    id: 2,
-    nombre: 'Mercedes',
-    numero_atencion: '2026-B2',
-    especie: 'Felino',
-    edad: '8 años',
-    diagnostico: 'Tratamiento por otitis leve.',
-    foto: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=300&q=80'
-  },
-  {
-    id: 3,
-    nombre: 'Hannita',
-    numero_atencion: '2026-C3',
-    especie: 'Felino',
-    edad: '3 años',
-    diagnostico: 'Observación por alergia alimentaria.',
-    foto: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=300&q=80'
-  },
-  {
-    id: 4,
-    nombre: 'Pelusa',
-    numero_atencion: '2026-D4',
-    especie: 'Canino',
-    edad: '12 años',
-    diagnostico: 'Tratamiento por artritis.',
-    foto: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=300&q=80'
-  }
-];
 
 function Icon({ name }) {
   const paths = {
@@ -130,12 +92,35 @@ function normalizarBusqueda(valor = '') {
 }
 
 function App() {
-  const [pacientes, setPacientes] = useState(pacientesIniciales);
+  const [pacientes, setPacientes] = useState([]);
+  const [cargandoPacientes, setCargandoPacientes] = useState(true);
+  const [errorCargaPacientes, setErrorCargaPacientes] = useState('');
+  const [errorRegistroPaciente, setErrorRegistroPaciente] = useState('');
   const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
   const [pacienteEditando, setPacienteEditando] = useState(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [busqueda, setBusqueda] = useState('');
   const [theme, setTheme] = useState(getSavedTheme);
+
+  useEffect(() => {
+    let activo = true;
+
+    obtenerPacientes()
+      .then((datos) => {
+        if (activo) setPacientes(datos);
+      })
+      .catch((error) => {
+        console.error('No se pudieron cargar los pacientes:', error);
+        if (activo) setErrorCargaPacientes('No se pudieron cargar los pacientes. Intenta recargar la página.');
+      })
+      .finally(() => {
+        if (activo) setCargandoPacientes(false);
+      });
+
+    return () => {
+      activo = false;
+    };
+  }, []);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -169,9 +154,16 @@ function App() {
     );
   }, [busqueda, pacientes]);
 
-  const agregarNuevoPaciente = (nuevoPaciente) => {
-    setPacientes((actuales) => [...actuales, nuevoPaciente]);
-    setMostrarFormulario(false);
+  const agregarNuevoPaciente = async (nuevoPaciente) => {
+    setErrorRegistroPaciente('');
+    try {
+      const pacienteRegistrado = await registrarPaciente(nuevoPaciente);
+      setPacientes((actuales) => [...actuales, pacienteRegistrado]);
+      setMostrarFormulario(false);
+    } catch (error) {
+      console.error('No se pudo registrar el paciente:', error);
+      setErrorRegistroPaciente('No se pudo guardar el paciente. Intenta nuevamente.');
+    }
   };
 
   const guardarCambiosPaciente = (pacienteActualizado) => {
@@ -294,14 +286,22 @@ function App() {
                   />
                 </label>
               </div>
-              <TablaPacientes
-                pacientes={pacientesFiltrados}
-                onVerFicha={setPacienteSeleccionado}
-                onEditar={setPacienteEditando}
-                emptyMessage={busqueda.trim()
-                  ? 'No encontramos pacientes que coincidan con la búsqueda.'
-                  : 'Aún no hay pacientes registrados.'}
-              />
+              {cargandoPacientes ? (
+                <div className="patient-status" role="status">Cargando pacientes...</div>
+              ) : errorCargaPacientes ? (
+                <div className="patient-status patient-status-error" role="alert">
+                  {errorCargaPacientes}
+                </div>
+              ) : (
+                <TablaPacientes
+                  pacientes={pacientesFiltrados}
+                  onVerFicha={setPacienteSeleccionado}
+                  onEditar={setPacienteEditando}
+                  emptyMessage={busqueda.trim()
+                    ? 'No encontramos pacientes que coincidan con la búsqueda.'
+                    : 'Aún no hay pacientes registrados.'}
+                />
+              )}
             </section>
           </>
         )}
@@ -323,7 +323,10 @@ function App() {
             >
               ×
             </button>
-            <FormularioPaciente onAgregarPaciente={agregarNuevoPaciente} />
+            <FormularioPaciente
+              onAgregarPaciente={agregarNuevoPaciente}
+              errorRegistro={errorRegistroPaciente}
+            />
           </div>
         </div>
       )}
