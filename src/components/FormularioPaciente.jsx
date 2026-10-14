@@ -90,7 +90,6 @@ function FormularioPaciente({ onAgregarPaciente, errorRegistro }) {
                 >
                   <option value="Canino">Canino</option>
                   <option value="Felino">Felino</option>
-                  <option value="Exótico">Exótico</option>
                 </select>
               </div>
               <div className="grupo-input">

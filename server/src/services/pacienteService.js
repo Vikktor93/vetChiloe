@@ -1,6 +1,6 @@
 import * as pacienteRepository from '../repositories/pacienteRepository.js';
 
-const especiesPermitidas = new Set(['Canino', 'Felino', 'Exótico']);
+const especiesPermitidas = new Set(['Canino', 'Felino']);
 
 export function obtenerPacientes() {
   return pacienteRepository.listarTodos();
@@ -22,7 +22,7 @@ export function registrarPaciente(datos) {
   }
 
   if (!especiesPermitidas.has(especie)) {
-    throw Object.assign(new Error('La especie debe ser Canino, Felino o Exótico.'), { status: 400 });
+    throw Object.assign(new Error('La especie debe ser Felino o Canino.'), { status: 400 });
   }
 
   if (peso !== '' && (!Number.isFinite(peso) || peso <= 0)) {

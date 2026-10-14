@@ -58,7 +58,6 @@ function EditorPaciente({ paciente, onGuardar }) {
             <select id="editar-mascota-especie" name="especie" value={datos.especie} onChange={actualizarCampo}>
               <option value="Canino">Canino</option>
               <option value="Felino">Felino</option>
-              <option value="Exótico">Exótico</option>
             </select>
           </div>
           <div className="grupo-input">
