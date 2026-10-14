@@ -2,21 +2,26 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2rem;
+  margin: 26px auto 0;
 }
 
 .instruccion {
-  color: #666;
-  font-style: italic;
-  margin-bottom: 1.5rem;
+  margin-bottom: 17px;
+  color: var(--text-muted);
+  font-size: 12px;
 }
 
-/* --- CLASES ESTRUCTURALES DEL FLIP CARD (REACT BITS) --- */
 .react-bits-flip-container {
-  width: 340px;
-  height: 480px;
+  width: min(100%, 360px);
+  height: 540px;
   perspective: 1000px;
   cursor: pointer;
+}
+
+.react-bits-flip-container:focus-visible {
+  outline: 3px solid var(--primary-ring);
+  outline-offset: 5px;
+  border-radius: 18px;
 }
 
 .react-bits-flip-inner {
@@ -32,79 +37,110 @@
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden; /* Soporte para Safari */
+  -webkit-backface-visibility: hidden;
 }
 
 .react-bits-flip-back {
   transform: rotateY(180deg);
 }
 
-
-/* --- ESTILOS VISUALES DE LA VETERINARIA --- */
 .tarjeta-cara {
   width: 100%;
   height: 100%;
-  border-radius: 16px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 12px 35px rgba(18, 44, 62, 0.12);
+}
+
+.frontal {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.frontal {
-  background-color: #ffffff;
-  border: 2px solid #4CAF50;
 }
 
 .foto-paciente {
-  width: 180px;
-  height: 180px;
+  display: grid;
+  width: 176px;
+  height: 176px;
+  place-items: center;
+  margin-bottom: 22px;
+  border: 5px solid var(--primary-soft);
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 20px;
-  border: 4px solid #e8f5e9;
+}
+
+.frontal h2 {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 26px;
+  font-weight: 750;
 }
 
 .etiqueta-especie {
-  background-color: #e8f5e9;
-  color: #2e7d32;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 0.9em;
-  font-weight: bold;
-  margin-top: 10px;
+  margin-top: 11px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  color: var(--primary);
+  background: var(--primary-soft);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .trasera {
-  background-color: #4CAF50;
-  color: white;
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+}
+
+.trasera h2 {
+  margin: 4px 0 14px;
+  color: var(--text-strong);
+  font-size: 21px;
+  font-weight: 750;
+}
+
+.datos-lista h3 {
+  margin: 3px 0 10px;
+  color: var(--text-strong);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .datos-lista {
-  width: 100%;
+  margin-top: 9px;
   text-align: left;
-  margin-top: 20px;
 }
 
 .datos-lista p {
-  margin: 10px 0;
-  font-size: 1.1em;
+  margin: 13px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.datos-lista strong {
+  color: var(--text-strong);
 }
 
 .datos-lista hr {
-  border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
   margin: 20px 0;
+  border: 0;
+  border-top: 1px solid var(--border);
 }
 
 .texto-diagnostico {
-  font-style: italic;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  line-height: 1.5;
+  padding: 13px;
+  border-radius: 10px;
+  color: var(--text);
+  background: var(--surface-subtle);
+  line-height: 1.6;
+}
+
+@media (max-width: 420px) {
+  .react-bits-flip-container {
+    height: 520px;
+  }
 }

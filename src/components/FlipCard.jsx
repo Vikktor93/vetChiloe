@@ -6,9 +6,18 @@ export default function FlipCard({ frontContent, backContent }) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
-    <div 
-      className="react-bits-flip-container" 
-      onClick={() => setIsFlipped(!isFlipped)}
+    <div
+      className="react-bits-flip-container"
+      role="button"
+      tabIndex={0}
+      aria-label="Voltear carnet para ver los datos clínicos"
+      onClick={() => setIsFlipped((flipped) => !flipped)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          setIsFlipped((flipped) => !flipped);
+        }
+      }}
     >
       <motion.div
         className="react-bits-flip-inner"
