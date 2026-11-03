@@ -7,36 +7,34 @@ function FormularioPaciente({ onAgregarPaciente }) {
   const [especie, setEspecie] = useState('Canino'); 
   const [edad, setEdad] = useState('');
   const [diagnostico, setDiagnostico] = useState('');
+  const [foto, setFoto] = useState(''); // Nuevo estado para la URL de la foto
 
   const manejarEnvio = (e) => {
     e.preventDefault(); // Evita que la página se recargue
 
-    // Validación básica
-    if (nombre.trim() === '' || edad.trim() === '' || diagnostico.trim() === '') {
-      alert('Por favor, completa todos los campos del paciente.');
+    // Validación básica (ahora incluye la foto)
+    if (nombre.trim() === '' || edad.trim() === '' || diagnostico.trim() === '' || foto.trim() === '') {
+      alert('Por favor, completa todos los campos del paciente, incluyendo la URL de la foto.');
       return;
     }
 
-    // Creación del objeto paciente con los datos del formulario
+    // Creación del objeto paciente. Ya no se genera el ID ni N° de Atención aquí.
+    // El frontend solo envía los datos puros y el backend se encarga del resto.
     const nuevoPaciente = {
-      id: Date.now(), // Genera un ID único basado en la fecha exacta
       nombre: nombre,
-      numero_atencion: `2026-N${Math.floor(Math.random() * 100)}`, // Genera un número aleatorio
       especie: especie,
       edad: edad,
       diagnostico: diagnostico,
-      // Asignación de una foto genérica temporal
-      foto: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=300&q=80'
+      foto: foto 
     };
 
-    //  Se envia el objeto al componente padre (App.jsx)
     onAgregarPaciente(nuevoPaciente);
 
-    // Se limpia los campos del formulario para el siguiente ingreso
     setNombre('');
     setEspecie('Canino');
     setEdad('');
     setDiagnostico('');
+    setFoto('');
   };
 
   return (
@@ -57,9 +55,9 @@ function FormularioPaciente({ onAgregarPaciente }) {
         <div className="grupo-input">
           <label>Especie</label>
           <select value={especie} onChange={(e) => setEspecie(e.target.value)}>
+            {/* Solo dejamos Canino y Felino para respetar la regla de negocio del Backend */}
             <option value="Canino">Canino</option>
             <option value="Felino">Felino</option>
-            <option value="Exótico">Exótico</option>
           </select>
         </div>
 
@@ -81,6 +79,17 @@ function FormularioPaciente({ onAgregarPaciente }) {
             onChange={(e) => setDiagnostico(e.target.value)}
             rows="3"
           ></textarea>
+        </div>
+
+        {/* Nuevo Input para la URL de la imagen */}
+        <div className="grupo-input">
+          <label>Fotografía (URL)</label>
+          <input 
+            type="url" 
+            placeholder="Ej: https://images.unsplash.com/photo-..."
+            value={foto}
+            onChange={(e) => setFoto(e.target.value)}
+          />
         </div>
 
         <button type="submit" className="btn-guardar">
