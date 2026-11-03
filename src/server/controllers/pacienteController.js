@@ -6,6 +6,7 @@ const getPacientes = async (req, res) => {
         const pacientes = await pacienteService.obtenerPacientes();
         res.status(200).json(pacientes);
     } catch (error) {
+        console.log("ERROR DE BASE DE DATOS:", error);
         res.status(500).json({ mensaje: 'Error al conectar con la base de datos' });
     }
 };
