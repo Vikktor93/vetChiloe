@@ -55,9 +55,9 @@ function FormularioPaciente({ onAgregarPaciente }) {
         <div className="grupo-input">
           <label>Especie</label>
           <select value={especie} onChange={(e) => setEspecie(e.target.value)}>
-            {/* Solo dejamos Canino y Felino para respetar la regla de negocio del Backend */}
             <option value="Canino">Canino</option>
             <option value="Felino">Felino</option>
+            <option value="Exótico">Exótico</option>
           </select>
         </div>
 
