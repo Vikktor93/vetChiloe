@@ -1,10 +1,11 @@
 const pacienteRepository = require('../repositories/pacienteRepository');
 
-const obtenerPacientes = () => {
-    return pacienteRepository.obtenerTodos();
+// Agregamos 'async' y 'await'
+const obtenerPacientes = async () => {
+    return await pacienteRepository.obtenerTodos();
 };
 
-const registrarPaciente = (datosPrevios) => {
+const registrarPaciente = async (datosPrevios) => {
     // REGLA DE NEGOCIO: Validar Especie
     if (datosPrevios.especie !== 'Felino' && datosPrevios.especie !== 'Canino') {
         throw new Error('Especie inválida. Solo se permite Felino o Canino.');
@@ -13,12 +14,13 @@ const registrarPaciente = (datosPrevios) => {
     // REGLA DE NEGOCIO: Generar N° de atención
     const numeroAleatorio = Math.floor(Math.random() * 1000);
     const nuevoPaciente = {
-        id: Date.now(),
+        // Eliminamos el id: Date.now() porque ahora PostgreSQL lo autogenera
         ...datosPrevios,
         numero_atencion: `2026-${numeroAleatorio}`
     };
 
-    return pacienteRepository.guardar(nuevoPaciente);
+    // Esperamos a que el repositorio guarde en la nube
+    return await pacienteRepository.guardar(nuevoPaciente);
 };
 
 module.exports = { obtenerPacientes, registrarPaciente };
