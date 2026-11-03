@@ -1,55 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TablaPacientes from './components/TablaPacientes';
 import FichaClinica from './components/FichaClinica'; 
-import FormularioPaciente from './components/FormularioPaciente'; 
+import FormularioPaciente from './components/FormularioPaciente'; // se importa la capa de servicios
+import { obtenerPacientes, registrarPaciente } from './services/pacienteService'; 
 import './App.css'; 
 
 function App() {
-  const [pacientes, setPacientes] = useState([
-    { 
-      id: 1, 
-      nombre: 'Charkicito', 
-      numero_atencion: '2026-A1',
-      especie: 'Felino',
-      edad: '8 años',
-      diagnostico: 'Control sano y vacunas al día.',
-      foto: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=300&q=80'
-    },
-    { 
-      id: 2, 
-      nombre: 'Mercedes', 
-      numero_atencion: '2026-B2',
-      especie: 'Felino',
-      edad: '8 años',
-      diagnostico: 'Tratamiento por otitis leve.',
-      foto: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=300&q=80'
-    },
-    { 
-      id: 3, 
-      nombre: 'Hannita', 
-      numero_atencion: '2026-C3',
-      especie: 'Felino',
-      edad: '3 años',
-      diagnostico: 'Observación por alergia alimentaria.',
-      foto: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=300&q=80'
-    },
-        { 
-      id: 4, 
-      nombre: 'Pelusa', 
-      numero_atencion: '2026-D4',
-      especie: 'Canino',
-      edad: '12 años',
-      diagnostico: 'Tratamiento por artritis.',
-      foto: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=300&q=80'
-    }
-  ]);
-
+  // El estado inicia vacío, simulando que esperamos datos del servidor
+  const [pacientes, setPacientes] = useState([]);
   const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
+  // Efecto secundario: Carga inicial de datos al montar la aplicación
+  useEffect(() => {
+    obtenerPacientes().then((datos) => {
+      setPacientes(datos);
+    });
+  }, []); // El arreglo vacío [] asegura que esto solo ocurra una vez al cargar la página
+
+  // Se delega la lógica de registro al servicio antes de actualizar la UI
   const agregarNuevoPaciente = (nuevoPaciente) => {
-    setPacientes([...pacientes, nuevoPaciente]);
-    setMostrarFormulario(false);
+    registrarPaciente(nuevoPaciente).then((pacienteGuardado) => {
+      setPacientes([...pacientes, pacienteGuardado]);
+      setMostrarFormulario(false);
+    });
   };
 
   // Vista de Ficha Clínica (Carnet)
