@@ -4,13 +4,12 @@ const cors = require('cors');
 const pacienteRoutes = require('./routes/pacienteRoutes');
 
 const app = express();
-app.use(cors()); // Permite peticiones desde el frontend en React
-app.use(express.json()); // Permite leer JSON en el body
+app.use(cors()); 
+app.use(express.json()); 
 
-// Rutas
 app.use('/api/pacientes', pacienteRoutes);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor backend corriendo en el puerto ${PORT}`);
 });
