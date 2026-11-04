@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/pacientes';
+const API_URL = 'https://vetchiloe-2zmz.onrender.com';
 
 export const obtenerPacientes = async () => {
   const respuesta = await fetch(API_URL);
