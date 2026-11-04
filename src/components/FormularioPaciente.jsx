@@ -13,21 +13,21 @@ function FormularioPaciente({ onAgregarPaciente }) {
     e.preventDefault(); // Evita que la página se recargue
 
     // Validación básica (ahora incluye la foto)
-    if (nombre.trim() === '' || edad.trim() === '' || diagnostico.trim() === '' || foto.trim() === '') {
-      alert('Por favor, completa todos los campos del paciente, incluyendo la URL de la foto.');
+    if (nombre.trim() === '' || edad.trim() === '' || diagnostico.trim() === '') {
+      alert('Por favor, completa al menos el nombre, la edad y el diagnóstico.');
       return;
     }
 
-    // Creación del objeto paciente. Ya no se genera el ID ni N° de Atención aquí.
-    // El frontend solo envía los datos puros y el backend se encarga del resto.
+    // Creación del objeto paciente
     const nuevoPaciente = {
       nombre: nombre,
       especie: especie,
       edad: edad,
       diagnostico: diagnostico,
-      foto: foto 
+      foto: foto.trim() !== '' 
+        ? foto 
+        : 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=300&q=80'
     };
-
     onAgregarPaciente(nuevoPaciente);
 
     setNombre('');
