@@ -38,17 +38,17 @@ Cada fase corresponde a un avance trabajado en clases.
 - [x] Tabla `pacientes` en PostgreSQL (Neon / Supabase) + paciente *seed*
 - [x] Repositorio con `pg` y `DATABASE_URL` en `.env`
 - [x] API desplegada en Render: `https://vetchiloe-2zmz.onrender.com/api/pacientes`
-- [x] Frontend desplegado en Vercel y URL publicada en el README
+- [ ] Frontend desplegado en Vercel y URL publicada en el README
 
-### 🔜 Fase 7 - Complejización de la base de datos (Tarea Multiasignatura)
-- [ ] `BuscadorPaciente.jsx` (input controlado `type"search"`) integrado a la tabla
-- [ ] Contador "X de Y pacientes" y mensaje "No se encontraron pacientes"
-- [ ] `sql/funciones.sql` con `buscar_pacientes()`, `generar_numero_atencion()` (secuencia `2026-0001`), `registrar_paciente()` y `resumen_por_especie()`
-- [ ] Endpoints `GET /api/pacientes/buscar?q=` y `GET /api/pacientes/resumen` (declarados antes de `/:id`)
-- [ ] Repositorio registra con `SELECT * FROM registrar_paciente(...)` (se elimina el N° aleatorio)
-- [ ] Etiquetas de resumen por especie sobre la tabla, con los colores de los badges
-- [ ] *Desafío opcional:* `historial_diagnosticos` + `PUT /api/pacientes/:id/diagnostico`
-- [ ] `docs/bitacora-ia.md` (mín. 4 entradas + reflexión)
+### ✅ Fase 7 - Complejización de la base de datos (tarea multiasignatura)
+- [x] `BuscadorPaciente.jsx` (input controlado `type="search"`) integrado a la tabla
+- [x] Contador "X de Y pacientes" y mensaje "No se encontraron pacientes"
+- [x] `sql/funciones.sql` con `buscar_pacientes()`, `generar_numero_atencion()` (secuencia `2026-0001`), `registrar_paciente()` y `resumen_por_especie()`
+- [x] Endpoints `GET /api/pacientes/buscar?q=` y `GET /api/pacientes/resumen` (declarados antes de `/:id`)
+- [x] Repositorio registra con `SELECT * FROM registrar_paciente(...)` (se elimina el N° aleatorio)
+- [x] Etiquetas de resumen por especie sobre la tabla, con los colores de los badges
+- [x] *Desafío opcional:* `historial_diagnosticos` + `PUT /api/pacientes/:id/diagnostico`
+- [x] `docs/bitacora-ia.md` (mín. 4 entradas + reflexión)
 
 ### 🔜 Fase 8 - API lista para móvil y pulido UI/UX
 **Backend**
