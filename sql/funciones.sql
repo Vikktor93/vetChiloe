@@ -83,5 +83,5 @@ RETURNS pacientes AS $$
 $$ LANGUAGE sql;
 
 -- Prueba:
--- SELECT * FROM actualizar_diagnostico(1, 'Alta médica.);
+-- SELECT * FROM actualizar_diagnostico(1, 'Alta médica');
 -- SELECT * FROM historial_diagnosticos;
