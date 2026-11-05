@@ -38,10 +38,10 @@ Cada fase corresponde a un avance trabajado en clases.
 - [x] Tabla `pacientes` en PostgreSQL (Neon / Supabase) + paciente *seed*
 - [x] Repositorio con `pg` y `DATABASE_URL` en `.env`
 - [x] API desplegada en Render: `https://vetchiloe-2zmz.onrender.com/api/pacientes`
-- [ ] Frontend desplegado en Vercel y URL publicada en el README
+- [x] Frontend desplegado en Vercel y URL publicada en el README
 
-### 🔜 Fase 7 - Complejización de la base de datos (tarea multiasignatura)
-- [ ] `BuscadorPaciente.jsx` (input controlado `type="search"`) integrado a la tabla
+### 🔜 Fase 7 - Complejización de la base de datos (Tarea Multiasignatura)
+- [ ] `BuscadorPaciente.jsx` (input controlado `type"search"`) integrado a la tabla
 - [ ] Contador "X de Y pacientes" y mensaje "No se encontraron pacientes"
 - [ ] `sql/funciones.sql` con `buscar_pacientes()`, `generar_numero_atencion()` (secuencia `2026-0001`), `registrar_paciente()` y `resumen_por_especie()`
 - [ ] Endpoints `GET /api/pacientes/buscar?q=` y `GET /api/pacientes/resumen` (declarados antes de `/:id`)
