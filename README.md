@@ -6,7 +6,7 @@ En la **Unidad II** la misma API desplegada en Render será consumida por la app
 
 | Componente | Tecnología | URL de producción |
 |---|---|---|
-| Frontend (recepción) | React + Vite → Vercel | `https://vet-chiloe-navy.vercel.app/` |
+| Frontend (recepción) | React + Vite → Vercel | https://vet-chiloe-navy.vercel.app/ |
 | Backend (API REST) | Node.js + Express → Render | https://vetchiloe-2zmz.onrender.com/api/pacientes |
 | Base de datos | PostgreSQL (Supabase) | - (privada, vía `DATABASE_URL`) |
 
