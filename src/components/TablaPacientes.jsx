@@ -1,11 +1,11 @@
+import { claseEspecie } from '../utils/especies';
 import './TablaPacientes.css';
 
-function TablaPacientes({ pacientes, onVerFicha }) {
-  // Si no hay pacientes, se muestra un mensaje amigable
+function TablaPacientes({ pacientes, onVerFicha, mensajeVacio = 'No hay pacientes registrados en el sistema' }) {
   if (pacientes.length === 0) {
     return (
       <div className="tabla-vacia">
-        <p>No hay pacientes registrados en el sistema.</p>
+        <p>{mensajeVacio}</p>
       </div>
     );
   }
@@ -29,7 +29,7 @@ function TablaPacientes({ pacientes, onVerFicha }) {
               <td className="celda-destacada">{paciente.nombre}</td>
               <td>{paciente.numero_atencion}</td>
               <td>
-                <span className={`badge-especie ${paciente.especie.toLowerCase()}`}>
+                <span className={`badge-especie ${claseEspecie(paciente.especie)}`}>
                   {paciente.especie}
                 </span>
               </td>

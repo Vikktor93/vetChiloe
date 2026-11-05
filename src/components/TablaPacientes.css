@@ -50,29 +50,6 @@
   color: #555555;
 }
 
-/* Badges para las especies */
-.badge-especie {
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.badge-especie.canino {
-  background-color: #e3f2fd;
-  color: #1565c0;
-}
-
-.badge-especie.felino {
-  background-color: #fff3e0;
-  color: #e65100;
-}
-
-.badge-especie.exótico {
-  background-color: #f3e5f5;
-  color: #7b1fa2;
-}
-
 /* Botón de acción */
 .btn-carnet {
   background-color: #4CAF50;
