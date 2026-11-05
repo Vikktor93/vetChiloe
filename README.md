@@ -63,6 +63,9 @@ flowchart LR
 - **Carnet clínico digital** (Flip Card 3D): foto y datos en el anverso; N° de atención, edad y diagnóstico en el reverso.
 - **SPA con renderizado condicional** entre la tabla y el carnet, sin recargar la página.
 - **Persistencia real**: los datos viven en PostgreSQL y se consumen por API REST.
+- **Búsqueda reactiva** por nombre o especie, con contador "X de Y pacientes" y mensaje cuando no hay coincidencias.
+- **Resumen por especie** calculado por PostgreSQL y mostrado con los colores de los badges.
+- **N° de atención automático** (`2026-0001`, `2026-0002`…) generado por una secuencia de la base de datos.
 
 ## API REST
 
@@ -71,11 +74,11 @@ Base URL: `https://vetchiloe-2zmz.onrender.com`
 | Método | Endpoint | Descripción | Respuestas | Estado |
 |---|---|---|---|---|
 | `GET` | `/api/pacientes` | Lista todos los pacientes (más recientes primero) | `200` arreglo - `500` | ✅ |
-| `POST` | `/api/pacientes` | Registra un paciente; el N° de atención lo genera el sistema | `201` paciente creado - `400` | ✅ |
-| `GET` | `/api/pacientes/buscar?q=texto` | Busca por nombre o especie (`buscar_pacientes()`) | `200` | 🔜 Fase 7 |
-| `GET` | `/api/pacientes/resumen` | Total por especie (`resumen_por_especie()`) | `200` | 🔜 Fase 7 |
+| `POST` | `/api/pacientes` | Registra un paciente; la BD genera el N° de atención (`registrar_paciente()`) | `201` paciente creado - `400` especie/nombre inválido | ✅ |
+| `GET` | `/api/pacientes/buscar?q=texto` | Busca por nombre o especie (`buscar_pacientes()`) | `200` | ✅ |
+| `GET` | `/api/pacientes/resumen` | Total por especie (`resumen_por_especie()`) → `[{ especie, total }]` | `200` | ✅ |
 | `GET` | `/api/pacientes/:id` | Detalle de un paciente | `200` - `404` | 🔜 Fase 8 |
-| `PUT` | `/api/pacientes/:id/diagnostico` | Actualiza diagnóstico y guarda historial | `200` - `404` | 🔜 Desafío |
+| `PUT` | `/api/pacientes/:id/diagnostico` | Actualiza diagnóstico y guarda historial | `200` - `400` - `404` | ✅ Desafío |
 | `GET` | `/api/health` | Verifica que la API esté despierta | `200` | 🔜 Fase 8 |
 
 **Modelo `Paciente`**
@@ -116,7 +119,10 @@ CREATE TABLE pacientes (
 );
 ```
 
-Los scripts (tabla, *seed* y funciones) se versionan en `sql/` *(ver Fase 7 del [ROADMAP](ROADMAP.md))*.
+Los scripts se versionan en `sql/` y se ejecutan en el SQL Editor de Neon / Supabase, en este orden:
+
+1. `sql/schema.sql` - tabla `pacientes` y paciente *seed* (solo si la tabla aún no existe).
+2. `sql/funciones.sql` - funciones de la Fase 7: `buscar_pacientes()`, `generar_numero_atencion()` (secuencia `seq_atencion`), `registrar_paciente()`, `resumen_por_especie()` y el desafío `historial_diagnosticos` + `actualizar_diagnostico()`. Se puede ejecutar varias veces sin errores.
 
 ## Estructura del proyecto
 
@@ -126,9 +132,11 @@ vetChiloe/
 ├── src/
 │   ├── assets/                     # Imágenes del frontend
 │   ├── components/                 # Capa de presentación (un .jsx + .css por componente)
+│   │   ├── BuscadorPaciente.jsx/.css # Input controlado de búsqueda (Fase 7)
 │   │   ├── FichaClinica.jsx/.css   # Carnet clínico (vista de detalle)
 │   │   ├── FlipCard.jsx            # Animación 3D reutilizable (Motion)
 │   │   ├── FormularioPaciente.jsx/.css  # Formulario controlado (modal)
+│   │   ├── ResumenEspecies.jsx/.css # Totales por especie (Fase 7)
 │   │   ├── TablaPacientes.jsx/.css # Tabla responsiva del dashboard
 │   │   └── TarjetaPaciente.jsx     # Tarjeta de la 1.ª fase (base para la app móvil)
 │   ├── data/
@@ -142,13 +150,20 @@ vetChiloe/
 │   │   ├── repositories/           # Únicos archivos que hablan con PostgreSQL
 │   │   ├── index.js                # Punto de entrada del servidor
 │   │   └── package.json
+│   ├── utils/
+│   │   └── especies.js             # Clase CSS del badge según la especie
 │   ├── App.jsx / App.css           # Componente raíz y estado global
 │   ├── index.css                   # Variables y estilos globales
 │   └── main.jsx                    # Montaje de React
+├── docs/
+│   ├── ROADMAP.md                  # Fases del proyecto (web y móvil)
+│   └── bitacora-ia.md              # Bitácora de uso de IA generativa
+├── sql/
+│   ├── schema.sql                  # Tabla pacientes + seed
+│   └── funciones.sql               # Funciones PostgreSQL (Fase 7)
 ├── index.html
 ├── vite.config.js
 ├── eslint.config.js
-├── ROADMAP.md                      # Fases del proyecto (web y móvil)
 ├── LICENSE
 └── README.md
 ```
@@ -184,6 +199,7 @@ Crea `src/server/.env` (**nunca** se sube a GitHub):
 ```env
 DATABASE_URL=postgresql://usuario:password@host/vetchiloe?sslmode=require
 PORT=3000
+# DB_SSL=false   # solo si usas un PostgreSQL local sin SSL
 ```
 
 ```bash
@@ -207,7 +223,7 @@ Se usa **Feature Branch Workflow**: no se hacen commits directos a `main`.
 
 ## Roadmap
 
-Resumen (detalle completo en **[ROADMAP.md](ROADMAP.md)**):
+Resumen (detalle completo en **[ROADMAP.md](docs/ROADMAP.md)**):
 
 - [x] **Fase 1** - Configuración con Vite y componentización estática
 - [x] **Fase 2** - Bibliotecas externas: Flip Card 3D con Motion
@@ -215,7 +231,7 @@ Resumen (detalle completo en **[ROADMAP.md](ROADMAP.md)**):
 - [x] **Fase 4** - N-Capas en el frontend: capa de datos (mock) y capa de servicios
 - [x] **Fase 5** - API REST en N-Capas con Node.js + Express
 - [x] **Fase 6** - PostgreSQL en la nube y despliegue (Render + Vercel)
-- [ ] **Fase 7** - Complejización de la BD: buscador reactivo, funciones SQL y resumen por especie
+- [x] **Fase 7** - Complejización de la BD: buscador reactivo, funciones SQL y resumen por especie
 - [ ] **Fase 8** - Preparación de la API para la app móvil y mejoras UI/UX
 - [ ] **Unidad II** - App móvil **vetChiloé en Terreno** (React Native + Expo) consumiendo esta API
 
