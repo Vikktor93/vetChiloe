@@ -31,16 +31,16 @@ Cada fase corresponde a un avance trabajado en clases.
 
 ### ✅ Fase 5 - API REST en N-Capas (octubre)
 - [x] Backend Express en `src/server/` con `routes/`, `controllers/`, `services/`, `repositories/`
-- [x] `GET /api/pacientes` → 200 · `POST /api/pacientes` → 201
+- [x] `GET /api/pacientes` → 200 - `POST /api/pacientes` → 201
 - [x] El frontend cambia solo `pacienteService.js` para usar `fetch`
 
-### ✅ Fase 6 - Base de datos en la nube y despliegue (octubre – noviembre)
+### ✅ Fase 6 - Base de datos en la nube y despliegue (octubre - noviembre)
 - [x] Tabla `pacientes` en PostgreSQL (Neon / Supabase) + paciente *seed*
 - [x] Repositorio con `pg` y `DATABASE_URL` en `.env`
 - [x] API desplegada en Render: `https://vetchiloe-2zmz.onrender.com/api/pacientes`
 - [ ] Frontend desplegado en Vercel y URL publicada en el README
 
-### ✅ Fase 7 - Complejización de la base de datos (tarea multiasignatura)
+### ✅ Fase 7 - Complejización de la base de datos (Tarea Multiasignatura)
 - [x] `BuscadorPaciente.jsx` (input controlado `type="search"`) integrado a la tabla
 - [x] Contador "X de Y pacientes" y mensaje "No se encontraron pacientes"
 - [x] `sql/funciones.sql` con `buscar_pacientes()`, `generar_numero_atencion()` (secuencia `2026-0001`), `registrar_paciente()` y `resumen_por_especie()`
@@ -48,7 +48,6 @@ Cada fase corresponde a un avance trabajado en clases.
 - [x] Repositorio registra con `SELECT * FROM registrar_paciente(...)` (se elimina el N° aleatorio)
 - [x] Etiquetas de resumen por especie sobre la tabla, con los colores de los badges
 - [x] *Desafío opcional:* `historial_diagnosticos` + `PUT /api/pacientes/:id/diagnostico`
-- [x] `docs/bitacora-ia.md` (mín. 4 entradas + reflexión)
 
 ### 🔜 Fase 8 - API lista para móvil y pulido UI/UX
 **Backend**
