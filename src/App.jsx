@@ -1,29 +1,53 @@
 import { useState, useEffect } from 'react';
 import TablaPacientes from './components/TablaPacientes';
-import FichaClinica from './components/FichaClinica'; 
-import FormularioPaciente from './components/FormularioPaciente'; // se importa la capa de servicios
-import { obtenerPacientes, registrarPaciente } from './services/pacienteService'; 
-import './App.css'; 
+import FichaClinica from './components/FichaClinica';
+import FormularioPaciente from './components/FormularioPaciente';
+import BuscadorPaciente from './components/BuscadorPaciente';
+import ResumenEspecies from './components/ResumenEspecies';
+import { obtenerPacientes, registrarPaciente, obtenerResumen } from './services/pacienteService'; // Capa de servicios: único punto de contacto con la API
+import './App.css';
+
+// minúsculas y sin tildes "Exótico" y "exotico" coinciden
+const normalizar = (texto = '') =>
+  texto.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
 function App() {
   // El estado inicia vacío, simulando que esperamos datos del servidor
   const [pacientes, setPacientes] = useState([]);
+  const [resumen, setResumen] = useState([]);
+  const [busqueda, setBusqueda] = useState('');
   const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
-  // Efecto secundario: Carga inicial de datos al montar la aplicación
-  useEffect(() => {
-    obtenerPacientes().then((datos) => {
-      setPacientes(datos);
-    });
-  }, []); // El arreglo vacío [] asegura que esto solo ocurra una vez al cargar la página
+  // Resumen por especie calculado por la BD: resumen_por_especie()
+  const cargarResumen = () => {
+    obtenerResumen()
+      .then(setResumen)
+      .catch((error) => console.error(error.message));
+  };
 
-  // Se delega la lógica de registro al servicio antes de actualizar la UI
+  useEffect(() => {
+    obtenerPacientes()
+      .then(setPacientes)
+      .catch((error) => console.error(error.message));
+    cargarResumen();
+  }, []);
+
+  // Filtro se recalcula en cada render a partir del texto de búsqueda
+  const filtrados = pacientes.filter((p) =>
+    normalizar(`${p.nombre} ${p.especie}`).includes(normalizar(busqueda.trim()))
+  );
+
+  // Se delega la lógica de registro al servicio antes de actualizar la UI.
   const agregarNuevoPaciente = (nuevoPaciente) => {
-    registrarPaciente(nuevoPaciente).then((pacienteGuardado) => {
-      setPacientes([...pacientes, pacienteGuardado]);
-      setMostrarFormulario(false);
-    });
+    registrarPaciente(nuevoPaciente)
+      .then((pacienteGuardado) => {
+        // la API entrega los pacientes del más reciente al más antiguo
+        setPacientes((anteriores) => [pacienteGuardado, ...anteriores]);
+        setMostrarFormulario(false);
+        cargarResumen();
+      })
+      .catch((error) => alert(`No se pudo registrar el paciente: ${error.message}`));
   };
 
   // Vista de Ficha Clínica (Carnet)
@@ -53,22 +77,37 @@ function App() {
 
       <main>
         <h2>Pacientes Registrados</h2>
-        
-        {/* Aquí se renderiza la tabla y le pasamos los props */}
-        <TablaPacientes 
-          pacientes={pacientes} 
-          onVerFicha={setPacienteSeleccionado} 
+
+        {/* Resumen por especie con los mismos colores de los badges */}
+        <ResumenEspecies resumen={resumen} />
+
+        {/* Barra de búsqueda + contador en vivo */}
+        <div className="barra-herramientas">
+          <BuscadorPaciente texto={busqueda} onCambiar={setBusqueda} />
+          <p className="contador-pacientes" aria-live="polite">
+            {filtrados.length} de {pacientes.length} pacientes
+          </p>
+        </div>
+
+        <TablaPacientes
+          pacientes={filtrados}
+          onVerFicha={setPacienteSeleccionado}
+          mensajeVacio={
+            busqueda.trim() !== '' && pacientes.length > 0
+              ? 'No se encontraron pacientes'
+              : undefined
+          }
         />
-        
       </main>
 
       {/* Renderizado condicional del formulario modal */}
       {mostrarFormulario && (
         <div className="modal-overlay">
           <div className="modal-contenido">
-            <button 
-              className="btn-cerrar-modal" 
+            <button
+              className="btn-cerrar-modal"
               onClick={() => setMostrarFormulario(false)}
+              aria-label="Cerrar formulario"
             >
               ✖
             </button>
@@ -78,8 +117,8 @@ function App() {
       )}
 
       {/* Botón flotante extendido */}
-      <button 
-        className="btn-flotante" 
+      <button
+        className="btn-flotante"
         onClick={() => setMostrarFormulario(true)}
       >
         <span className="icono-mas">+</span> Agregar Nuevo Paciente

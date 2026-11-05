@@ -183,7 +183,6 @@
   }
 }
 
-/* --- Estilo del botón flotante de ingreso de paciente --- */
 .btn-flotante {
   position: fixed;
   bottom: 40px;
@@ -217,7 +216,6 @@
   line-height: 1;
 }
 
-/* --- ESTILOS DE LA VENTANA MODAL --- */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -255,4 +253,25 @@
 
 .btn-cerrar-modal:hover {
   color: #d32f2f;
+}
+
+/* Barra de búsqueda, contador y resumen */
+.resumen-especies {
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.barra-herramientas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.contador-pacientes {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
 }
