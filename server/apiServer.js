@@ -2,6 +2,7 @@ import express from 'express'
 import { resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import pacientesRoutes from './routes/pacientes.routes.js'
+import duenosRoutes from './routes/duenos.routes.js'
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const production = process.argv.includes('--production');
@@ -9,9 +10,11 @@ const port = Number(process.env.API_PORT || process.env.PORT || (production ? 41
 const host = production ? '0.0.0.0' : '127.0.0.1';
 const app = express();
 
+
 app.disable('x-powered-by');
 app.use(express.json({ limit: '8mb' }));
 app.use('/api/pacientes', pacientesRoutes);
+app.use('/api/duenos', duenosRoutes);
 app.use('/api', (req, res) => {
   res.status(404).json({ message: 'Ruta de API no encontrada.' });
 });

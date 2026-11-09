@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { buscarDueno } from '../data/pacienteApi.js'
 
 const mostrarErrorObligatorio = evento => {
   evento.currentTarget.setCustomValidity('Completa este campo.');
@@ -13,6 +14,12 @@ export default function FormularioPaciente({ onGuardar, onCerrar, botonCerrarRef
   const [modoEdad, setModoEdad] = useState('manual');
   const [nombreArchivoImagen, setNombreArchivoImagen] = useState('');
   const [guardando, setGuardando] = useState(false);
+  const [modoDueno, setModoDueno] = useState('buscar'); // 'buscar' | 'encontrado' | 'nuevo'
+  const [rutBusqueda, setRutBusqueda] = useState('');
+  const [duenoEncontrado, setDuenoEncontrado] = useState(null);
+  const [buscando, setBuscando] = useState(false);
+  const [sinResultado, setSinResultado] = useState(false);
+  const [errorBusqueda, setErrorBusqueda] = useState('');
   const [formulario, setFormulario] = useState({
     nombre: '',
     especie: '',
@@ -48,13 +55,51 @@ export default function FormularioPaciente({ onGuardar, onCerrar, botonCerrarRef
     if (evento.currentTarget.form.reportValidity()) setPasoFormulario(2);
   };
 
+  const buscarPorRut = async () => {
+    if (buscando || !rutBusqueda.trim()) return;
+
+    setBuscando(true);
+    setErrorBusqueda('');
+    setSinResultado(false);
+    try {
+      const resultado = await buscarDueno(rutBusqueda.trim());
+      if (!resultado.ok) {
+        setErrorBusqueda(resultado.error.mensaje);
+      } else if (resultado.dueno) {
+        setDuenoEncontrado(resultado.dueno);
+        setModoDueno('encontrado');
+      } else {
+        setSinResultado(true);
+      }
+    } catch (error) {
+      setErrorBusqueda(error.message);
+    } finally {
+      setBuscando(false);
+    }
+  };
+
+  const registrarDuenoNuevo = () => {
+    setFormulario(actual => ({ ...actual, dueño: '', rut: rutBusqueda.trim(), telefono: '' }));
+    setModoDueno('nuevo');
+  };
+
+  const cambiarDueno = () => {
+    setDuenoEncontrado(null);
+    setSinResultado(false);
+    setErrorBusqueda('');
+    setFormulario(actual => ({ ...actual, dueño: '', rut: '', telefono: '' }));
+    setModoDueno('buscar');
+  };
+
   const manejarEnvio = async evento => {
     evento.preventDefault();
     if (guardando) return;
 
     setGuardando(true);
     try {
-      await onGuardar({ ...formulario, modoEdad }, evento.currentTarget);
+      const datos = { ...formulario, modoEdad };
+      if (modoDueno === 'encontrado') datos.dueno_id = duenoEncontrado.id;
+      await onGuardar(datos, evento.currentTarget);
     } finally {
       setGuardando(false);
     }
@@ -150,25 +195,84 @@ export default function FormularioPaciente({ onGuardar, onCerrar, botonCerrarRef
       </fieldset>
       <fieldset className="paso-formulario" hidden={pasoFormulario !== 2} disabled={pasoFormulario !== 2}>
         {errorEnvio && <p className="error-envio-formulario" role="alert">{errorEnvio}</p>}
-        <div className="campos-formulario">
-          <label>
-            Nombre del dueño
-            <input name="dueño" placeholder="Nombre y apellido" value={formulario.dueño} onChange={manejarCambio} onInput={limpiarError} onInvalid={mostrarErrorObligatorio} required />
-          </label>
-          <label>
-            RUT del dueño
-            <input name="rut" placeholder="Ej.: 12.345.678-5" value={formulario.rut} onChange={manejarCambio} onInput={limpiarError} onInvalid={mostrarErrorObligatorio} required />
-          </label>
-          <label>
-            Teléfono del dueño
-            <input name="telefono" type="tel" placeholder="Ej.: +56 9 1234 5678" value={formulario.telefono} onChange={manejarCambio} onInput={limpiarError} onInvalid={mostrarErrorObligatorio} required />
-          </label>
-        </div>
+
+        {modoDueno === 'buscar' && (
+          <div className="campos-formulario">
+            <label>
+              Buscar dueño por RUT
+              <input
+                name="rutBusqueda"
+                placeholder="Ej.: 12.345.678-5"
+                value={rutBusqueda}
+                onChange={evento => {
+                  setRutBusqueda(evento.target.value);
+                  setSinResultado(false);
+                  setErrorBusqueda('');
+                }}
+                onKeyDown={evento => {
+                  if (evento.key === 'Enter') {
+                    evento.preventDefault();
+                    buscarPorRut();
+                  }
+                }}
+              />
+            </label>
+            <div className="acciones-busqueda">
+              <button
+                className="boton-buscar"
+                type="button"
+                onClick={buscarPorRut}
+                disabled={buscando || !rutBusqueda.trim()}
+              >
+                {buscando ? 'Buscando...' : '🔍 Buscar dueño'}
+              </button>
+              {errorBusqueda && <p className="error-envio-formulario" role="alert">{errorBusqueda}</p>}
+              {sinResultado && (
+                <div>
+                  <p>No encontramos un dueño con ese RUT.</p>
+                  <button className="boton-volver" type="button" onClick={registrarDuenoNuevo}>
+                    Registrar dueño nuevo
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {modoDueno === 'encontrado' && duenoEncontrado && (
+          <div className="campos-formulario">
+            <p><strong>Dueño:</strong> {duenoEncontrado.nombre}</p>
+            <p><strong>RUT:</strong> {duenoEncontrado.rut}</p>
+            <p><strong>Teléfono:</strong> {duenoEncontrado.telefono}</p>
+            <button className="boton-volver" type="button" onClick={cambiarDueno}>Cambiar dueño</button>
+          </div>
+        )}
+
+        {modoDueno === 'nuevo' && (
+          <div className="campos-formulario">
+            <label>
+              Nombre del dueño
+              <input name="dueño" placeholder="Nombre y apellido" value={formulario.dueño} onChange={manejarCambio} onInput={limpiarError} onInvalid={mostrarErrorObligatorio} required />
+            </label>
+            <label>
+              RUT del dueño
+              <input name="rut" placeholder="Ej.: 12.345.678-5" value={formulario.rut} onChange={manejarCambio} onInput={limpiarError} onInvalid={mostrarErrorObligatorio} required />
+            </label>
+            <label>
+              Teléfono del dueño
+              <input name="telefono" type="tel" placeholder="Ej.: +56 9 1234 5678" value={formulario.telefono} onChange={manejarCambio} onInput={limpiarError} onInvalid={mostrarErrorObligatorio} required />
+            </label>
+            <button className="boton-volver" type="button" onClick={cambiarDueno}>Volver a buscar</button>
+          </div>
+        )}
+
         <div className="acciones-formulario">
           <button className="boton-volver" type="button" onClick={() => setPasoFormulario(1)}>Atrás</button>
-          <button className="boton-guardar" type="submit" disabled={guardando}>
-            {guardando ? 'Guardando...' : 'Guardar paciente'}
-          </button>
+          {modoDueno !== 'buscar' && (
+            <button className="boton-guardar" type="submit" disabled={guardando}>
+              {guardando ? 'Guardando...' : 'Guardar paciente'}
+            </button>
+          )}
         </div>
       </fieldset>
     </form>

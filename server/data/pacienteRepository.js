@@ -37,6 +37,22 @@ export const existeRut = async rut => {
   return rowCount > 0
 }
 
+export const buscarDuenoPorRut = async rut => {
+  const { rows } = await pool.query(
+    'SELECT id, nombre, rut, telefono FROM duenos WHERE rut = $1',
+    [rut]
+  )
+  return rows[0] || null
+}
+
+export const buscarDuenoPorId = async id => {
+  const { rows } = await pool.query(
+    'SELECT id, nombre, rut, telefono FROM duenos WHERE id = $1',
+    [id]
+  )
+  return rows[0] || null
+}
+
 export const insertarPaciente = async paciente => {
   const cliente = await pool.connect()
   let nuevoId
@@ -44,14 +60,16 @@ export const insertarPaciente = async paciente => {
   try {
     await cliente.query('BEGIN')
 
-    const dueno = await cliente.query(
-      `INSERT INTO duenos (nombre, rut, telefono)
-       VALUES ($1, $2, $3)
-       ON CONFLICT (rut) DO UPDATE
-         SET nombre = EXCLUDED.nombre, telefono = EXCLUDED.telefono
-       RETURNING id`,
-      [paciente['dueño'], paciente.rut, paciente.telefono]
-    )
+    let duenoId = paciente.dueno_id
+    if (!duenoId) {
+      const dueno = await cliente.query(
+        `INSERT INTO duenos (nombre, rut, telefono)
+         VALUES ($1, $2, $3)
+         RETURNING id`,
+        [paciente['dueño'], paciente.rut, paciente.telefono]
+      )
+      duenoId = dueno.rows[0].id
+    }
 
     const nuevo = await cliente.query(
       `INSERT INTO pacientes
@@ -62,7 +80,7 @@ export const insertarPaciente = async paciente => {
       [
         paciente.nombre, paciente.especie, paciente.raza, paciente.diagnostico,
         paciente.edad, paciente.peso, paciente.fecha_nacimiento || null,
-        paciente.foto, dueno.rows[0].id
+        paciente.foto, duenoId
       ]
     )
 

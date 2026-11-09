@@ -1,4 +1,6 @@
 import {
+  buscarDuenoPorId,
+  buscarDuenoPorRut,
   existeRut,
   insertarPaciente,
   obtenerPacientePorId as buscarPacientePorId,
@@ -66,7 +68,17 @@ const registrarPacienteEnOrden = async datosFormulario => {
     };
   }
 
-  const camposObligatorios = ['nombre', 'especie', 'raza', 'dueño', 'rut', 'telefono'];
+  const duenoId = datosFormulario.dueno_id === undefined
+    || datosFormulario.dueno_id === null
+    || datosFormulario.dueno_id === ''
+    ? null
+    : Number(datosFormulario.dueno_id);
+  const usaDuenoExistente = duenoId !== null;
+
+  const camposObligatorios = usaDuenoExistente
+    ? ['nombre', 'especie', 'raza']
+    : ['nombre', 'especie', 'raza', 'dueño', 'rut', 'telefono'];
+  
   const campoVacio = camposObligatorios.find(campo => (
     typeof datosFormulario[campo] !== 'string' || !datosFormulario[campo].trim()
   ));
@@ -134,39 +146,52 @@ const registrarPacienteEnOrden = async datosFormulario => {
     };
   }
 
-  const rutIngresado = normalizarRut(datosFormulario.rut);
-  if (!rutValido(datosFormulario.rut)) {
-    return {
-      ok: false,
-      status: 422,
-      error: {
-        campo: 'rut',
-        mensaje: 'Ingresa un RUT válido, por ejemplo 12.345.678-5.'
-      }
-    };
-  }
+  let datosDueno;
+
+  if (usaDuenoExistente) {
+    const duenoValido = Number.isInteger(duenoId) && duenoId > 0 && duenoId <= 2147483647;
+    const duenoExistente = duenoValido ? await buscarDuenoPorId(duenoId) : null;
+    if (!duenoExistente) {
+      return {
+        ok: false,
+        status: 422,
+        error: { campo: 'rut', mensaje: 'El dueño seleccionado no existe. Búscalo de nuevo por su RUT.' }
+      };
+    }
+    datosDueno = { dueno_id: duenoExistente.id };
+  } else {
+    const rutIngresado = normalizarRut(datosFormulario.rut);
+    if (!rutValido(datosFormulario.rut)) {
+      return {
+        ok: false,
+        status: 422,
+        error: { campo: 'rut', mensaje: 'Ingresa un RUT válido, por ejemplo 12.345.678-5.' }
+      };
+    }
 
     const rut = `${rutIngresado.slice(0, -1)}-${rutIngresado.slice(-1)}`;
-  if (await existeRut(rut)) {
-    return {
-      ok: false,
-      status: 409,
-      error: {
-        campo: 'rut',
-        mensaje: 'Ya existe un paciente registrado con el RUT de este dueño.'
-      }
-    };
+    if (await existeRut(rut)) {
+      return {
+        ok: false,
+        status: 409,
+        error: { campo: 'rut', mensaje: 'Este RUT ya está registrado. Búscalo para agregarle una mascota.' }
+      };
+    }
+
+    datosDueno = { dueño: datosFormulario.dueño, rut, telefono: datosFormulario.telefono };
   }
 
-  const { modoEdad, ...datosPaciente } = datosFormulario;
+  const { modoEdad } = datosFormulario;
   const paciente = {
-    ...datosPaciente,
-    foto: datosPaciente.foto || 'sin-foto.svg',
+    nombre: datosFormulario.nombre,
+    especie: datosFormulario.especie,
+    raza: datosFormulario.raza,
+    foto: datosFormulario.foto || 'sin-foto.svg',
     edad: modoEdad === 'fecha' ? null : edadManual,
     peso,
     diagnostico: datosFormulario.diagnostico?.trim() || '',
     fecha_nacimiento: modoEdad === 'fecha' ? datosFormulario.fecha_nacimiento : '',
-    rut
+    ...datosDueno
   };
 
   const pacienteGuardado = await insertarPaciente(paciente);
@@ -175,7 +200,6 @@ const registrarPacienteEnOrden = async datosFormulario => {
 
 export const listarPacientes = async () => (await obtenerPacientes()).map(conEdadActual);
 export const obtenerPacientePorId = async id => conEdadActual(await buscarPacientePorId(id));
-
 export const registrarPaciente = datosFormulario => {
   const siguienteRegistro = registroEnCurso.then(
     () => registrarPacienteEnOrden(datosFormulario)
@@ -183,4 +207,17 @@ export const registrarPaciente = datosFormulario => {
   registroEnCurso = siguienteRegistro.then(() => undefined, () => undefined);
   return siguienteRegistro;
 };
+export const buscarDueno = async rutIngresado => {
+  if (typeof rutIngresado !== 'string' || !rutValido(rutIngresado)) {
+    return {
+      ok: false,
+      status: 422,
+      error: { campo: 'rut', mensaje: 'Ingresa un RUT válido, por ejemplo 12.345.678-5.' }
+    };
+  }
 
+  const normalizado = normalizarRut(rutIngresado);
+  const rut = `${normalizado.slice(0, -1)}-${normalizado.slice(-1)}`;
+  const dueno = await buscarDuenoPorRut(rut);
+  return { ok: true, dueno };
+};

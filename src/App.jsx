@@ -140,6 +140,10 @@ function App() {
       const resultado = await guardarPaciente(datosFormulario);
       if (!resultado.ok) {
         const entradaError = formularioElemento.elements.namedItem(resultado.error.campo);
+        if (!entradaError) {
+          setErrorRegistro(resultado.error.mensaje);
+          return false;
+        }
         entradaError.setCustomValidity(resultado.error.mensaje);
         entradaError.reportValidity();
         return false;

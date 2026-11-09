@@ -23,6 +23,7 @@ export const obtenerPaciente = async (req, res) => {
 
 export const crearPaciente = async (req, res) => {
   const datosPaciente = req.body;
+  console.log('Cuerpo recibido:', typeof datosPaciente, Object.keys(datosPaciente ?? {}));
   const resultado = await registrarPaciente(datosPaciente);
   if (!resultado.ok) {
     res.status(resultado.status).json(resultado);

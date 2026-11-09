@@ -26,3 +26,8 @@ export const guardarPaciente = async datosFormulario => {
   });
   return leerRespuesta(respuesta);
 };
+
+export const buscarDueno = async rut => {
+  const respuesta = await fetch(`/api/duenos/buscar?rut=${encodeURIComponent(rut)}`);
+  return leerRespuesta(respuesta);
+};
