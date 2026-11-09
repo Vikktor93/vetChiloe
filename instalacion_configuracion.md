@@ -36,6 +36,12 @@ https://vetchiloe-j6ly.onrender.com
 
 > En el plan gratuito, el servicio se "duerme" tras un rato sin visitas, por lo que la primera carga puede tardar cerca de un minuto.
 
+### Frontend en Vercel
+
+Vercel aloja el frontend de Vite; las rutas `/api/*` se redirigen al servicio de Render mediante `vercel.json`. Render sigue ejecutando la API y conectándose a Supabase, por lo que no se configura `DATABASE_URL` en Vercel.
+
+Para desplegarlo, importa este repositorio en Vercel y conserva los valores detectados para Vite (`npm run build` y directorio de salida `dist`). Cada despliegue debe incluir `vercel.json`; si usas la integración con Git, confirma primero esos cambios en la rama que Vercel desplegará.
+
 ## 🗄️ Base de datos (PostgreSQL en Supabase)
 
 Dos tablas: `duenos` y `pacientes` (un dueño puede tener muchos pacientes).
