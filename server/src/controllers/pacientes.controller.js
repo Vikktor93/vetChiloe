@@ -12,6 +12,16 @@ async function listar(req, res) {
   }
 }
 
+// GET /api/pacientes/:id
+async function obtener(req, res) {
+  try {
+    const paciente = await servicio.obtenerPaciente(req.params.id);
+    res.status(200).json(paciente);
+  } catch (error) {
+    res.status(error.status || 500).json({ error: error.message });
+  }
+}
+
 // GET /api/pacientes/buscar?q=texto
 async function buscar(req, res) {
   try {
@@ -45,4 +55,4 @@ async function crear(req, res) {
   }
 }
 
-module.exports = { listar, buscar, resumen, crear };
+module.exports = { listar, obtener, buscar, resumen, crear };

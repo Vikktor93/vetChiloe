@@ -8,6 +8,23 @@ async function listarPacientes() {
   return await repositorio.obtenerTodos();
 }
 
+// si el id no es numero o no existe el paciente, se corta con su codigo de error
+async function obtenerPaciente(id) {
+  if (isNaN(Number(id))) {
+    const error = new Error('El id debe ser un número.');
+    error.status = 400;
+    throw error;
+  }
+
+  const paciente = await repositorio.obtenerPorId(id);
+  if (!paciente) {
+    const error = new Error('No encontrado');
+    error.status = 404;
+    throw error;
+  }
+  return paciente;
+}
+
 // el servicio solo le quita los espacios al texto y le pasa la busqueda al repositorio
 async function buscarPacientes(texto) {
   return await repositorio.buscar(texto.trim());
@@ -42,4 +59,4 @@ async function crearPaciente(datos) {
   return await repositorio.guardar(nuevoPaciente);
 }
 
-module.exports = { listarPacientes, buscarPacientes, resumenPorEspecie, crearPaciente };
+module.exports = { listarPacientes, obtenerPaciente, buscarPacientes, resumenPorEspecie, crearPaciente };

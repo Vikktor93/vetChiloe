@@ -11,6 +11,11 @@ async function obtenerTodos() {
   const resultado = await pool.query('SELECT * FROM pacientes ORDER BY id DESC');
   return resultado.rows;
 }
+// trae un solo paciente, si no existe devuelve undefined
+async function obtenerPorId(id) {
+  const resultado = await pool.query('SELECT * FROM pacientes WHERE id = $1', [id]);
+  return resultado.rows[0];
+}
 
 // llama a la funcion buscar_pacientes de la base de datos
 async function buscar(texto) {
@@ -39,4 +44,4 @@ async function guardar(paciente) {
   return resultado.rows[0];
 }
 
-module.exports = { obtenerTodos, buscar, resumen, guardar };
+module.exports = { obtenerTodos, obtenerPorId, buscar, resumen, guardar };

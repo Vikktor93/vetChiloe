@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/buscar', controlador.buscar);
 router.get('/resumen', controlador.resumen);
 router.get('/', controlador.listar);
+router.get('/:id', controlador.obtener);
 router.post('/', controlador.crear);
 
 module.exports = router;
