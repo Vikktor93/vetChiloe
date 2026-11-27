@@ -22,6 +22,18 @@ const obtenerPacientes = async () => {
     return await pacienteRepository.obtenerTodos();
 };
 
+const obtenerPacientePorId = async (id) => {
+    const idNumerico = Number(id);
+    if (!Number.isInteger(idNumerico) || idNumerico <= 0) {
+        throw errorNegocio('El id debe ser un número entero positivo');
+    }
+    const paciente = await pacienteRepository.obtenerPorId(idNumerico);
+    if (!paciente) {
+        throw errorNegocio('Paciente no encontrado', 404);
+    }
+    return paciente;
+};
+
 const buscarPacientes = async (texto = '') => {
     return await pacienteRepository.buscar(String(texto).trim());
 };
@@ -64,6 +76,7 @@ const actualizarDiagnostico = async (id, diagnostico) => {
 module.exports = {
     ESPECIES,
     obtenerPacientes,
+    obtenerPacientePorId,
     buscarPacientes,
     registrarPaciente,
     obtenerResumen,

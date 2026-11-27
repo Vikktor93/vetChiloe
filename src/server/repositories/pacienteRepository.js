@@ -16,6 +16,12 @@ const obtenerTodos = async () => {
     return resultado.rows;
 };
 
+// Un paciente por su id (null si no existe)
+const obtenerPorId = async (id) => {
+    const resultado = await pool.query('SELECT * FROM pacientes WHERE id = $1', [id]);
+    return resultado.rows[0] || null;
+};
+
 // Función de consulta: buscar_pacientes(texto)
 const buscar = async (texto) => {
     const resultado = await pool.query('SELECT * FROM buscar_pacientes($1)', [texto]);
@@ -45,4 +51,4 @@ const actualizarDiagnostico = async (id, diagnostico) => {
     return resultado.rows[0] || null;
 };
 
-module.exports = { obtenerTodos, buscar, guardar, resumenPorEspecie, actualizarDiagnostico };
+module.exports = { obtenerTodos, obtenerPorId, buscar, guardar, resumenPorEspecie, actualizarDiagnostico };

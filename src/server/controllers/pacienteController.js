@@ -17,6 +17,15 @@ const getPacientes = async (req, res) => {
     }
 };
 
+// GET /api/pacientes/:id
+const getPaciente = async (req, res) => {
+    try {
+        res.status(200).json(await pacienteService.obtenerPacientePorId(req.params.id));
+    } catch (error) {
+        responderError(res, error);
+    }
+};
+
 // GET /api/pacientes/buscar?q=texto
 const buscarPacientes = async (req, res) => {
     try {
@@ -59,4 +68,4 @@ const putDiagnostico = async (req, res) => {
     }
 };
 
-module.exports = { getPacientes, buscarPacientes, getResumen, postPaciente, putDiagnostico };
+module.exports = { getPacientes, getPaciente, buscarPacientes, getResumen, postPaciente, putDiagnostico };
